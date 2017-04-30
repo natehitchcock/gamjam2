@@ -13,7 +13,7 @@ const scene = new THREE.Scene();
 window.scene = scene;
 const camWidth = window.innerWidth/2;
 const camHeight = window.innerHeight/2;
-const camera = new THREE.OrthographicCamera(-camWidth, camWidth, camHeight, -   camHeight, -500, 1000);//new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+const camera = new THREE.OrthographicCamera(-camWidth, camWidth, camHeight, -   camHeight, -500, 1000);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize( window.innerWidth, window.innerHeight );
