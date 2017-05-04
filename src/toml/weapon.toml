@@ -1,0 +1,7 @@
+moveSpeed = 60
+image = 'img/bullet.png'
+
+[collision]
+    blocks = true
+    radius = 15
+

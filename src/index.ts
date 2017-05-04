@@ -3,6 +3,7 @@ import * as Howl from 'howler';
 import Level from './level';
 import Entity from './entity';
 import {PlayerController} from './playercontroller';
+import Weapon from './weapon';
 
 interface IGameWindow extends Window {
     scene: THREE.Scene;
@@ -34,6 +35,8 @@ const playerdata = require('./toml/player.toml');
 const wentity = new Entity(new PlayerController(), playerdata);
 scene.add(wentity);
 allEntities.push(wentity);
+
+
 
 const wother = new Entity(undefined, playerdata);
 wother.position.x = 100;
