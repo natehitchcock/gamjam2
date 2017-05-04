@@ -25,7 +25,6 @@ export default class Entity extends THREE.Object3D {
             const material = new THREE.MeshBasicMaterial( {map: texture, transparent: true} );
             const testCube = new THREE.Mesh(new THREE.CubeGeometry(50, 50, 50), material);
             this.add(testCube);
-            console.log(texture);
         });
     }
 

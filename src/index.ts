@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import * as Howl from 'howler';
+import Level from './level';
 import Entity from './entity';
 import {PlayerController} from './playercontroller';
 
@@ -39,6 +40,13 @@ wother.position.x = 100;
 scene.add(wother);
 allEntities.push(wother);
 
+const level = new Level();
+//level.LoadLevel('./img/hubworld.bmp');
+level.GenerateLevel(13, 26);
+level.SpawnLevel();
+level.position.copy(new THREE.Vector3(-350, -350));
+
+scene.add(level);
 scene.add(new THREE.DirectionalLight());
 scene.add(new THREE.AmbientLight());
 
