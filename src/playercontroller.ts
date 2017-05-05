@@ -4,11 +4,12 @@ import {keys, mouse} from './lib/input';
 export interface IController {
     GetDesiredMove: ()=> THREE.Vector2;
     GetDesiredLook: ()=> THREE.Vector2;
+    GetWeaponFire: ()=> THREE.Vector2;
 }
 
 export class PlayerController implements IController {
     
-    GetDesiredMove() {
+    GetDesiredMove(): THREE.Vector2 {
         const inputVec = new THREE.Vector2();
 
         if(keys.w) inputVec.y += 1;
@@ -19,7 +20,10 @@ export class PlayerController implements IController {
         return inputVec;
     }
 
-    GetDesiredLook() {
+    GetDesiredLook(): THREE.Vector2 {
+        return this.GetDesiredMove();
+    }
+    GetWeaponFire(): THREE.Vector2 {
         return this.GetDesiredMove();
     }
 }

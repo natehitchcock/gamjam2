@@ -4,6 +4,7 @@ import Level from './level';
 import Entity from './entity';
 import {PlayerController} from './playercontroller';
 import Weapon from './weapon';
+import Bullet from './bullet';
 
 interface IGameWindow extends Window {
     scene: THREE.Scene;
@@ -33,14 +34,16 @@ const allEntities: Entity[] = [];
 
 //spawning the weapon
 const weapon = require('./toml/weapon.toml');
-const wweapon = new Entity(undefined, weapon);
+const playerController = new PlayerController();
+const wweapon = new Weapon(playerController, weapon);
 scene.add(wweapon);
 wweapon.position.x = 32;
 wweapon.position.y = 32;
 
 //node, as well as a child of the root
 const playerdata = require('./toml/player.toml');
-const wentity = new Entity(new PlayerController(), playerdata);
+
+const wentity = new Entity(playerController, playerdata);
 scene.add(wentity);
 wentity.add(wweapon);
 allEntities.push(wentity);
@@ -67,6 +70,8 @@ const direction = 1;
 const render = () => {
     requestAnimationFrame(render);
     const delta = clock.getDelta();
+
+    wweapon.spawn();
 
     allEntities.forEach(entity => {
         entity.update(delta);
