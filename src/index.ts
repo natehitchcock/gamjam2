@@ -31,9 +31,18 @@ const uniforms = {
 
 const allEntities: Entity[] = [];
 
+//spawning the weapon
+const weapon = require('./toml/weapon.toml');
+const wweapon = new Entity(undefined, weapon);
+scene.add(wweapon);
+wweapon.position.x = 32;
+wweapon.position.y = 32;
+
+//node, as well as a child of the root
 const playerdata = require('./toml/player.toml');
 const wentity = new Entity(new PlayerController(), playerdata);
 scene.add(wentity);
+wentity.add(wweapon);
 allEntities.push(wentity);
 
 
