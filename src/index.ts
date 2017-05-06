@@ -67,11 +67,16 @@ scene.add(new THREE.AmbientLight());
 
 const direction = 1;
 
+var realTime = 0; 
+
+
 const render = () => {
     requestAnimationFrame(render);
     const delta = clock.getDelta();
 
-    wweapon.spawn();
+    realTime += delta;
+
+    wweapon.spawn(delta);
     wweapon.update(delta);
 
     allEntities.forEach(entity => {

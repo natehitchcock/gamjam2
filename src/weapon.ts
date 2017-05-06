@@ -16,6 +16,7 @@ export default class Weapon extends THREE.Object3D {
     playerReference: Entity;
     moveSpeed: number;
     bulletsFired: Bullet[];
+    realTime: number;
 
     constructor(controller: IController, data: any, player: Entity) {
         super();
@@ -23,6 +24,7 @@ export default class Weapon extends THREE.Object3D {
         this.controller = controller;
         this.playerReference = player;
         this.bulletsFired = [];
+        this.realTime = 0;
         const textureLoader = new THREE.TextureLoader();
         textureLoader.load(data.image, (texture) => {
             const material = new THREE.MeshBasicMaterial( {map: texture, transparent: true} );
@@ -31,9 +33,10 @@ export default class Weapon extends THREE.Object3D {
         });  
     }
 
-    spawn() {
-        //if(this.controller.GetWeaponFire().length() >= 1) {
-          if(mouse.left) {
+    spawn(dt: number) {
+          this.realTime += dt; 
+
+          if(mouse.left && this.realTime > .5 ) {
             const bullet = require('./toml/weapon.toml');
             const firedBullet = new Bullet(undefined, bullet);
             const newPosition = new THREE.Vector3();
@@ -42,6 +45,7 @@ export default class Weapon extends THREE.Object3D {
             this.bulletsFired.push(firedBullet);
             firedBullet.position.copy(newPosition.add(this.position));
             console.log(firedBullet.position);
+            this.realTime = 0;
         }
     }
     update(dt) {
