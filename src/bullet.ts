@@ -26,4 +26,8 @@ export default class Bullet extends THREE.Object3D {
             this.add(testCube);
         });  
     }
-}
+//every single frame, add to its y value
+      update(dt) {
+            this.position.add(new THREE.Vector3(0, 10, 0));
+        }
+    }

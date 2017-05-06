@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import * as Howl from 'howler';
-import Level from './level';
+import {Level, LevelFactory} from './level';
 import Entity from './entity';
 import {PlayerController} from './playercontroller';
 import Weapon from './weapon';
@@ -32,32 +32,31 @@ const uniforms = {
 
 const allEntities: Entity[] = [];
 
-//spawning the weapon
-const weapon = require('./toml/weapon.toml');
+
 const playerController = new PlayerController();
-const wweapon = new Weapon(playerController, weapon);
-scene.add(wweapon);
-wweapon.position.x = 32;
-wweapon.position.y = 32;
+
 
 //node, as well as a child of the root
 const playerdata = require('./toml/player.toml');
-
 const wentity = new Entity(playerController, playerdata);
 scene.add(wentity);
-wentity.add(wweapon);
 allEntities.push(wentity);
 
+//spawning the weapon
+const weapon = require('./toml/weapon.toml');
 
+const wweapon = new Weapon(playerController, weapon, wentity);
+scene.add(wweapon);
+wweapon.position.x = 32;
+wweapon.position.y = 32;
+wentity.add(wweapon);
 
 const wother = new Entity(undefined, playerdata);
 wother.position.x = 100;
 scene.add(wother);
 allEntities.push(wother);
 
-const level = new Level();
-//level.LoadLevel('./img/hubworld.bmp');
-level.GenerateLevel(13, 26);
+const level = LevelFactory.GeneratePerfectMaze(10,10);
 level.SpawnLevel();
 level.position.copy(new THREE.Vector3(-350, -350));
 
@@ -72,7 +71,8 @@ const render = () => {
     const delta = clock.getDelta();
 
     wweapon.spawn();
-
+    wweapon.update(delta);
+    
     allEntities.forEach(entity => {
         entity.update(delta);
 
@@ -80,7 +80,7 @@ const render = () => {
             if(other === entity) {
                 return;
             }
-
+    
             const collisionData = entity.IsCollidingWith(other);
             if(collisionData.isColliding === true) {
                 entity.HandleCollision(other);
