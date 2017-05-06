@@ -5,6 +5,7 @@ import Entity from './entity';
 import {PlayerController} from './playercontroller';
 import Weapon from './weapon';
 import Bullet from './bullet';
+import {keys, mouse} from './lib/input';
 
 interface IGameWindow extends Window {
     scene: THREE.Scene;
@@ -72,7 +73,7 @@ const render = () => {
 
     wweapon.spawn();
     wweapon.update(delta);
-    
+
     allEntities.forEach(entity => {
         entity.update(delta);
 

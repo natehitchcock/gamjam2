@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { PlayerController, IController } from './playercontroller';
 import Entity from "./entity";
 import Bullet from "./bullet";
+import {keys, mouse} from './lib/input';
 
 interface ICollisionData {
     blocks: boolean;
@@ -31,7 +32,8 @@ export default class Weapon extends THREE.Object3D {
     }
 
     spawn() {
-        if(this.controller.GetWeaponFire().length() >= 1) {
+        //if(this.controller.GetWeaponFire().length() >= 1) {
+          if(mouse.left) {
             const bullet = require('./toml/weapon.toml');
             const firedBullet = new Bullet(undefined, bullet);
             const newPosition = new THREE.Vector3();
