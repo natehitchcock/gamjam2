@@ -21,7 +21,6 @@ export default class Controller implements IComponent, IController {
     constructor(data: IControllerData, owner: Entity) {
         this.data = data;
         this.owner = owner;
-        console.log('built controller');
     }
 
     GetDesiredMove(): THREE.Vector2 {

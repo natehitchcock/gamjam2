@@ -8,7 +8,7 @@ export interface IController {
 }
 
 export class PlayerController implements IController {
-    
+
     GetDesiredMove(): THREE.Vector2 {
         const inputVec = new THREE.Vector2();
 

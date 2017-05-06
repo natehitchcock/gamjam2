@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import {IComponent} from './components/component';
+import ComponentMapping from './components/componentMapping';
 import {PlayerController, IController} from './playercontroller';
 
 interface ICollisionData {
@@ -7,38 +9,26 @@ interface ICollisionData {
 }
 
 export default class Entity extends THREE.Object3D {
-    controller: IController;
     collision: ICollisionData;
     data: any;
 
-    moveSpeed: number;
+    components: IComponent[];
 
-    constructor(controller: IController, data: any) {
+    constructor(data: any) {
         super();
         this.data = data;
-        this.controller = controller;
-        this.moveSpeed = data.moveSpeed;
-        this.collision = data.collision;
 
-        const textureLoader = new THREE.TextureLoader();
-        textureLoader.load(data.image, (texture) => {
-            const material = new THREE.MeshBasicMaterial( {map: texture, transparent: true} );
-            const testCube = new THREE.Mesh(new THREE.CubeGeometry(50, 50, 50), material);
-            this.add(testCube);
-        });
+        this.components = [];
+        for(const prop in data) {
+            if(prop) {
+                const comp = ComponentMapping[prop](data[prop], this);
+                this.components.push(comp);
+            }
+        }
     }
 
     update(dt) {
-
-        if(this.controller !== undefined) {
-            const desiredMove = this.controller.GetDesiredMove();
-            const desiredLook = this.controller.GetDesiredLook();
-
-            const nextPos = new THREE.Vector2().copy(desiredMove);
-            nextPos.multiplyScalar(this.moveSpeed * dt);
-
-            this.position.add(new THREE.Vector3(nextPos.x, nextPos.y, this.position.z));
-        }
+        this.components.forEach((comp)=>comp.update(dt));
     }
 
     HandleCollision(other: Entity) {

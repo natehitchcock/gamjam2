@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import * as Howl from 'howler';
-import Level from './level';
+import {LevelFactory, Level} from './level';
 import Entity from './entity';
 import {PlayerController} from './playercontroller';
 import Weapon from './weapon';
@@ -32,7 +32,7 @@ const uniforms = {
 
 const allEntities: Entity[] = [];
 
-//spawning the weapon
+// spawning the weapon
 const weapon = require('./toml/weapon.toml');
 const playerController = new PlayerController();
 const wweapon = new Weapon(playerController, weapon);
@@ -40,24 +40,15 @@ scene.add(wweapon);
 wweapon.position.x = 32;
 wweapon.position.y = 32;
 
-//node, as well as a child of the root
+// node, as well as a child of the root
 const playerdata = require('./toml/player.toml');
 
-const wentity = new Entity(playerController, playerdata);
+const wentity = new Entity(playerdata);
 scene.add(wentity);
 wentity.add(wweapon);
 allEntities.push(wentity);
 
-
-
-const wother = new Entity(undefined, playerdata);
-wother.position.x = 100;
-scene.add(wother);
-allEntities.push(wother);
-
-const level = new Level();
-//level.LoadLevel('./img/hubworld.bmp');
-level.GenerateLevel(13, 26);
+const level = LevelFactory.GeneratePerfectMaze(13, 26);
 level.SpawnLevel();
 level.position.copy(new THREE.Vector3(-350, -350));
 
@@ -76,32 +67,32 @@ const render = () => {
     allEntities.forEach(entity => {
         entity.update(delta);
 
-        allEntities.forEach(other => {
-            if(other === entity) {
-                return;
-            }
+        // allEntities.forEach(other => {
+        //     if(other === entity) {
+        //         return;
+        //     }
 
-            const collisionData = entity.IsCollidingWith(other);
-            if(collisionData.isColliding === true) {
-                entity.HandleCollision(other);
-                other.HandleCollision(entity);
+        //     const collisionData = entity.IsCollidingWith(other);
+        //     if(collisionData.isColliding === true) {
+        //         entity.HandleCollision(other);
+        //         other.HandleCollision(entity);
 
-                if(entity.collision.blocks && other.collision.blocks) {
-                    const sumRadius = entity.collision.radius + other.collision.radius;
-                    const deltaVec = new THREE.Vector3().copy(entity.position).sub(other.position);
-                    const entityResolve = new THREE.Vector3()
-                        .copy(deltaVec)
-                        .normalize()
-                        .multiplyScalar(collisionData.overlap/2);
-                    const otherResolve = new THREE.Vector3()
-                        .copy(deltaVec)
-                        .normalize()
-                        .multiplyScalar(-collisionData.overlap/2);
-                    entity.position.copy(entityResolve.add(entity.position));
-                    other.position.copy(otherResolve.add(other.position));
-                }
-            }
-        });
+        //         if(entity.collision.blocks && other.collision.blocks) {
+        //             const sumRadius = entity.collision.radius + other.collision.radius;
+        //             const deltaVec = new THREE.Vector3().copy(entity.position).sub(other.position);
+        //             const entityResolve = new THREE.Vector3()
+        //                 .copy(deltaVec)
+        //                 .normalize()
+        //                 .multiplyScalar(collisionData.overlap/2);
+        //             const otherResolve = new THREE.Vector3()
+        //                 .copy(deltaVec)
+        //                 .normalize()
+        //                 .multiplyScalar(-collisionData.overlap/2);
+        //             entity.position.copy(entityResolve.add(entity.position));
+        //             other.position.copy(otherResolve.add(other.position));
+        //         }
+        //     }
+        // });
     });
 
     renderer.render(scene, camera);

@@ -1,6 +1,10 @@
-moveSpeed=60
-image='img/ship.png'
 
-[collision]
+[sprite]
+    image='img/ship.png'
+
+[controller]
+    moveSpeed=60
+
+[collider]
     blocks=true
     radius=30
