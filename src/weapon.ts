@@ -37,8 +37,8 @@ export default class Weapon extends THREE.Object3D {
           this.realTime += dt;
 
           if((mouse.left || keys[' ']) && this.realTime > .5 ) {
-            const bullet = require('./toml/weapon.toml');
-            const firedBullet = new Bullet(undefined, bullet);
+            const bullet = require('./toml/bullet.toml');
+            const firedBullet = new Bullet(bullet);
             const newPosition = new THREE.Vector3();
             newPosition.copy(this.playerReference.position);
             (window as any).scene.add(firedBullet);

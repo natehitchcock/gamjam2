@@ -1,0 +1,9 @@
+
+
+image = 'img/bulletgreen.png'
+
+moveSpeed = 60
+
+[collision]
+    blocks = true
+    radius = 15

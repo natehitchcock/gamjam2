@@ -1,5 +1,5 @@
 moveSpeed = 60
-image = 'img/bullet.png'
+image = 'img/gun.png'
 
 [collision]
     blocks = true

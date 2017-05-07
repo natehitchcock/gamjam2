@@ -13,7 +13,7 @@ export default class Bullet extends THREE.Object3D {
     
     moveSpeed: number;
 
-    constructor(undefined, data: any) {
+    constructor(data: any) {
         super();
         this.data = data;
        
