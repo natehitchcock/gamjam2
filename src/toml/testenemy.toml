@@ -1,0 +1,7 @@
+
+[sprite]
+    image='img/ship.png'
+
+[collider]
+    blocks=true
+    radius=30

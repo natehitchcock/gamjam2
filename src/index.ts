@@ -48,6 +48,12 @@ scene.add(wentity);
 wentity.add(wweapon);
 allEntities.push(wentity);
 
+const testenemy = require('./toml/testenemy.toml');
+const wother = new Entity(testenemy);
+scene.add(wother);
+wother.position.x = 100;
+allEntities.push(wother);
+
 const level = LevelFactory.GeneratePerfectMaze(13, 26);
 level.SpawnLevel();
 level.position.copy(new THREE.Vector3(-350, -350));
@@ -66,33 +72,6 @@ const render = () => {
 
     allEntities.forEach(entity => {
         entity.update(delta);
-
-        // allEntities.forEach(other => {
-        //     if(other === entity) {
-        //         return;
-        //     }
-
-        //     const collisionData = entity.IsCollidingWith(other);
-        //     if(collisionData.isColliding === true) {
-        //         entity.HandleCollision(other);
-        //         other.HandleCollision(entity);
-
-        //         if(entity.collision.blocks && other.collision.blocks) {
-        //             const sumRadius = entity.collision.radius + other.collision.radius;
-        //             const deltaVec = new THREE.Vector3().copy(entity.position).sub(other.position);
-        //             const entityResolve = new THREE.Vector3()
-        //                 .copy(deltaVec)
-        //                 .normalize()
-        //                 .multiplyScalar(collisionData.overlap/2);
-        //             const otherResolve = new THREE.Vector3()
-        //                 .copy(deltaVec)
-        //                 .normalize()
-        //                 .multiplyScalar(-collisionData.overlap/2);
-        //             entity.position.copy(entityResolve.add(entity.position));
-        //             other.position.copy(otherResolve.add(other.position));
-        //         }
-        //     }
-        // });
     });
 
     renderer.render(scene, camera);
