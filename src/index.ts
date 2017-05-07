@@ -1,10 +1,11 @@
 import * as THREE from 'three';
 import * as Howl from 'howler';
-import {LevelFactory, Level} from './level';
+import {Level, LevelFactory} from './level';
 import Entity from './entity';
 import {PlayerController} from './playercontroller';
 import Weapon from './weapon';
 import Bullet from './bullet';
+import {keys, mouse} from './lib/input';
 
 interface IGameWindow extends Window {
     scene: THREE.Scene;
@@ -33,20 +34,23 @@ const uniforms = {
 const allEntities: Entity[] = [];
 
 // spawning the weapon
-const weapon = require('./toml/weapon.toml');
 const playerController = new PlayerController();
-const wweapon = new Weapon(playerController, weapon);
-scene.add(wweapon);
-wweapon.position.x = 32;
-wweapon.position.y = 32;
 
 // node, as well as a child of the root
 const playerdata = require('./toml/player.toml');
 
 const wentity = new Entity(playerdata);
 scene.add(wentity);
-wentity.add(wweapon);
 allEntities.push(wentity);
+
+// spawning the weapon
+const weapon = require('./toml/weapon.toml');
+
+const wweapon = new Weapon(playerController, weapon, wentity);
+scene.add(wweapon);
+wweapon.position.x = 32;
+wweapon.position.y = 32;
+wentity.add(wweapon);
 
 const testenemy = require('./toml/testenemy.toml');
 const wother = new Entity(testenemy);
@@ -68,7 +72,8 @@ const render = () => {
     requestAnimationFrame(render);
     const delta = clock.getDelta();
 
-    wweapon.spawn();
+    wweapon.spawn(delta);
+    wweapon.update(delta);
 
     allEntities.forEach(entity => {
         entity.update(delta);
