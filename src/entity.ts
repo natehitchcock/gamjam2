@@ -30,24 +30,4 @@ export default class Entity extends THREE.Object3D {
     update(dt) {
         this.components.forEach((comp)=>comp.update(dt));
     }
-
-    HandleCollision(other: Entity) {
-        return;
-    }
-
-    IsCollidingWith(other: Entity) {
-        if(this.collision === undefined
-        || other.collision === undefined) {
-            return {isColliding: false, overlap: 0};
-        }
-
-        const deltaPos = new THREE.Vector3().copy(this.position);
-        deltaPos.sub(other.position);
-
-        const overlap = deltaPos.length() - (this.collision.radius + other.collision.radius);
-        if( overlap < 0 ) {
-            return {isColliding: true, overlap: -overlap};
-        }
-        return {isColliding: false, overlap: 0};
-    }
 }

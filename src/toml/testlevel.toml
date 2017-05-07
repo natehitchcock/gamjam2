@@ -1,0 +1,18 @@
+terrainCreationMethod="GeneratePerfectMaze"
+[terrainParams]
+    width=10
+    height=10
+
+[[entities]]
+    data="player.toml"
+
+    [entities.position]
+        x=-100
+        y=100
+
+[[entities]]
+    data="testenemy.toml"
+
+    [entities.position]
+        x=100
+        y=100

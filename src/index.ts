@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import * as Howl from 'howler';
-import {Level, LevelFactory} from './level';
+import {Terrain, TerrainFactory} from './terrain';
 import Entity from './entity';
 import {PlayerController} from './playercontroller';
 import Weapon from './weapon';
@@ -58,7 +58,7 @@ scene.add(wother);
 wother.position.x = 100;
 allEntities.push(wother);
 
-const level = LevelFactory.GeneratePerfectMaze(13, 26);
+const level = TerrainFactory.GeneratePerfectMaze(13, 26);
 level.SpawnLevel();
 level.position.copy(new THREE.Vector3(-350, -350));
 
