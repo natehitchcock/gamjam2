@@ -1,14 +1,13 @@
+[[entities]]
+    tomlFile="startScreenTitle.toml"
+
+    [entities.position]
+        x=0
+        y=100
 
 [[entities]]
-    data="startScreen.toml"
+    tomlFile="startScreenBackground.toml"
 
     [entities.position]
         x=0
         y=0
-
-[[entities]]
-    data="startButton.toml"
-
-    [entities.position]
-        x=0
-        y=-100

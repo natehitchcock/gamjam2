@@ -4,14 +4,14 @@ terrainCreationMethod="GeneratePerfectMaze"
     height=10
 
 [[entities]]
-    data="player.toml"
+    tomlFile="player.toml"
 
     [entities.position]
         x=-100
         y=100
 
 [[entities]]
-    data="testenemy.toml"
+    tomlFile="testenemy.toml"
 
     [entities.position]
         x=100

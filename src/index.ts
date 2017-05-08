@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import * as Howl from 'howler';
+import Level from './level';
 import {Terrain, TerrainFactory} from './terrain';
 import Entity from './entity';
 import {PlayerController} from './playercontroller';
@@ -68,9 +69,16 @@ scene.add(new THREE.AmbientLight());
 
 const direction = 1;
 
+const startScreenData = require('./toml/startLevel.toml');
+const startScreen = new Level(startScreenData);
+startScreen.spawnEntities();
+scene.add(startScreen);
+
 const render = () => {
     requestAnimationFrame(render);
     const delta = clock.getDelta();
+    startScreen.update(delta);
+
 
     wweapon.spawn(delta);
     wweapon.update(delta);
