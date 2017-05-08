@@ -1,0 +1,6 @@
+[sprite]
+    image='img/titleText.png'
+    zOrder=100
+    [sprite.scale]
+    x=1024
+    y=512

@@ -1,0 +1,6 @@
+[sprite]
+    image='img/titleBackground.png'
+    zOrder=99
+    [sprite.scale]
+    x=1200
+    y=720
