@@ -67,6 +67,7 @@ export class Level extends THREE.Object3D {
     }
 
     removeEntity(ent: Entity) {
+        this.remove(ent);
         this.entities.splice(this.entities.indexOf(ent), 1);
     }
 
