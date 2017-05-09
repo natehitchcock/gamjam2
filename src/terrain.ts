@@ -19,9 +19,9 @@ export class Terrain extends THREE.Object3D {
 }
 
 export class TerrainFactory {
-    static LoadFromFile(filename: string): Terrain {
+    static LoadFromFile(params: any): Terrain {
         const textureLoader = new THREE.TextureLoader();
-        textureLoader.load(filename, (texture) => {
+        textureLoader.load(params.filename, (texture) => {
             console.log('texture');
             console.log(texture);
         });
@@ -29,13 +29,13 @@ export class TerrainFactory {
         return new Terrain();
     }
 
-    static GenerateBoxLevel(width: number, height: number): Terrain {
+    static GenerateBoxLevel(params: any): Terrain {
         const level = new Terrain();
         level.levelArray = [];
-        for(let x = 0; x < width; ++x) {
+        for(let x = 0; x < params.width; ++x) {
             level.levelArray.push([]);
-            for(let y = 0; y < height; ++y) {
-                if(x === 0 || x === width - 1 || y === 0 || y === height - 1) {
+            for(let y = 0; y < params.height; ++y) {
+                if(x === 0 || x === params.width - 1 || y === 0 || y === params.height - 1) {
                     level.levelArray[x].push(1);
                 } else {
                     level.levelArray[x].push(0);
@@ -46,13 +46,14 @@ export class TerrainFactory {
         return level;
     }
 
-    static GeneratePerfectMaze(width: number, height: number) {
+    static GeneratePerfectMaze(params: any) {
+        console.log(`perfect maze ${params.width}, ${params.height}`);
         const level = new Terrain();
 
         level.levelArray = [];
-        for(let x = 0; x < width; ++x) {
+        for(let x = 0; x < params.width; ++x) {
             level.levelArray.push([]);
-            for(let y = 0; y < height; ++y) {
+            for(let y = 0; y < params.height; ++y) {
                 level.levelArray[x].push(1);
             }
         }
@@ -71,8 +72,8 @@ export class TerrainFactory {
         pointQueue.push(new Point(1, 1));
 
         function isValid(point: Point) {
-            if(point.x > 0 && point.x < width - 1
-            && point.y > 0 && point.y < height - 1) {
+            if(point.x > 0 && point.x < params.width - 1
+            && point.y > 0 && point.y < params.height - 1) {
                 return true;
             }
             return false;

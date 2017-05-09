@@ -1,0 +1,18 @@
+[sprite]
+    image='img/pressSpace.png'
+    zOrder=100
+    [sprite.scale]
+    x=200
+    y=50
+
+[sway]
+    horizMagnitude=5
+    horizFrequency=0.01
+    vertMagnitude=2
+    vertFrequency=1
+    horizTimeOffset=0
+    vertTimeOffset=2
+
+[buttonTransition]
+    button=' '
+    targetLevel='testlevel'

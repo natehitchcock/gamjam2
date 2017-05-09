@@ -22,12 +22,12 @@ interface IEntityData {
 }
 
 interface ILevelData {
-    terrainGenMethod: string;
-    terrainGenParams: ILoadTerrainParameters | IGenTerrainParameters;
+    terrainCreationMethod: string;
+    terrainParams: ILoadTerrainParameters | IGenTerrainParameters;
     entities: IEntityData[];
 }
 
-export default class Level extends THREE.Object3D {
+export class Level extends THREE.Object3D {
     data: ILevelData;
 
     terrain: Terrain;
@@ -40,8 +40,9 @@ export default class Level extends THREE.Object3D {
     }
 
     spawnEntities() {
-        if(this.data.terrainGenMethod !== undefined) {
-            this.terrain = TerrainFactory[this.data.terrainGenMethod](this.data.terrainGenParams);
+        if(this.data.terrainCreationMethod !== undefined) {
+            console.log(`spawning terrain ${this.data.terrainCreationMethod}`);
+            this.terrain = TerrainFactory[this.data.terrainCreationMethod](this.data.terrainParams);
             this.terrain.SpawnLevel();
             this.add(this.terrain);
         }
@@ -56,9 +57,52 @@ export default class Level extends THREE.Object3D {
         });
     }
 
+    getEntityByLabel(label: string) {
+        return this.entities.find(ent => ent.label === label);
+    }
+
+    addEntity(ent: Entity) {
+        this.entities.push(ent);
+        this.add(ent);
+    }
+
+    removeEntity(ent: Entity) {
+        this.entities.splice(this.entities.indexOf(ent), 1);
+    }
+
     update(dt: number) {
         this.entities.forEach(ent => {
             ent.update(dt);
         });
     }
 }
+
+export class LevelManager {
+    currentLevel: Level;
+    scene: THREE.Scene;
+    levelMap: any;
+
+    init(scene: THREE.Scene) {
+        this.scene = scene;
+        this.levelMap = [];
+    }
+
+    addLevel(levelName: string, levelData: ILevelData) {
+        this.levelMap[levelName] = levelData;
+    }
+
+    loadLevel(levelName: string) {
+        this.currentLevel = new Level(this.levelMap[levelName]);
+        this.scene.children = [];
+        this.currentLevel.spawnEntities();
+        this.scene.add(this.currentLevel);
+    }
+
+    update(dt: number) {
+        if(this.currentLevel) {
+            this.currentLevel.update(dt);
+        }
+    }
+}
+
+export const levelManager = new LevelManager();

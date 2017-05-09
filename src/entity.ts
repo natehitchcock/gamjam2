@@ -9,14 +9,16 @@ interface ICollisionData {
 }
 
 export default class Entity extends THREE.Object3D {
+    label: string;
     collision: ICollisionData;
     data: any;
 
     components: IComponent[];
 
-    constructor(data: any) {
+    constructor(data: any, label?: string) {
         super();
         this.data = data;
+        this.label = label || "";
 
         this.components = [];
         for(const prop in data) {

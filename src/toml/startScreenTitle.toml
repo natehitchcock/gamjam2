@@ -2,5 +2,13 @@
     image='img/titleText.png'
     zOrder=100
     [sprite.scale]
-    x=1024
-    y=512
+    x=1000
+    y=500
+
+[sway]
+    horizMagnitude=5
+    horizFrequency=0.01
+    vertMagnitude=5
+    vertFrequency=0.5
+    horizTimeOffset=0
+    vertTimeOffset=0

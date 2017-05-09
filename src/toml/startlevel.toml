@@ -11,3 +11,10 @@
     [entities.position]
         x=0
         y=0
+
+[[entities]]
+    tomlFile="startScreenPrompt.toml"
+
+    [entities.position]
+        x=5
+        y=-240
