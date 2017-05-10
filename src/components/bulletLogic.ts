@@ -3,6 +3,8 @@ import Sprite from './sprite';
 import { IComponent } from "./component";
 import Entity from "../entity";
 import * as THREE from "@types/three";
+import Weapon from "../weapon";
+import { mouse } from "../lib/input";
 
 interface IBulletData {
     damageMultiplier: number;
@@ -27,15 +29,12 @@ export default class BulletLogic implements IComponent{
         const pattern = require('./toml/weapon.toml');
         const direction = new THREE.Vector3();
         direction.copy(this.weaponReference.position);
+        const currentXPosition = mouse.xp;
+        const currentYPosition = mouse.yp;
+        var aimDirection = new THREE.Vector3(mouse.xp, mouse.yp);
         
-        direction.add(
-        if(weapon.fired) direction.add(Mouse.THREE.Vector3(x, y, z) += speed; 
-        if(weapon.fired) direction.y -= speed; 
-        if(weapon.fired) direction.x += speed;
-        if(weapon.fired) direction.x -= speed; 
-Weapon.spawn
-   } 
-    
+   } ;
+
     update(dt: number) {
         return;
     }
