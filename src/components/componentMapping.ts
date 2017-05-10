@@ -4,7 +4,7 @@ import Collider from './collider';
 import Sway from './sway';
 import ButtonTransition from './buttonTransition';
 import Inventory from './inventory';
-
+import WeaponLogic from './weaponLogic';
 import Entity from '../entity';
 
 export default {
@@ -14,4 +14,5 @@ export default {
     sway: (data: any, owner: Entity) => new Sway(data,owner),
     buttonTransition: (data: any, owner: Entity) => new ButtonTransition(data,owner),
     inventory: (data: any, owner: Entity) => new Inventory(data,owner),
+    weapon: (data: any, owner: Entity) => new WeaponLogic(data, owner),
 };

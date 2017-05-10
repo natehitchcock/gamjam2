@@ -1,9 +1,6 @@
+[sprite]
+    image = 'img/bulletgreen.png'
 
-
-image = 'img/bulletgreen.png'
-
-moveSpeed = 60
-
-[collision]
-    blocks = true
+[collider]
+    blocks = false
     radius = 15

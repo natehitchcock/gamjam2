@@ -38,6 +38,8 @@ export default class Inventory implements IComponent {
     }
 
     update(dt: number) {
-        return;
+        this.itemRefs.forEach(item  =>  {
+            item.update(dt);
+        });
     }
 }
