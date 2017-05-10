@@ -1,6 +1,4 @@
 [sprite]
     image='img/gun.png'
 
-[collider]
-    blocks=true
-    radius=15
+    
