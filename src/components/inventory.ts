@@ -21,6 +21,7 @@ export default class Inventory implements IComponent {
 
     constructor(data: IInventoryData, owner: Entity) {
         this.data = data;
+        this.itemRefs = [];
 
         this.data.items.forEach(item => {
             if(!item.label || item.label.length < 1) {

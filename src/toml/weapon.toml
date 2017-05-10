@@ -1,7 +1,6 @@
-moveSpeed = 60
-image = 'img/gun.png'
+[sprite]
+    image='img/gun.png'
 
-[collision]
-    blocks = true
-    radius = 15
-
+[collider]
+    blocks=true
+    radius=15

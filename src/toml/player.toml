@@ -8,3 +8,10 @@
 [collider]
     blocks=true
     radius=30
+
+[inventory]
+    [[inventory.items]]
+    label="wep1"
+    x=32
+    y=32
+    isVisible=true

@@ -17,6 +17,7 @@ interface IPoint {
 }
 
 interface IEntityData {
+    label?: string;
     tomlFile: string;
     position: IPoint;
 }
@@ -49,7 +50,7 @@ export class Level extends THREE.Object3D {
         this.data.entities.forEach(ent => {
             console.log(ent.tomlFile);
             const entityData = require(`./toml/${ent.tomlFile}`);
-            const entity = new Entity(entityData);
+            const entity = new Entity(entityData, ent.label);
             entity.position.x = ent.position.x;
             entity.position.y = ent.position.y;
             this.add(entity);
@@ -58,7 +59,10 @@ export class Level extends THREE.Object3D {
     }
 
     getEntityByLabel(label: string) {
-        return this.entities.find(ent => ent.label === label);
+        console.log(`searching for ${label}`);
+        const found = this.entities.find(ent => ent.label === label);
+        console.log(`found ${JSON.stringify(found)}`);
+        return found;
     }
 
     addEntity(ent: Entity) {
