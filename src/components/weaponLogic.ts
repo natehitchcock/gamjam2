@@ -36,7 +36,7 @@ export default class WeaponLogic implements IComponent{
             (window as any).scene.add(firedBullet);
             this.bulletsFired.push(firedBullet);
             firedBullet.position.copy(newPosition);
-            this.fireRate += 0;
+            this.fireRate = 0;
         }
     }
     update(dt) {

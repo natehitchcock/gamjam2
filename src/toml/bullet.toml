@@ -6,3 +6,4 @@
     radius = 15
 
 [bullet]
+    speed = 5

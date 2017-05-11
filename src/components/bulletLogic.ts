@@ -9,6 +9,7 @@ import { mouse } from "../lib/input";
 interface IBulletData {
     damageMultiplier: number;
     bulletLife: number;
+    speed: number;
 }
 
 export default class BulletLogic implements IComponent{
@@ -31,11 +32,13 @@ export default class BulletLogic implements IComponent{
         direction.copy(this.weaponReference.position);
         const currentXPosition = mouse.xp;
         const currentYPosition = mouse.yp;
-        var aimDirection = new THREE.Vector3(mouse.xp, mouse.yp);
+     //   var aimDirection = new THREE.Vector3(1).multiplyScalar;
+        this.weaponReference.position.copy(direction.add(this.weaponReference.position));
         
    } ;
 
     update(dt: number) {
+        this.movement(dt);
         return;
     }
 }
