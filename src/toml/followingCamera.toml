@@ -1,0 +1,8 @@
+[camera]
+
+[follow]
+    targetLabel="player"
+    xoff=0
+    yoff=0
+    maxRadius=20
+    interpSpeed=100

@@ -24,14 +24,18 @@ export default class Follow implements IComponent {
     }
 
     update(dt: number) {
-        const movement = new THREE.Vector3(this.data.xoff || 0, this.data.yoff || 0, 0)
+        const ownerPos = new THREE.Vector3(this.data.xoff || 0, this.data.yoff || 0, 0)
         .add(this.owner.position);
 
-        movement.sub(this.target.position);
+        const movement = new THREE.Vector3().copy(this.target.position);
+        movement.sub(ownerPos);
+        movement.z = 0;
         const dist = movement.length();
 
-        movement.normalize();
-        movement.multiplyScalar(Math.min(dist, (this.data.interpSpeed || 1) * dt));
-        this.owner.position.add(movement);
+        if(dist > (this.data.maxRadius || 1)) {
+            movement.normalize();
+            movement.multiplyScalar(Math.min(dist, (this.data.interpSpeed || 1) * dt));
+            this.owner.position.add(movement);
+        }
     }
 }
