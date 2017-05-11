@@ -1,6 +1,6 @@
 [sprite]
     image='img/gun.png'
 
-[collider]
-    blocks=true
-    radius=15
+
+[weapon]
+    fireRate = 0.5

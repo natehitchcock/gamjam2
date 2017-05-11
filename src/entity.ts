@@ -24,6 +24,7 @@ export default class Entity extends THREE.Object3D {
         this.components = [];
         for(const prop in data) {
             if(prop) {
+                console.log(prop);
                 const comp = ComponentMapping[prop](data[prop], this);
                 this.components.push(comp);
             }

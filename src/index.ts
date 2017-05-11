@@ -29,6 +29,7 @@ const startlevelData = require('./toml/startlevel.toml');
 levelManager.addLevel('startlevel', startlevelData);
 const testlevelData = require('./toml/testlevel.toml');
 levelManager.addLevel('testlevel', testlevelData);
+
 levelManager.loadLevel('startlevel');
 
 const render = () => {

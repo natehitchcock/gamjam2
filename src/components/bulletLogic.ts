@@ -2,13 +2,14 @@ import Collider from './collider';
 import Sprite from './sprite';
 import { IComponent } from "./component";
 import Entity from "../entity";
-import * as THREE from "@types/three";
+import * as THREE from "three";
 import Weapon from "../weapon";
 import { mouse } from "../lib/input";
 
 interface IBulletData {
     damageMultiplier: number;
     bulletLife: number;
+    speed: number;
 }
 
 export default class BulletLogic implements IComponent{
@@ -25,17 +26,19 @@ export default class BulletLogic implements IComponent{
     }
 
     movement(dt: number) {
-        const speed = require('./toml/weapon.toml');
-        const pattern = require('./toml/weapon.toml');
+        const speed = require('../toml/weapon.toml');
+        const pattern = require('../toml/weapon.toml');
         const direction = new THREE.Vector3();
         direction.copy(this.weaponReference.position);
         const currentXPosition = mouse.xp;
         const currentYPosition = mouse.yp;
-        var aimDirection = new THREE.Vector3(mouse.xp, mouse.yp);
+     //   var aimDirection = new THREE.Vector3(1).multiplyScalar;
+        this.weaponReference.position.copy(direction.add(this.weaponReference.position));
         
    } ;
 
     update(dt: number) {
+        this.movement(dt);
         return;
     }
 }
