@@ -73,6 +73,7 @@ export class Level extends THREE.Object3D {
 
     addEntity(ent: Entity) {
         this.entities.push(ent);
+        ent.parent = this;
         this.add(ent);
     }
 
