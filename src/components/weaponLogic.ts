@@ -3,7 +3,7 @@ import Entity from "../entity";
 import { mouse, keys } from "../lib/input";
 import * as THREE from "three";
 import Bullet from "../bullet";
-
+import { levelManager, Level } from "../level";
 interface IWeaponData {
   fireRate: number;
 }
