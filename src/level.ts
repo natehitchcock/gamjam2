@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import {TerrainFactory, Terrain} from './terrain';
 import Entity from './entity';
+import Camera from './components/camera';
 
 interface ILoadTerrainParameters {
     filename: string;
@@ -34,6 +35,8 @@ export class Level extends THREE.Object3D {
     terrain: Terrain;
     entities: Entity[];
 
+    currentCamera: THREE.Camera;
+
     constructor(data: ILevelData) {
         super();
         this.data = data;
@@ -53,9 +56,12 @@ export class Level extends THREE.Object3D {
             const entity = new Entity(entityData, ent.label);
             entity.position.x = ent.position.x;
             entity.position.y = ent.position.y;
+            entity.parent = this;
             this.add(entity);
             this.entities.push(entity);
         });
+
+        this.currentCamera = this.getActiveCamera();
     }
 
     getEntityByLabel(label: string) {
@@ -79,6 +85,12 @@ export class Level extends THREE.Object3D {
         this.entities.forEach(ent => {
             ent.update(dt);
         });
+    }
+
+    getActiveCamera(): THREE.Camera {
+        const camEnt = this.getEntityByLabel("activeCam");
+        const camComp = camEnt.components.find(comp => comp instanceof Camera) as Camera;
+        return camComp.camera;
     }
 }
 

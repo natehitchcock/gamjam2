@@ -12,6 +12,7 @@ export default class Entity extends THREE.Object3D {
     label: string;
     collision: ICollisionData;
     data: any;
+    parent: THREE.Object3D;
 
     components: IComponent[];
 

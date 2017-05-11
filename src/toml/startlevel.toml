@@ -1,4 +1,12 @@
 [[entities]]
+    label="activeCam"
+    tomlFile="camera.toml"
+
+    [entities.position]
+        x=0
+        y=0
+
+[[entities]]
     tomlFile="startScreenTitle.toml"
 
     [entities.position]

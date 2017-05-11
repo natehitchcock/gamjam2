@@ -31,6 +31,7 @@ export default class Inventory implements IComponent {
             const itemRef = levelManager.currentLevel.getEntityByLabel(item.label);
             levelManager.currentLevel.removeEntity(itemRef);
             owner.add(itemRef);
+            itemRef.parent=owner;
             itemRef.position.x = item.x || 0;
             itemRef.position.y = item.y || 0;
             this.itemRefs.push(itemRef);

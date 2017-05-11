@@ -4,6 +4,14 @@ terrainCreationMethod="GeneratePerfectMaze"
     height=10
 
 [[entities]]
+    label="activeCam"
+    tomlFile="camera.toml"
+
+    [entities.position]
+        x=0
+        y=0
+
+[[entities]]
     label="wep1"
     tomlFile="weapon.toml"
 

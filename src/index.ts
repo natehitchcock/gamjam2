@@ -16,10 +16,7 @@ declare const window: IGameWindow;
 const scene = new THREE.Scene();
 
 window.scene = scene;
-const camWidth = window.innerWidth/2;
-const camHeight = window.innerHeight/2;
-const camera = new THREE.OrthographicCamera(-camWidth, camWidth, camHeight, -   camHeight, -500, 1000);
-camera.position.z = 299;
+
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize( window.innerWidth, window.innerHeight );
@@ -40,7 +37,7 @@ const render = () => {
 
     levelManager.update(delta);
 
-    renderer.render(scene, camera);
+    renderer.render(scene, levelManager.currentLevel.currentCamera);
 };
 
 render();
