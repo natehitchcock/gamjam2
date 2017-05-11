@@ -10,6 +10,7 @@ interface IBulletData {
     damageMultiplier: number;
     bulletLife: number;
     speed: number;
+    pattern: number;
 }
 
 export default class BulletLogic implements IComponent{
@@ -26,13 +27,13 @@ export default class BulletLogic implements IComponent{
     }
 
     movement(dt: number) {
-        const speed = require('../toml/weapon.toml');
-        const pattern = require('../toml/weapon.toml');
+        const speed = this.data.speed;
+        const pattern = this.data.pattern;
         const direction = new THREE.Vector3();
         direction.copy(this.weaponReference.position);
         const currentXPosition = mouse.xp;
         const currentYPosition = mouse.yp;
-     //   var aimDirection = new THREE.Vector3(1).multiplyScalar;
+        var aimDirection = new THREE.Vector3(1).multiplyScalar;
         this.weaponReference.position.copy(direction.add(this.weaponReference.position));
         
    } ;
