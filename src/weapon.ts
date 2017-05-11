@@ -37,6 +37,7 @@ export default class Weapon extends THREE.Object3D {
           this.realTime += dt;
 
           if((mouse.left || keys[' ']) && this.realTime > .5 ) {
+            console.log("Mouse was clicked");
             const bullet = require('./toml/bullet.toml');
             const firedBullet = new Bullet(bullet);
             const newPosition = new THREE.Vector3();

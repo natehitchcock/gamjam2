@@ -4,3 +4,5 @@
 [collider]
     blocks = false
     radius = 15
+
+[bullet]

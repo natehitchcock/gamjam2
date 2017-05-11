@@ -2,7 +2,7 @@ import Collider from './collider';
 import Sprite from './sprite';
 import { IComponent } from "./component";
 import Entity from "../entity";
-import * as THREE from "@types/three";
+import * as THREE from "three";
 import Weapon from "../weapon";
 import { mouse } from "../lib/input";
 
@@ -25,8 +25,8 @@ export default class BulletLogic implements IComponent{
     }
 
     movement(dt: number) {
-        const speed = require('./toml/weapon.toml');
-        const pattern = require('./toml/weapon.toml');
+        const speed = require('../toml/weapon.toml');
+        const pattern = require('../toml/weapon.toml');
         const direction = new THREE.Vector3();
         direction.copy(this.weaponReference.position);
         const currentXPosition = mouse.xp;

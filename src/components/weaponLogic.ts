@@ -33,6 +33,7 @@ export default class WeaponLogic implements IComponent{
             const firedBullet = new Entity(bullet);
             const newPosition = new THREE.Vector3();
             newPosition.copy(this.playerReference.position);
+            (window as any).scene.add(firedBullet);
             this.bulletsFired.push(firedBullet);
             firedBullet.position.copy(newPosition);
             this.fireRate += 0;
