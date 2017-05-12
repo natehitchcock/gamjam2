@@ -4,5 +4,6 @@
     targetLabel="player"
     xoff=0
     yoff=0
-    maxRadius=20
-    interpSpeed=100
+    maxRadius=1
+    interp="eased"
+    interpSpeed=10

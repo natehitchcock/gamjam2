@@ -9,6 +9,7 @@ interface IFollowData {
     yoff: number;
     maxRadius: number;
     interpSpeed: number;
+    interp: string;
 }
 
 export default class Follow implements IComponent {
@@ -33,9 +34,14 @@ export default class Follow implements IComponent {
         const dist = movement.length();
 
         if(dist > (this.data.maxRadius || 1)) {
-            movement.normalize();
-            movement.multiplyScalar(Math.min(dist, (this.data.interpSpeed || 1) * dt));
-            this.owner.position.add(movement);
+            if(this.data.interp === "linear" || this.data.interp === undefined ) {
+                movement.normalize();
+                movement.multiplyScalar(Math.min(dist, (this.data.interpSpeed || 1) * dt));
+                this.owner.position.add(movement);
+            } else if (this.data.interp === "eased") {
+                movement.multiplyScalar(this.data.interpSpeed * dt);
+                this.owner.position.add(movement);
+            }
         }
     }
 }

@@ -20,7 +20,7 @@ export default class Collider implements IComponent {
     }
 
     HandleCollision(other: Collider) {
-        return;
+        this.owner.sendEvent('collided', other);
     }
 
     IsCollidingWith(other: Collider) {
