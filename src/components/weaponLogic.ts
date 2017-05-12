@@ -15,7 +15,7 @@ export default class WeaponLogic implements IComponent{
     bulletSpeed: number;
     realTime: number; 
     weaponReference: Entity;
-    bulletsFired: any[];
+    bulletsFired: Entity[];
     position: any;
 
     constructor(data: IWeaponData, owner: Entity) {
@@ -30,7 +30,7 @@ export default class WeaponLogic implements IComponent{
         if((mouse.left || keys[' ']) && this.fireRate > 0.5) {
             console.log("Entered Fire Statement.");
             const bullet = require('../toml/bullet.toml'); 
-            console.log(JSON.stringify(bullet));
+            //console.log(JSON.stringify(bullet));
             const firedBullet = new Entity(bullet);
             const newPosition = new THREE.Vector3();
             newPosition.copy(this.weaponReference.parent.position);

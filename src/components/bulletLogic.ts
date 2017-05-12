@@ -14,12 +14,15 @@ interface IBulletData {
 }
 
 export default class BulletLogic implements IComponent{
+    bulletDirection: any;
     data: IBulletData; 
-    weaponReference: Entity;
+    bulletReference: Entity;
 
     constructor(data: IBulletData, owner: Entity) {
         this.data = data;
-        this.weaponReference = owner; 
+        this.bulletReference = owner; 
+        const currentYPosition = mouse.yp;
+        const currentXPosition = mouse.xp;
     };
 
     disappear(dt: number) {
@@ -30,15 +33,15 @@ export default class BulletLogic implements IComponent{
         const speed = this.data.speed;
         const pattern = this.data.pattern;
         const direction = new THREE.Vector3();
-        direction.copy(this.weaponReference.position);
-        const currentXPosition = mouse.xp;
-        const currentYPosition = mouse.yp;
-        var aimDirection = new THREE.Vector3(1).multiplyScalar;
-        this.weaponReference.position.copy(direction.add(this.weaponReference.position));
+       // direction.copy(this.bulletReference.position);
+
+        const bulletPath = new THREE.Vector3(currentXPosition, currentYPosition);
+       // var aimDirection = new THREE.Vector3(1).multiplyScalar;
+        this.bulletReference.position.add(bulletPath);
         
    } ;
 
-    update(dt: number) {
+    update(dt) {
         this.movement(dt);
         return;
     }
