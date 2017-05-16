@@ -66,7 +66,7 @@ const render = () => {
     
     renderer.render(scene, levelManager.currentLevel.currentCamera
     );  
-    renderer.render(sceneHUD, cameraHUD);
+  //  renderer.render(sceneHUD, cameraHUD);
 
 
 };
