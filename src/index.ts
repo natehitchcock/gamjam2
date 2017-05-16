@@ -7,6 +7,8 @@ import { PlayerController } from './playercontroller';
 import Weapon from './weapon';
 import Bullet from './bullet';
 import { keys, mouse } from './lib/input';
+import './interface.tsx';
+import { IHudWindow } from "./interface";
 
 interface IGameWindow extends Window {
     scene: THREE.Scene;
@@ -66,6 +68,7 @@ const render = () => {
     
     renderer.render(scene, levelManager.currentLevel.currentCamera
     );  
+    
   //  renderer.render(sceneHUD, cameraHUD);
 
 
