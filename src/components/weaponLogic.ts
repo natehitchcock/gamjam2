@@ -30,9 +30,9 @@ export default class WeaponLogic implements IComponent{
             // spawning bullet
             const bullet = require('../toml/bullet.toml'); 
             const firedBullet = new Entity(bullet);
-
-            firedBullet.sharedData.directionx = mouse.xp;
-            firedBullet.sharedData.directiony = mouse.yp;
+            firedBullet.sharedData.mousePositions = new THREE.Vector3(mouse.xp, mouse.yp).normalize();
+            //firedBullet.sharedData.directions = mousePositions;
+            
 
             // setting position
             const newPosition = new THREE.Vector3();
