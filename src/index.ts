@@ -18,7 +18,7 @@ const scene = new THREE.Scene();
 window.scene = scene;
 
 
-/////////////////////////////////// Hud
+/*////////////////////////////////// Hud
 var hudCanvas = document.createElement('canvas');
 
 hudCanvas.width = innerWidth;
@@ -43,7 +43,7 @@ material.transparent = true;
 var planeGeometry = new THREE.PlaneGeometry(innerWidth, innerHeight);
 var plane = new THREE.Mesh(planeGeometry, material);
 sceneHUD.add(plane);
-//////////////////
+/////////////////*/
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
