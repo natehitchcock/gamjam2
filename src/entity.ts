@@ -15,19 +15,20 @@ export default class Entity extends THREE.Object3D {
     parent: THREE.Object3D;
 
     components: IComponent[];
-    shared: {[key: string]: any};
+    sharedData: {[key: string]: any};
+
     private eventMap: {[key: string]: Array<(data: any)=>void> };
 
     constructor(data: any, label?: string) {
         super();
         this.data = data;
         this.eventMap = {};
+        this.sharedData = {};
         this.label = label || "";
 
         this.components = [];
-        this.shared = {};
         for(const prop in data) {
-            if(prop) {
+            if(prop && ComponentMapping[prop]) {
                 console.log(prop);
                 const comp = ComponentMapping[prop](data[prop], this);
                 this.components.push(comp);

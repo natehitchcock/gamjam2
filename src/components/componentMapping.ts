@@ -8,7 +8,7 @@ import Camera from './camera';
 import Follow from './follow';
 import WeaponLogic from './weaponLogic';
 import BulletLogic from "./bulletLogic";
-
+import Hud from './hud';
 import Entity from '../entity';
 
 export default {
@@ -22,4 +22,5 @@ export default {
     follow: (data: any, owner: Entity) => new Follow(data,owner),
     weapon: (data: any, owner: Entity) => new WeaponLogic(data, owner),
     bullet: (data: any, owner: Entity) => new BulletLogic(data, owner),
+    hud: (data: any, owner: Entity) => new Hud (data, owner),
 };

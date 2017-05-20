@@ -68,17 +68,17 @@ export default class Collider implements IComponent {
             }
         });
 
-        if(this.owner.shared.nextMove) {
-            const nextLocation = new THREE.Vector3().copy(this.owner.position).add(this.owner.shared.nextMove);
+        if(this.owner.sharedData.nextMove) {
+            const nextLocation = new THREE.Vector3().copy(this.owner.position).add(this.owner.sharedData.nextMove);
             const collisionData = levelManager.currentLevel.terrain
                 .SphereCollisionLineTest(this.owner.position, nextLocation, this.data.radius);
 
             if(collisionData.tVal < 1) {
                 console.log('tink');
-                const deltaPos = new THREE.Vector3().copy(this.owner.shared.nextMove);
+                const deltaPos = new THREE.Vector3().copy(this.owner.sharedData.nextMove);
                 deltaPos.multiplyScalar(collisionData.tVal);
                 this.owner.position.add(deltaPos);
-                this.owner.shared.nextMove = new THREE.Vector3();
+                this.owner.sharedData.nextMove = new THREE.Vector3();
             }
             this.lastPosition.copy(this.owner.position);
         }
