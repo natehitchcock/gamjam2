@@ -48,6 +48,10 @@ export default class Controller implements IComponent, IController {
         const nextPos = new THREE.Vector2().copy(desiredMove);
         nextPos.multiplyScalar(this.data.moveSpeed * dt);
 
-        this.owner.position.add(new THREE.Vector3(nextPos.x, nextPos.y, 0));
+        if(this.owner.shared.nextMove) {
+            this.owner.position.add(this.owner.shared.nextMove);
+        }
+
+        this.owner.shared.nextMove = new THREE.Vector3(nextPos.x, nextPos.y, 0);
     }
 }

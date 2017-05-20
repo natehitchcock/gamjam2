@@ -25,6 +25,7 @@ interface IEntityData {
 
 interface ILevelData {
     terrainCreationMethod: string;
+    terrainTileSet: string;
     terrainParams: ILoadTerrainParameters | IGenTerrainParameters;
     entities: IEntityData[];
 }
@@ -47,6 +48,7 @@ export class Level extends THREE.Object3D {
         if(this.data.terrainCreationMethod !== undefined) {
             console.log(`spawning terrain ${this.data.terrainCreationMethod}`);
             this.terrain = TerrainFactory[this.data.terrainCreationMethod](this.data.terrainParams);
+            this.terrain.tileSet = this.data.terrainTileSet;
             this.terrain.SpawnLevel();
             this.add(this.terrain);
         }

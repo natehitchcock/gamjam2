@@ -15,6 +15,7 @@ export default class Entity extends THREE.Object3D {
     parent: THREE.Object3D;
 
     components: IComponent[];
+    shared: {[key: string]: any};
     private eventMap: {[key: string]: Array<(data: any)=>void> };
 
     constructor(data: any, label?: string) {
@@ -24,6 +25,7 @@ export default class Entity extends THREE.Object3D {
         this.label = label || "";
 
         this.components = [];
+        this.shared = {};
         for(const prop in data) {
             if(prop) {
                 console.log(prop);

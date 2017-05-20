@@ -22,12 +22,12 @@ export default class Sprite implements IComponent {
 
         const textureLoader = new THREE.TextureLoader();
         textureLoader.load(data.image, (texture) => {
-            let scaleX = 50;
-            let scaleY = 50;
+            let scaleX = 32;
+            let scaleY = 32;
 
             if(data.scale) {
-                scaleX = data.scale.x || 50;
-                scaleY = data.scale.y || 50;
+                scaleX = data.scale.x || 32;
+                scaleY = data.scale.y || 32;
             }
 
             const material = new THREE.MeshBasicMaterial( {map: texture, transparent: true} );

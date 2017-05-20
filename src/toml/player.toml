@@ -3,7 +3,7 @@
     image='img/ship.png'
 
 [controller]
-    moveSpeed=60
+    moveSpeed=160
 
 [collider]
     blocks=true

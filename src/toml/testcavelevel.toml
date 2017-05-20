@@ -1,9 +1,15 @@
-terrainCreationMethod="GeneratePerfectMaze"
+terrainCreationMethod="GenerateCave"
+terrainTileSet="hub"
 
 [terrainParams]
-    width=50
-    height=50
-    terrainScale=3
+    width=100
+    height=100
+    terrainScale=2
+    chanceToFill=0.5
+    iterationCount=3
+    extentToScan=1
+    requiredToFill=6
+    requiredToOpen=4
 
 [[entities]]
     label="wep1"
