@@ -22,7 +22,7 @@ export default class Camera implements IComponent {
 
         const camWidth = window.innerWidth/2;
         const camHeight = window.innerHeight/2;
-        this.camera = new THREE.OrthographicCamera(-camWidth, camWidth, camHeight, -   camHeight, -500, 1000);
+        this.camera = new THREE.OrthographicCamera(-camWidth, camWidth, camHeight, -camHeight, -500, 1000);
         this.camera.position.z = 299;
         owner.add(this.camera);
     }

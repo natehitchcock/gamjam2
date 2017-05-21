@@ -18,25 +18,38 @@ export class Terrain extends THREE.Object3D {
     levelScale: number;
     tileSet: string;
 
+    getTileType(x: number, y: number): number {
+        // [WARN] does not handle being called on a tile outside the boundaries
+        const left = x-1;
+        const right = x+1;
+        const up = y+1;
+        const down = y-1;
+        let result = 0;
+
+        if(up >= this.levelArray[x].length || this.levelArray[x][up] === 1) result |= 1 << 1;
+        if(right >= this.levelArray.length || this.levelArray[right][y] === 1) result |= 1 << 2;
+        if(down < 0 || this.levelArray[x][down] === 1) result |= 1 << 3;
+        if(left < 0 || this.levelArray[left][y] === 1) result |= 1 << 4;
+
+        if(this.levelArray[x][y] === 1) result |= 1;
+
+        return result;
+    }
+
     SpawnLevel() {
         const textureLoader = new THREE.TextureLoader();
         for(let x = 0; x < this.levelArray.length; ++x) {
             for(let y = 0; y < this.levelArray[x].length; ++y) {
                 if(this.tileSet) {
-                    let img = "0.png";
-                    let zorder = 0;
-                    if(this.levelArray[x][y] === 1) {
-                        img = "1.png";
-                        zorder = 1;
-                    } else {
-                        img = "0.png";
-                        zorder = 0;
-                    }
+                    const tileType = this.getTileType(x, y);
+                    const img = tileType + ".png";
+                    const zorder = (tileType & 1);
 
                     textureLoader.load(`/img/tilesets/${this.tileSet}/${img}`, (texture) => {
+                            texture.magFilter = THREE.NearestFilter;
                             const material = new THREE.MeshBasicMaterial({
                                 map: texture,
-                                transparent: true,
+                                alphaTest: 0.1,
                             });
                             const testCube = new THREE.Mesh(
                                 new THREE.CubeGeometry(

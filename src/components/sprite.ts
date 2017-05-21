@@ -30,7 +30,8 @@ export default class Sprite implements IComponent {
                 scaleY = data.scale.y || 32;
             }
 
-            const material = new THREE.MeshBasicMaterial( {map: texture, transparent: true} );
+            texture.magFilter = THREE.NearestFilter;
+            const material = new THREE.MeshBasicMaterial( {map: texture, alphaTest: 0.1} );
             this.mesh = new THREE.Mesh(new THREE.CubeGeometry(scaleX, scaleY, 50), material);
             this.mesh.position.z = data.zOrder || 0;
             owner.add(this.mesh);

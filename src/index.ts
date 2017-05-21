@@ -47,7 +47,7 @@ var plane = new THREE.Mesh(planeGeometry, material);
 sceneHUD.add(plane);
 /////////////////*/
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
+const renderer = new THREE.WebGLRenderer({ antialias: false });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
@@ -67,10 +67,9 @@ const render = () => {
     requestAnimationFrame(render);
     const delta = clock.getDelta();
     levelManager.update(delta);
-    
-    renderer.render(scene, levelManager.currentLevel.currentCamera
-    );  
-    
+
+    renderer.render(scene, levelManager.currentLevel.currentCamera);
+
   //  renderer.render(sceneHUD, cameraHUD);
 
 
