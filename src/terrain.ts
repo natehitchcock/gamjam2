@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import * as fs from 'fs';
 
 interface ICaveParams {
     width: number;
@@ -66,19 +67,22 @@ export class Terrain extends THREE.Object3D {
 
                             this.add(testCube);
                         });
-                } //else {
-                if(this.levelArray[x][y] === 1) {
-                    const material = new THREE.MeshBasicMaterial( {color: 0xFa00a3} );
-                    const testCube = new THREE.Mesh(
-                        new THREE.CubeGeometry(5*this.levelScale, 5*this.levelScale, 10), material);
-                    testCube.position.copy(
-                        new THREE.Vector3(
-                            (tileSize.x*x*this.levelScale) + (tileSize.x/2) * this.levelScale,
-                            (tileSize.x*y*this.levelScale) + (tileSize.x/2) * this.levelScale,
-                            2));
-                    this.add(testCube);
+                } else { // debug square rendering
+                    if(this.levelArray[x][y] === 1) {
+                        const material = new THREE.MeshBasicMaterial( {color: 0xFa00a3} );
+                        const testCube = new THREE.Mesh(
+                            new THREE.CubeGeometry(tileSize.x*this.levelScale,
+                                                   tileSize.y*this.levelScale,
+                                                   10),
+                                                   material);
+                        testCube.position.copy(
+                            new THREE.Vector3(
+                                (tileSize.x*x*this.levelScale) + (tileSize.x/2) * this.levelScale,
+                                (tileSize.x*y*this.levelScale) + (tileSize.x/2) * this.levelScale,
+                                2));
+                        this.add(testCube);
+                    }
                 }
-                //}
             }
         }
     }
@@ -102,7 +106,7 @@ export class Terrain extends THREE.Object3D {
                     let tVal = 1;
                     let wasXCollision = false;
                     let message = "";
-                    let normal: any = {};
+                    const normal: any = {};
 
                     // left side test
                     if((start.x + radius) - x <= 0
@@ -166,13 +170,17 @@ export class Terrain extends THREE.Object3D {
     }
 }
 
+interface ILoadFromFileParams {
+    filename: string;
+}
+
 export class TerrainFactory {
-    static LoadFromFile(params: any): Terrain {
+
+    static LoadFromFile(params: ILoadFromFileParams): Terrain {
         const textureLoader = new THREE.TextureLoader();
-        textureLoader.load(params.filename, (texture) => {
-            console.log('texture');
-            console.log(texture);
-        });
+        const fileData = fs.readFileSync(params.filename);
+
+        // parse the bmp bleeeeh
 
         return new Terrain();
     }
