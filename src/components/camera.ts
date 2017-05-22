@@ -26,6 +26,10 @@ export default class Camera implements IComponent {
         this.camera.position.z = 299;
         owner.add(this.camera);
     }
+    destroy(){
+        
+    }
+    
 
     update(dt: number) {
         return;

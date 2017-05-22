@@ -22,6 +22,9 @@ export default class Controller implements IComponent, IController {
         this.data = data;
         this.owner = owner;
     }
+    destroy(){
+        
+    }
 
     GetDesiredMove(): THREE.Vector2 {
         const inputVec = new THREE.Vector2();

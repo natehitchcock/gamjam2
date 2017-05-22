@@ -38,10 +38,13 @@ export class Level extends THREE.Object3D {
 
     currentCamera: THREE.Camera;
 
+    private removeList: Entity[];
+
     constructor(data: ILevelData) {
         super();
         this.data = data;
         this.entities = [];
+        this.removeList = [];
     }
 
     spawnEntities() {
@@ -80,20 +83,30 @@ export class Level extends THREE.Object3D {
     }
 
     removeEntity(ent: Entity) {
-        this.remove(ent);
-        this.entities.splice(this.entities.indexOf(ent), 1);
+        this.removeList.push(ent);
     }
 
     update(dt: number) {
         this.entities.forEach(ent => {
             ent.update(dt);
         });
+
+        this.removeList.forEach(ent => this.internal_removeEntity(ent));
+        this.removeList = [];
     }
 
     getActiveCamera(): THREE.Camera {
         const camEnt = this.getEntityByLabel("activeCam");
         const camComp = camEnt.components.find(comp => comp instanceof Camera) as Camera;
         return camComp.camera;
+    }
+
+    private internal_removeEntity(ent: Entity) {
+        console.log('removing entity');
+        this.remove(ent);
+        ent.destroy();
+        delete this.entities[this.entities.indexOf(ent)];
+        console.log('removing complete');
     }
 }
 

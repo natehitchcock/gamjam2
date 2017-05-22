@@ -1,6 +1,5 @@
 [sprite]
     image='img/gun.png'
 
-
 [weapon]
     fireRate = 0.5

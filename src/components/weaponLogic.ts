@@ -9,30 +9,32 @@ interface IWeaponData {
   fireRate: number;
 }
 
-export default class WeaponLogic implements IComponent{
+export default class WeaponLogic implements IComponent {
     data: IWeaponData;
     fireRate: number;
     bulletSpeed: number;
-    realTime: number; 
+    realTime: number;
     owner: Entity;
     bulletsFired: Entity[];
     position: any;
 
     constructor(data: IWeaponData, owner: Entity) {
-        this.data = data; 
+        this.data = data;
         this.bulletsFired = [];
         this.fireRate = 0;
         this.owner = owner;
+    }
+    destroy(){
+        
     }
     spawn(dt: number) {
         this.fireRate += dt;
         if((mouse.left || keys[' ']) && this.fireRate > 0.5) {
             // spawning bullet
-            const bullet = require('../toml/bullet.toml'); 
+            const bullet = require('../toml/bullet.toml');
             const firedBullet = new Entity(bullet);
             firedBullet.sharedData.mousePositions = new THREE.Vector3(mouse.xp, mouse.yp).normalize();
-            //firedBullet.sharedData.directions = mousePositions;
-            
+            firedBullet.sharedData.sender = this.owner;
 
             // setting position
             const newPosition = new THREE.Vector3();

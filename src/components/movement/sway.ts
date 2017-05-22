@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import Entity from '../entity';
-import {IComponent} from './component';
+import Entity from '../../entity';
+import {IComponent} from '../component';
 
 interface ISwayData {
     horizMagnitude: number;
@@ -21,6 +21,10 @@ export default class Sway implements IComponent {
         this.data = data;
         this.owner = owner;
         this.currentTime = 0;
+    }
+
+    destroy(){
+        
     }
 
     update(dt: number) {

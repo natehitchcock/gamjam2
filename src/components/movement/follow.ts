@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import Entity from '../entity';
-import {IComponent} from './component';
-import {levelManager} from '../level';
+import Entity from '../../entity';
+import {IComponent} from '../component';
+import {levelManager} from '../../level';
 
 interface IFollowData {
     targetLabel: string;
@@ -24,6 +24,10 @@ export default class Follow implements IComponent {
         this.target = levelManager.currentLevel.getEntityByLabel(data.targetLabel);
     }
 
+    destroy(){
+        
+    }
+
     update(dt: number) {
         const ownerPos = new THREE.Vector3(this.data.xoff || 0, this.data.yoff || 0, 0)
         .add(this.owner.position);
@@ -32,7 +36,7 @@ export default class Follow implements IComponent {
         movement.sub(ownerPos);
         movement.z = 0;
         const dist = movement.length();
-
+        
         if(dist > (this.data.maxRadius || 1)) {
             if(this.data.interp === "linear" || this.data.interp === undefined ) {
                 movement.normalize();

@@ -16,6 +16,9 @@ export default class ButtonTransition implements IComponent {
     constructor(data: IButtonTransitionData, owner: Entity) {
         this.data = data;
     }
+    destroy(){
+        
+    }
 
     update(dt: number) {
         if(keys[this.data.button]) {

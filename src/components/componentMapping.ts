@@ -1,14 +1,16 @@
 import Sprite from './sprite';
 import Controller from './controller';
 import Collider from './collider';
-import Sway from './sway';
+import Sway from './movement/sway';
 import ButtonTransition from './buttonTransition';
 import Inventory from './inventory';
 import Camera from './camera';
-import Follow from './follow';
+import Follow from './movement/follow';
 import WeaponLogic from './weaponLogic';
 import BulletLogic from "./bulletLogic";
+import Stats from './stats';
 import Hud from './hud';
+
 import Entity from '../entity';
 
 export default {
@@ -22,5 +24,6 @@ export default {
     follow: (data: any, owner: Entity) => new Follow(data,owner),
     weapon: (data: any, owner: Entity) => new WeaponLogic(data, owner),
     bullet: (data: any, owner: Entity) => new BulletLogic(data, owner),
+    stats: (data: any, owner: Entity) => new Stats(data, owner),
     hud: (data: any, owner: Entity) => new Hud (data, owner),
 };

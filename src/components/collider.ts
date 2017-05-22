@@ -14,16 +14,24 @@ export default class Collider implements IComponent {
     data: IColliderData;
     owner: Entity;
     lastPosition: THREE.Vector3;
+    deleted: boolean;
 
     constructor(data: IColliderData, owner: Entity) {
         this.data = data;
+        this.deleted = false;
         this.owner = owner;
         this.lastPosition = new THREE.Vector3().copy(owner.position);
         allColliders.push(this);
+        console.log('bullet spawned');
+    }
+    destroy() {
+        console.log('destroyed bullet');
+        this.deleted = true;
+        delete allColliders[allColliders.indexOf(this)];
     }
 
     HandleCollision(other: Collider) {
-        this.owner.sendEvent('collided', other);
+        this.owner.sendEvent('collided', other.owner);
     }
 
     IsCollidingWith(other: Collider) {
@@ -33,21 +41,26 @@ export default class Collider implements IComponent {
         const overlap = deltaPos.length() - (this.data.radius + other.data.radius);
         if( overlap < 0 ) {
             return {isColliding: true, overlap: -overlap};
-    }
+        }
         return {isColliding: false, overlap: 0};
     }
 
     update(dt: number) {
         const entity = this;
+        if(this.deleted) return;
 
         // Entity to entity collision
         allColliders.forEach(other => {
-            if(other === entity) {
+            if(other === entity
+            || other === undefined
+            || other.deleted) {
+                if(other.deleted) console.log('deleted');
                 return;
             }
 
             const collisionData = entity.IsCollidingWith(other);
             if(collisionData.isColliding === true) {
+                console.log('collided');
                 entity.HandleCollision(other);
                 other.HandleCollision(entity);
 

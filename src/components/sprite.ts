@@ -37,6 +37,9 @@ export default class Sprite implements IComponent {
             owner.add(this.mesh);
         });
     }
+    destroy(){
+        
+    }
 
     update(dt: number) {
         return;

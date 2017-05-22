@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import * as fs from 'fs';
+//import * as fs from 'fs';
 
 interface ICaveParams {
     width: number;
@@ -149,14 +149,14 @@ export class Terrain extends THREE.Object3D {
                         if(wasXCollision) {
                             if(collisionY <= y + 1
                             && collisionY >= y) {
-                                console.log(message);
+                                //console.log(message);
                                 finalTVal = tVal;
                                 finalNormal = normal;
                             }
                         } else {
                             if(collisionX <= x + 1
                             && collisionX >= x) {
-                                console.log(message);
+                                //console.log(message);
                                 finalTVal = tVal;
                                 finalNormal = normal;
                             }
@@ -178,7 +178,7 @@ export class TerrainFactory {
 
     static LoadFromFile(params: ILoadFromFileParams): Terrain {
         const textureLoader = new THREE.TextureLoader();
-        const fileData = fs.readFileSync(params.filename);
+        //const fileData = fs.readFileSync(params.filename);
 
         // parse the bmp bleeeeh
 

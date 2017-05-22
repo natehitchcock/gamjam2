@@ -37,6 +37,9 @@ export default class Inventory implements IComponent {
             this.itemRefs.push(itemRef);
         });
     }
+    destroy() {
+        this.itemRefs.forEach(entity => entity.destroy());
+    }
 
     update(dt: number) {
         this.itemRefs.forEach((item)  =>  {

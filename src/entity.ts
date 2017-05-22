@@ -31,9 +31,13 @@ export default class Entity extends THREE.Object3D {
             if(prop && ComponentMapping[prop]) {
                 console.log(prop);
                 const comp = ComponentMapping[prop](data[prop], this);
+                comp.type = prop;
                 this.components.push(comp);
             }
         }
+    }
+    destroy() {
+        this.components.forEach(comp => comp.destroy());
     }
 
     addEventListener(key: string, func: (data: any) => void) {
