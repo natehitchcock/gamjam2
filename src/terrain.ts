@@ -188,6 +188,7 @@ export class TerrainFactory {
     static GenerateBoxLevel(params: any): Terrain {
         const level = new Terrain();
         level.levelArray = [];
+        level.levelScale = params.terrainScale || 1;
         for(let x = 0; x < params.width; ++x) {
             level.levelArray.push([]);
             for(let y = 0; y < params.height; ++y) {

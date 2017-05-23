@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {keys, mouse} from '../lib/input';
+import {keyboard, mouse} from '../lib/input';
 
 import Entity from '../entity';
 import {IComponent} from './component';
@@ -29,10 +29,10 @@ export default class Controller implements IComponent, IController {
     GetDesiredMove(): THREE.Vector2 {
         const inputVec = new THREE.Vector2();
 
-        if(keys.w) inputVec.y += 1;
-        if(keys.s) inputVec.y -= 1;
-        if(keys.a) inputVec.x -= 1;
-        if(keys.d) inputVec.x += 1;
+        if(keyboard.rawKeys.w) inputVec.y += 1;
+        if(keyboard.rawKeys.s) inputVec.y -= 1;
+        if(keyboard.rawKeys.a) inputVec.x -= 1;
+        if(keyboard.rawKeys.d) inputVec.x += 1;
 
         return inputVec;
     }
@@ -50,10 +50,6 @@ export default class Controller implements IComponent, IController {
 
         const nextPos = new THREE.Vector2().copy(desiredMove);
         nextPos.multiplyScalar(this.data.moveSpeed * dt);
-
-        if(this.owner.sharedData.nextMove) {
-            this.owner.position.add(this.owner.sharedData.nextMove);
-        }
 
         this.owner.sharedData.nextMove = new THREE.Vector3(nextPos.x, nextPos.y, 0);
     }

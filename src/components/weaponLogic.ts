@@ -1,8 +1,7 @@
 import { IComponent } from "./component";
 import Entity from "../entity";
-import { mouse, keys } from "../lib/input";
+import { mouse, keyboard } from "../lib/input";
 import * as THREE from "three";
-import Bullet from "../bullet";
 import { levelManager, Level } from "../level";
 
 interface IWeaponData {
@@ -27,14 +26,15 @@ export default class WeaponLogic implements IComponent {
     destroy(){
         
     }
+
     spawn(dt: number) {
         this.fireRate += dt;
-        if((mouse.left || keys[' ']) && this.fireRate > 0.5) {
+        if((mouse.mouse.left || keyboard.rawKeys['space']) && this.fireRate > 0.5) {
             // spawning bullet
             const bullet = require('../toml/bullet.toml');
             const firedBullet = new Entity(bullet);
-            firedBullet.sharedData.mousePositions = new THREE.Vector3(mouse.xp, mouse.yp).normalize();
-            firedBullet.sharedData.sender = this.owner;
+            firedBullet.sharedData.mousePositions = new THREE.Vector3(mouse.mouse.xp, mouse.mouse.yp).normalize();
+            firedBullet.sharedData.sender = this.owner.parent;
 
             // setting position
             const newPosition = new THREE.Vector3();

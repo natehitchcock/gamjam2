@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import Entity from '../entity';
 import {IComponent} from './component';
 import {levelManager} from '../level';
-import {keys} from '../lib/input';
+import {keyboard} from '../lib/input';
 
 interface IButtonTransitionData {
     button: string;
@@ -21,7 +21,7 @@ export default class ButtonTransition implements IComponent {
     }
 
     update(dt: number) {
-        if(keys[this.data.button]) {
+        if(keyboard.rawKeys[this.data.button]) {
             levelManager.loadLevel(this.data.targetLevel);
         }
     }

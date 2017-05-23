@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import {IComponent} from './components/component';
 import ComponentMapping from './components/componentMapping';
-import {PlayerController, IController} from './playercontroller';
 
 interface ICollisionData {
     blocks: boolean;

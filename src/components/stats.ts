@@ -23,7 +23,7 @@ export default class Stats implements IComponent {
             }
         });
 
-        this.owner.addEventListener('damaged', damage => {data.health -= damage; console.log(data.health);});
+    this.owner.addEventListener('damaged', damage => {data.health -= damage; console.log(data.health);});
     }
     destroy(){
         

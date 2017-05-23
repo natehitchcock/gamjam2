@@ -1,9 +1,10 @@
-terrainCreationMethod="GeneratePerfectMaze"
+terrainCreationMethod="GenerateBoxLevel"
+terrainTileSet="hub"
 
 [terrainParams]
-    width=50
-    height=50
-    terrainScale=3
+    width=10
+    height=10
+    terrainScale=2
 
 [[entities]]
     label="wep1"

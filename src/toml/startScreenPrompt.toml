@@ -14,5 +14,5 @@
     vertTimeOffset=2
 
 [buttonTransition]
-    button=' '
-    targetLevel='testcavelevel'
+    button='space'
+    targetLevel='testlevel'

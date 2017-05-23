@@ -3,7 +3,6 @@ import Sprite from './sprite';
 import { IComponent } from "./component";
 import Entity from "../entity";
 import * as THREE from "three";
-import Weapon from "../weapon";
 import { mouse } from "../lib/input";
 import weaponLogic from './weaponLogic';
 import {levelManager} from '../level';
@@ -29,12 +28,18 @@ export default class BulletLogic implements IComponent {
 
         console.log('bullet created');
 
-        this.owner.addEventListener('collided', (other: Entity)=> {
+        function resolveBulletCollision(other: any) {
             if(other !== this.owner.sharedData.sender) {
-                console.log('bullet collided');
+                const ent = (other as Entity);
+                if( ent.components && ent.components.find(comp => comp.type === 'bullet')) {
+                    return;
+                }
+
                 levelManager.currentLevel.removeEntity(this.owner);
             }
-        });
+        }
+
+        this.owner.addEventListener('collided', resolveBulletCollision.bind(this));
     }
     destroy(){
         
@@ -47,7 +52,8 @@ export default class BulletLogic implements IComponent {
     movement(dt: number) {
         const bulletSpeed = (this.data.speed);
         // making it move
-        const bulletPosition = this.owner.position;
+        this.owner.sharedData.nextMove = new THREE.Vector3(0, 0, 0);
+        const bulletPosition = this.owner.sharedData.nextMove;
         const bulletDirection = new THREE.Vector3().copy(this.owner.sharedData.mousePositions);
         (bulletDirection).multiplyScalar(bulletSpeed);
         bulletPosition.y -= bulletDirection.y;

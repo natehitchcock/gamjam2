@@ -15,12 +15,14 @@ export default class Collider implements IComponent {
     owner: Entity;
     lastPosition: THREE.Vector3;
     deleted: boolean;
+    collided: Collider[];
 
     constructor(data: IColliderData, owner: Entity) {
         this.data = data;
         this.deleted = false;
         this.owner = owner;
         this.lastPosition = new THREE.Vector3().copy(owner.position);
+        this.collided = [];
         allColliders.push(this);
         console.log('bullet spawned');
     }
@@ -31,6 +33,7 @@ export default class Collider implements IComponent {
     }
 
     HandleCollision(other: Collider) {
+        this.collided.push(other);
         this.owner.sendEvent('collided', other.owner);
     }
 
@@ -46,27 +49,26 @@ export default class Collider implements IComponent {
     }
 
     update(dt: number) {
-        const entity = this;
         if(this.deleted) return;
 
         // Entity to entity collision
         allColliders.forEach(other => {
-            if(other === entity
+            if(other === this
             || other === undefined
-            || other.deleted) {
+            || other.deleted
+            || this.collided.find(col => col === other)) {
                 if(other.deleted) console.log('deleted');
                 return;
             }
 
-            const collisionData = entity.IsCollidingWith(other);
+            const collisionData = this.IsCollidingWith(other);
             if(collisionData.isColliding === true) {
-                console.log('collided');
-                entity.HandleCollision(other);
-                other.HandleCollision(entity);
+                this.HandleCollision(other);
+                other.HandleCollision(this);
 
-                if(entity.data.blocks && other.data.blocks) {
-                    const sumRadius = entity.data.radius + other.data.radius;
-                    const deltaVec = new THREE.Vector3().copy(entity.owner.position).sub(other.owner.position);
+                if(this.data.blocks && other.data.blocks) {
+                    const sumRadius = this.data.radius + other.data.radius;
+                    const deltaVec = new THREE.Vector3().copy(this.owner.position).sub(other.owner.position);
                     const entityResolve = new THREE.Vector3()
                         .copy(deltaVec)
                         .normalize()
@@ -75,11 +77,11 @@ export default class Collider implements IComponent {
                         .copy(deltaVec)
                         .normalize()
                         .multiplyScalar(-collisionData.overlap/2);
-                    entity.owner.position.copy(entityResolve.add(entity.owner.position));
+                    this.owner.position.copy(entityResolve.add(this.owner.position));
                     other.owner.position.copy(otherResolve.add(other.owner.position));
                 }
             }
-        });
+        }, this);
 
         if(this.owner.sharedData.nextMove) {
             const nextLocation = new THREE.Vector3().copy(this.owner.position).add(this.owner.sharedData.nextMove);
@@ -88,12 +90,18 @@ export default class Collider implements IComponent {
 
             if(collisionData.tVal < 1) {
                 console.log('tink');
+                this.owner.sendEvent('collided', levelManager.currentLevel.terrain);
                 const deltaPos = new THREE.Vector3().copy(this.owner.sharedData.nextMove);
                 deltaPos.multiplyScalar(collisionData.tVal);
                 this.owner.position.add(deltaPos);
                 this.owner.sharedData.nextMove = new THREE.Vector3();
             }
+
+            this.owner.position.add(this.owner.sharedData.nextMove);
             this.lastPosition.copy(this.owner.position);
         }
+
+        // Clear list of already collided colliders
+        this.collided = [];
     }
 }
