@@ -35,6 +35,11 @@ export default class Entity extends THREE.Object3D {
             }
         }
     }
+
+    initialize() {
+        this.components.forEach(comp => comp.initialize());
+    }
+
     destroy() {
         this.components.forEach(comp => comp.destroy());
     }
@@ -45,9 +50,16 @@ export default class Entity extends THREE.Object3D {
         this.eventMap[key].push(func);
     }
 
-    sendEvent(key: string, data?: any) {
+    sendEvent(key: string, data?: any, sendToChildren?: boolean) {
         if(this.eventMap[key]) {
             this.eventMap[key].forEach(func => func(data));
+        }
+
+        if(sendToChildren) {
+            this.children.forEach(child => {
+                const chilEnt = (child as Entity);
+                if(chilEnt.sendEvent) chilEnt.sendEvent(key, data, sendToChildren);
+            });
         }
     }
 

@@ -21,8 +21,11 @@ export default class Inventory implements IComponent {
 
     constructor(data: IInventoryData, owner: Entity) {
         this.data = data;
+        this.owner = owner;
         this.itemRefs = [];
+    }
 
+    initialize() {
         this.data.items.forEach(item => {
             if(!item.label || item.label.length < 1) {
                 console.log('no label on item in inventory creation');
@@ -30,13 +33,14 @@ export default class Inventory implements IComponent {
             }
             const itemRef = levelManager.currentLevel.getEntityByLabel(item.label);
             levelManager.currentLevel.removeEntity(itemRef);
-            owner.add(itemRef);
-            itemRef.parent=owner;
+            this.owner.add(itemRef);
+            itemRef.parent=this.owner;
             itemRef.position.x = item.x || 0;
             itemRef.position.y = item.y || 0;
             this.itemRefs.push(itemRef);
         });
     }
+
     destroy() {
         this.itemRefs.forEach(entity => entity.destroy());
     }

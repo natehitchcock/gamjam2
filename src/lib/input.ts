@@ -1,10 +1,10 @@
 import * as inputDevices from './inputDevices';
 import {IGamepadSettings} from './inputDevices/gamepad';
 
-const inputActions: {[action: string]: Array<(value: number)=>void>} = {};
+const inputActions: {[action: string]: Array<{obj: any, handler: (value: number)=>void}>} = {};
 const fireActions = (action: string, value: number) => {
     if(inputActions[action]) {
-        inputActions[action].forEach(fn => fn(value));
+        inputActions[action].forEach(pair => pair.handler.call(pair.obj, value));
     }
 };
 
@@ -43,9 +43,9 @@ function setupInputMappings(inputActionMap: IInputActionMap) {
 const inputmapping = require('../toml/systems/input.toml');
 setupInputMappings(inputmapping);
 
-export function on(actionName: string, handler: (value: number)=>void) {
+export function on(actionName: string, handler: (value: number)=>void, obj?: any) {
     if(inputActions[actionName] === undefined) inputActions[actionName] = [];
-    return inputActions[actionName].push(handler);
+    return inputActions[actionName].push({obj, handler});
 }
 
 export function off(actionName: string, handlerId: number) {

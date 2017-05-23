@@ -66,6 +66,10 @@ export class Level extends THREE.Object3D {
             this.entities.push(entity);
         });
 
+        this.entities.forEach(ent => {
+            ent.initialize();
+        });
+
         this.currentCamera = this.getActiveCamera();
     }
 

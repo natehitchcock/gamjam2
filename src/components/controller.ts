@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {keyboard, mouse} from '../lib/input';
+import * as InputManager from '../lib/input';
 
 import Entity from '../entity';
 import {IComponent} from './component';
@@ -14,34 +14,43 @@ interface IController {
     GetWeaponFire: ()=> THREE.Vector2;
 }
 
-export default class Controller implements IComponent, IController {
+export default class Controller implements IComponent {
     data: IControllerData;
     owner: Entity;
+    move: THREE.Vector2;
+    look: THREE.Vector2;
 
     constructor(data: IControllerData, owner: Entity) {
         this.data = data;
         this.owner = owner;
+        this.move = new THREE.Vector2();
+        this.look = new THREE.Vector2();
+
+        InputManager.on('forward', value => this.move.y += value, this);
+        InputManager.on('right', value => this.move.x += value, this);
+        InputManager.on('lookforward', value => this.look.y += value, this);
+        InputManager.on('lookright', value => this.look.x += value, this);
+        InputManager.on('fire', value => this.owner.sendEvent('fire', undefined, true), this);
     }
-    destroy(){
-        
+
+    initialize() {
+        return;
+    }
+
+    destroy() {
+        return;
     }
 
     GetDesiredMove(): THREE.Vector2 {
-        const inputVec = new THREE.Vector2();
-
-        if(keyboard.rawKeys.w) inputVec.y += 1;
-        if(keyboard.rawKeys.s) inputVec.y -= 1;
-        if(keyboard.rawKeys.a) inputVec.x -= 1;
-        if(keyboard.rawKeys.d) inputVec.x += 1;
-
+        const inputVec = this.move.clone();
+        this.move = new THREE.Vector2();
         return inputVec;
     }
 
     GetDesiredLook(): THREE.Vector2 {
-        return this.GetDesiredMove();
-    }
-    GetWeaponFire(): THREE.Vector2 {
-        return this.GetDesiredMove();
+        const inputVec = this.look.clone();
+        this.look = new THREE.Vector2();
+        return inputVec;
     }
 
     update(dt: number) {
@@ -51,6 +60,7 @@ export default class Controller implements IComponent, IController {
         const nextPos = new THREE.Vector2().copy(desiredMove);
         nextPos.multiplyScalar(this.data.moveSpeed * dt);
 
+        this.owner.sharedData.look = desiredLook;
         this.owner.sharedData.nextMove = new THREE.Vector3(nextPos.x, nextPos.y, 0);
     }
 }

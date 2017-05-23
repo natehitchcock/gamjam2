@@ -23,8 +23,12 @@ export default class Sway implements IComponent {
         this.currentTime = 0;
     }
 
-    destroy(){
-        
+    initialize() {
+        return;
+    }
+
+    destroy() {
+        return;
     }
 
     update(dt: number) {

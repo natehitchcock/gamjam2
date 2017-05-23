@@ -14,6 +14,7 @@ export default class WeaponLogic implements IComponent {
     bulletSpeed: number;
     realTime: number;
     owner: Entity;
+    bulletToml: any;
     bulletsFired: Entity[];
     position: any;
 
@@ -22,19 +23,26 @@ export default class WeaponLogic implements IComponent {
         this.bulletsFired = [];
         this.fireRate = 0;
         this.owner = owner;
-    }
-    destroy(){
-        
+        this.bulletToml = require('../toml/bullet.toml');
     }
 
-    spawn(dt: number) {
-        this.fireRate += dt;
-        if((mouse.mouse.left || keyboard.rawKeys['space']) && this.fireRate > 0.5) {
+    initialize() {
+        this.owner.addEventListener('fire', this.tryFire.bind(this));
+    }
+
+    destroy() {
+        return;
+    }
+
+    tryFire() {
+        console.log('woop');
+        if(this.fireRate > 0.5) {
+            console.log('spawn');
             // spawning bullet
-            const bullet = require('../toml/bullet.toml');
-            const firedBullet = new Entity(bullet);
+            const firedBullet = new Entity(this.bulletToml);
             firedBullet.sharedData.mousePositions = new THREE.Vector3(mouse.mouse.xp, mouse.mouse.yp).normalize();
             firedBullet.sharedData.sender = this.owner.parent;
+            console.log('spawn ' + JSON.stringify(this.bulletToml));
 
             // setting position
             const newPosition = new THREE.Vector3();
@@ -48,9 +56,6 @@ export default class WeaponLogic implements IComponent {
         }
     }
     update(dt) {
-        this.spawn(dt);
-        this.bulletsFired.forEach((bulletsFired) => {
-                bulletsFired.update(dt);
-            });
-        }
+        this.fireRate += dt;
+    }
 }

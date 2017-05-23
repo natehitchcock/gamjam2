@@ -25,7 +25,7 @@
 
 [[actions.right]]
     gamepad="axis0"
-    amount=-1
+    amount=1
 
 # up-axis movement
 [[actions.up]]
@@ -36,7 +36,37 @@
     key="c"
     amount=-1
 
+# forward-axis look
+[[actions.lookforward]]
+    key="up"
+    amount=1
+
+[[actions.lookforward]]
+    key="down"
+    amount=-1
+
+[[actions.lookforward]]
+    gamepad="axis3"
+    amount=-1
+
+# right-axis movement
+[[actions.lookright]]
+    key="right"
+    amount=1
+
+[[actions.lookright]]
+    key="left"
+    amount=-1
+
+[[actions.lookright]]
+    gamepad="axis2"
+    amount=1
+
 # attack action
-[[actions.attack]]
-    key=" "
+[[actions.fire]]
+    key="space"
+    amount=1
+
+[[actions.fire]]
+    gamepad=5
     amount=1

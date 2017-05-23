@@ -38,8 +38,13 @@ var planeGeometry = new THREE.PlaneGeometry( innerWidth, innerHeight);
 var plane = new THREE.Mesh( planeGeometry, material );
 sceneHUD.add( plane );
         }
-   destroy(){
-        
+
+    initialize() {
+        return;
+    }
+
+   destroy() {
+        return;
     }
    update(dt: number) {
         return;

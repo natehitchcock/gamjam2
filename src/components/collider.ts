@@ -26,6 +26,11 @@ export default class Collider implements IComponent {
         allColliders.push(this);
         console.log('bullet spawned');
     }
+
+    initialize() {
+        return;
+    }
+
     destroy() {
         console.log('destroyed bullet');
         this.deleted = true;

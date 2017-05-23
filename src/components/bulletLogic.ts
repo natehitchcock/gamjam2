@@ -41,8 +41,13 @@ export default class BulletLogic implements IComponent {
 
         this.owner.addEventListener('collided', resolveBulletCollision.bind(this));
     }
-    destroy(){
-        
+
+    initialize() {
+        return;
+    }
+
+    destroy() {
+        return;
     }
 
     disappear(dt: number) {

@@ -24,8 +24,12 @@ export default class Follow implements IComponent {
         this.target = levelManager.currentLevel.getEntityByLabel(data.targetLabel);
     }
 
-    destroy(){
-        
+    initialize() {
+        return;
+    }
+
+    destroy() {
+        return;
     }
 
     update(dt: number) {
@@ -36,7 +40,7 @@ export default class Follow implements IComponent {
         movement.sub(ownerPos);
         movement.z = 0;
         const dist = movement.length();
-        
+
         if(dist > (this.data.maxRadius || 1)) {
             if(this.data.interp === "linear" || this.data.interp === undefined ) {
                 movement.normalize();
