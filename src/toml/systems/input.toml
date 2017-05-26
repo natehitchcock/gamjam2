@@ -47,7 +47,7 @@
 
 [[actions.lookforward]]
     gamepad="axis3"
-    amount=-1
+    amount=1
 
 # right-axis movement
 [[actions.lookright]]
