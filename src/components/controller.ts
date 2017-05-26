@@ -30,7 +30,7 @@ export default class Controller implements IComponent {
         InputManager.on('right', value => this.move.x += value, this);
         InputManager.on('lookforward', value => this.look.y += value, this);
         InputManager.on('lookright', value => this.look.x += value, this);
-        InputManager.on('fire', value => this.owner.sendEvent('fire', undefined, true), this);
+        InputManager.on('fire', value => this.owner.sendEvent('fire', this.owner.sharedData.look, true), this);
     }
 
     initialize() {

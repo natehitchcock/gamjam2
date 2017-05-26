@@ -34,13 +34,15 @@ export default class WeaponLogic implements IComponent {
         return;
     }
 
-    tryFire() {
+    tryFire(dir: THREE.Vector2) {
         console.log('woop');
         if(this.fireRate > 0.5) {
             console.log('spawn');
             // spawning bullet
             const firedBullet = new Entity(this.bulletToml);
-            firedBullet.sharedData.mousePositions = new THREE.Vector3(mouse.mouse.xp, mouse.mouse.yp).normalize();
+            firedBullet.sharedData.mousePositions = (dir !== undefined ?
+                                                     dir :
+                                                     new THREE.Vector2(mouse.mouse.xp, mouse.mouse.yp).normalize());
             firedBullet.sharedData.sender = this.owner.parent;
             console.log('spawn ' + JSON.stringify(this.bulletToml));
 

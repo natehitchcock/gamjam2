@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import { levelManager } from './level';
 import './interface.tsx';
 import { IHudWindow } from "./interface";
+import EffectComposer from './lib/postprocessing/EffectComposer';
+import RenderPass from './lib/postprocessing/RenderPass';
 
 interface IGameWindow extends Window {
     scene: THREE.Scene;
@@ -56,15 +58,18 @@ levelManager.addLevel('testcavelevel', testcavelevelData);
 
 levelManager.loadLevel('startlevel');
 
+const effectComposer = new EffectComposer(renderer);
+
+const renderPass = new RenderPass(scene, levelManager.currentLevel.currentCamera);
+renderPass.renderToScreen = true;
+effectComposer.addPass(renderPass);
+
 const render = () => {
     requestAnimationFrame(render);
     const delta = clock.getDelta();
     levelManager.update(delta);
 
-    renderer.render(scene, levelManager.currentLevel.currentCamera);
-
-  //  renderer.render(sceneHUD, cameraHUD);
-
-
+    renderPass.camera = levelManager.currentLevel.currentCamera;
+    effectComposer.render(delta);
 };
 render();
