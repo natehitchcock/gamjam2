@@ -10,6 +10,7 @@ import WeaponLogic from './weaponLogic';
 import BulletLogic from "./bulletLogic";
 import Stats from './stats';
 import Hud from './hud';
+import Spritelight from './spritelight';
 
 import Entity from '../entity';
 
@@ -26,4 +27,5 @@ export default {
     bullet: (data: any, owner: Entity) => new BulletLogic(data, owner),
     stats: (data: any, owner: Entity) => new Stats(data, owner),
     hud: (data: any, owner: Entity) => new Hud (data, owner),
+    spritelight: (data: any, owner: Entity) => new Spritelight (data, owner),
 };

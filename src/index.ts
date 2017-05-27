@@ -51,8 +51,8 @@ const clock = new THREE.Clock();
 levelManager.init(scene);
 const startlevelData = require('./toml/startlevel.toml');
 levelManager.addLevel('startlevel', startlevelData);
-const testlevelData = require('./toml/testlevel.toml');
-levelManager.addLevel('testlevel', testlevelData);
+const theRoomData = require('./toml/theRoom.toml');
+levelManager.addLevel('theRoom', theRoomData);
 const testcavelevelData = require('./toml/testcavelevel.toml');
 levelManager.addLevel('testcavelevel', testcavelevelData);
 

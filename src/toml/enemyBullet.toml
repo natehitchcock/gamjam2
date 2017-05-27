@@ -1,5 +1,6 @@
 [sprite]
-    image = 'img/bulletgreen.png'
+    image = 'img/bulletred.png'
+    scale = [8,8]
 
 [collider]
     blocks = false

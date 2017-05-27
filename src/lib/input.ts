@@ -9,6 +9,7 @@ const fireActions = (action: string, value: number) => {
 };
 
 interface IInputMapping {
+    mouse?: string|number;
     gamepad?: string;
     key?: string|number;
     amount: number;
@@ -26,7 +27,9 @@ function setupInputMappings(inputActionMap: IInputActionMap) {
     for(const action in inputActionMap.actions) {
         if(inputActionMap.actions[action]) {
             for(const mapping of inputActionMap.actions[action]) {
-                if(mapping.gamepad) {
+                if(mapping.mouse) {
+                    inputDevices.mouse.on(mapping.mouse, value =>fireActions(action, mapping.amount * value));
+                } else if(mapping.gamepad) {
                     const gp = inputDevices.gamepad;
                     gp.addTemplateHandler(mapping.gamepad, value => {fireActions(action, mapping.amount * value);});
                 } else if(mapping.key) {

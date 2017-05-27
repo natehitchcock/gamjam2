@@ -7,8 +7,14 @@ terrainTileSet="hub"
     terrainScale=2
 
 [[entities]]
+    tomlFile="world/gateway.toml"
+    [entities.position]
+        x=300
+        y=400
+
+[[entities]]
     label="wep1"
-    tomlFile="weapon.toml"
+    tomlFile="weapons/revolver.toml"
 
     [entities.position]
         x=0

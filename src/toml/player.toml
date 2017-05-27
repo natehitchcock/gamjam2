@@ -12,6 +12,6 @@
 [inventory]
     [[inventory.items]]
     label="wep1"
-    x=32
-    y=32
+    x=10
+    y=5
     isVisible=true

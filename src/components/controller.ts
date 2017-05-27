@@ -19,6 +19,7 @@ export default class Controller implements IComponent {
     owner: Entity;
     move: THREE.Vector2;
     look: THREE.Vector2;
+    gamepadActive: boolean;
 
     constructor(data: IControllerData, owner: Entity) {
         this.data = data;

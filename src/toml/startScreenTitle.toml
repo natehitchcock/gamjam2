@@ -1,9 +1,7 @@
 [sprite]
     image='img/titleText.png'
     zOrder=100
-    [sprite.scale]
-    x=1000
-    y=500
+    scale=[1000, 500]
 
 [sway]
     horizMagnitude=5

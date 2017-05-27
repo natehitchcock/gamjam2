@@ -1,0 +1,8 @@
+
+[sprite]
+    image='img/gateway.png'
+    scale=[64, 64]
+
+[spritelight]
+    radius=100
+    color=[0.6, 0.6, 1.2]

@@ -2,15 +2,10 @@ import * as THREE from 'three';
 import Entity from '../entity';
 import {IComponent} from './component';
 
-interface ISpriteScale {
-    x: number;
-    y: number;
-}
-
 interface ISpriteData {
     image: string;
     zOrder: number;
-    scale: ISpriteScale;
+    scale: number[];
 }
 
 export default class Sprite implements IComponent {
@@ -26,12 +21,12 @@ export default class Sprite implements IComponent {
             let scaleY = 32;
 
             if(data.scale) {
-                scaleX = data.scale.x || 32;
-                scaleY = data.scale.y || 32;
+                scaleX = data.scale[0] || 32;
+                scaleY = data.scale[1] || 32;
             }
 
             texture.magFilter = THREE.NearestFilter;
-            const material = new THREE.MeshBasicMaterial( {map: texture, alphaTest: 0.1} );
+            const material = new THREE.MeshBasicMaterial( {map: texture, transparent: true} );
             this.mesh = new THREE.Mesh(new THREE.CubeGeometry(scaleX, scaleY, 50), material);
             this.mesh.position.z = data.zOrder || 0;
             owner.add(this.mesh);

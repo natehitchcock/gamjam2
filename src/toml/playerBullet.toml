@@ -1,0 +1,10 @@
+[sprite]
+    image = 'img/bulletgreen.png'
+    scale = [8,8]
+
+[collider]
+    blocks = false
+    radius = 15
+
+[bullet]
+    speed = 5

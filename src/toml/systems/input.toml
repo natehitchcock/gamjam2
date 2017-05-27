@@ -70,3 +70,7 @@
 [[actions.fire]]
     gamepad=5
     amount=1
+
+[[actions.fire]]
+    mouse='left'
+    amount=1

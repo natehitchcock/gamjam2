@@ -20,13 +20,13 @@ export default class Camera implements IComponent {
         this.data = data;
         this.owner = owner;
 
-        const camWidth = window.innerWidth/2;
-        const camHeight = window.innerHeight/2;
+        const camWidth = 256;
+        const camHeight = camWidth * (window.innerHeight/window.innerWidth);
         this.camera = new THREE.OrthographicCamera(-camWidth, camWidth, camHeight, -camHeight, -500, 1000);
         this.camera.position.z = 299;
         owner.add(this.camera);
     }
-    
+
     initialize() {
         return;
     }
