@@ -55,7 +55,6 @@ export default class TargetAcquisition implements IComponent {
             targetDirection.sub(this.owner.position);
             // [TODO] adapt fire function to take points or directions (using .w 0 or 1)
             this.owner.sendEvent('fire', targetDirection);
-            console.log('firing!!! from target acquisition');
         }
     }
 }

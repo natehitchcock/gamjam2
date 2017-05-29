@@ -13,7 +13,7 @@ terrainTileSet="hub"
 
 [[entities]]
     label="wep1"
-    tomlFile="weapon.toml"
+    tomlFile="guns/revolver.toml"
 
     [entities.position]
         x=0

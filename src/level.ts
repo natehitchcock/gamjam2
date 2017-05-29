@@ -74,9 +74,7 @@ export class Level extends THREE.Object3D {
     }
 
     getEntityByLabel(label: string) {
-        console.log(`searching for ${label}`);
         const found = this.entities.find(ent => ent.label === label);
-        console.log(`found ${JSON.stringify(found)}`);
         return found;
     }
 
@@ -106,11 +104,9 @@ export class Level extends THREE.Object3D {
     }
 
     private internal_removeEntity(ent: Entity) {
-        console.log('removing entity');
         this.remove(ent);
         ent.destroy();
         delete this.entities[this.entities.indexOf(ent)];
-        console.log('removing complete');
     }
 }
 

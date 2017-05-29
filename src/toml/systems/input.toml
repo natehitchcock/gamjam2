@@ -47,7 +47,7 @@
 
 [[actions.lookforward]]
     gamepad="axis3"
-    amount=1
+    amount=-1
 
 # right-axis movement
 [[actions.lookright]]
@@ -64,7 +64,19 @@
 
 # attack action
 [[actions.fire]]
-    key="space"
+    key="up"
+    amount=1
+
+[[actions.fire]]
+    key="down"
+    amount=1
+
+[[actions.fire]]
+    key="right"
+    amount=1
+
+[[actions.fire]]
+    key="left"
     amount=1
 
 [[actions.fire]]
@@ -74,3 +86,13 @@
 [[actions.fire]]
     mouse='left'
     amount=1
+
+# interact action
+[[actions.interact]]
+    key="space"
+    amount=1
+
+[[actions.interact]]
+    gamepad=0
+    amount=1
+

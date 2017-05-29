@@ -34,7 +34,7 @@ export default class WeaponLogic implements IComponent {
     }
 
     initialize() {
-        this.owner.addEventListener('fire', this.tryFire.bind(this));
+        this.owner.on('fire', this.tryFire.bind(this));
     }
 
     destroy() {
@@ -53,7 +53,7 @@ export default class WeaponLogic implements IComponent {
         if(this.fireTimer > this.data.fireRate) {
             // spawning bullet
             const firedBullet = new Entity(this.bulletToml);
-            const fireDirection = dir || new THREE.Vector2(mouse.mouse.xp, mouse.mouse.yp).normalize();
+            const fireDirection = dir || new THREE.Vector2(mouse.mouse.xp, -mouse.mouse.yp).normalize();
             let angle = Math.atan2(fireDirection.y, fireDirection.x) * THREE.Math.RAD2DEG;
             angle += (Math.random() - 0.5) * this.data.spread;
             angle *= THREE.Math.DEG2RAD;

@@ -123,8 +123,8 @@ function tick() {
             }
             for(let b = 0; b < gp.buttons.length; ++b) {
                 const button = gp.buttons[b];
-                if(button.pressed) console.log(b);
-                FireGamepadEvents(gamepadEventer, b, button.value !== undefined ? button.value : (button.pressed?1:0));
+                const value = button.value !== undefined ? button.value : (button.pressed?1:0);
+                FireGamepadEvents(gamepadEventer, b, value);
             }
         }
     }

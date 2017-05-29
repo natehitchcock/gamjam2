@@ -16,14 +16,14 @@ export default class Stats implements IComponent {
         this.data = data;
         this.owner = owner;
 
-        this.owner.addEventListener('collided', (other: Entity) => {
+        this.owner.on('collided', (other: Entity) => {
             const bl: any = other.components.find(comp => ((comp as any).type === 'bullet'));
             if(bl && bl.owner.sharedData.sender !== this.owner) {
                 this.owner.sendEvent('damaged', bl.damage);
             }
         });
 
-        this.owner.addEventListener('damaged', damage => {data.health -= damage; console.log(data.health);});
+        this.owner.on('damaged', damage => {data.health -= damage; console.log(data.health);});
     }
 
     initialize() {

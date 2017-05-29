@@ -25,9 +25,6 @@ export default class BulletLogic implements IComponent {
         this.data = data;
         this.owner = owner;
         this.damage = 1;
-
-        console.log('bullet created');
-
         function resolveBulletCollision(other: any) {
             if(other !== this.owner.sharedData.sender) {
                 const ent = (other as Entity);
@@ -39,7 +36,7 @@ export default class BulletLogic implements IComponent {
             }
         }
 
-        this.owner.addEventListener('collided', resolveBulletCollision.bind(this));
+        this.owner.on('collided', resolveBulletCollision.bind(this));
     }
 
     initialize() {
@@ -50,10 +47,6 @@ export default class BulletLogic implements IComponent {
         return;
     }
 
-    disappear(dt: number) {
-
-    }
-
     movement(dt: number) {
         const bulletSpeed = (this.data.speed);
         // making it move
@@ -61,7 +54,7 @@ export default class BulletLogic implements IComponent {
         const bulletPosition = this.owner.sharedData.nextMove;
         const bulletDirection = new THREE.Vector3().copy(this.owner.sharedData.mousePositions);
         (bulletDirection).multiplyScalar(bulletSpeed);
-        bulletPosition.y -= bulletDirection.y;
+        bulletPosition.y += bulletDirection.y;
         bulletPosition.x += bulletDirection.x;
 
         /* //  console.log(this.data.speed);

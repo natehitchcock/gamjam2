@@ -27,13 +27,13 @@ function setupInputMappings(inputActionMap: IInputActionMap) {
     for(const action in inputActionMap.actions) {
         if(inputActionMap.actions[action]) {
             for(const mapping of inputActionMap.actions[action]) {
-                if(mapping.mouse) {
+                console.log(`mapping ${mapping.key} with value ${mapping.amount}`);
+                if(mapping.mouse !== undefined) {
                     inputDevices.mouse.on(mapping.mouse, value =>fireActions(action, mapping.amount * value));
-                } else if(mapping.gamepad) {
+                } else if(mapping.gamepad !== undefined) {
                     const gp = inputDevices.gamepad;
                     gp.addTemplateHandler(mapping.gamepad, value => {fireActions(action, mapping.amount * value);});
-                } else if(mapping.key) {
-                    console.log(`mapping ${mapping.key} with value ${mapping.amount}`);
+                } else if(mapping.key !== undefined) {
                     inputDevices.keyboard.onKeyEvent(mapping.key, inputDevices.keyboard.KS_PRESSED, () => {
                         fireActions(action, mapping.amount);
                     });

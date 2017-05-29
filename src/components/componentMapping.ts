@@ -12,6 +12,8 @@ import Stats from './stats';
 import Hud from './hud';
 import Spritelight from './spritelight';
 import TargetAcquisition from './targetAcquisition';
+import Interactor from './interactor';
+import LevelChangeIact from './interactions/levelChangeIact';
 
 import Entity from '../entity';
 
@@ -30,4 +32,6 @@ export default {
     hud: (data: any, owner: Entity) => new Hud (data, owner),
     spritelight: (data: any, owner: Entity) => new Spritelight (data, owner),
     targetAcquisition: (data: any, owner: Entity) => new TargetAcquisition (data, owner),
+    interactor: (data: any, owner: Entity) => new Interactor(data, owner),
+    levelChangeIact: (data: any, owner: Entity) => new LevelChangeIact(data, owner),
 };

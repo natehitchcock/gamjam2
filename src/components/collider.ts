@@ -24,7 +24,6 @@ export default class Collider implements IComponent {
         this.lastPosition = new THREE.Vector3().copy(owner.position);
         this.collided = [];
         allColliders.push(this);
-        console.log('bullet spawned');
     }
 
     initialize() {
@@ -32,7 +31,6 @@ export default class Collider implements IComponent {
     }
 
     destroy() {
-        console.log('destroyed bullet');
         this.deleted = true;
         delete allColliders[allColliders.indexOf(this)];
     }
@@ -62,7 +60,6 @@ export default class Collider implements IComponent {
             || other === undefined
             || other.deleted
             || this.collided.find(col => col === other)) {
-                if(other.deleted) console.log('deleted');
                 return;
             }
 
@@ -94,7 +91,6 @@ export default class Collider implements IComponent {
                 .SphereCollisionLineTest(this.owner.position, nextLocation, this.data.radius);
 
             if(collisionData.tVal < 1) {
-                console.log('tink');
                 this.owner.sendEvent('collided', levelManager.currentLevel.terrain);
                 const deltaPos = new THREE.Vector3().copy(this.owner.sharedData.nextMove);
                 deltaPos.multiplyScalar(collisionData.tVal);
