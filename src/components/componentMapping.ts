@@ -11,6 +11,7 @@ import BulletLogic from "./bulletLogic";
 import Stats from './stats';
 import Hud from './hud';
 import Spritelight from './spritelight';
+import TargetAcquisition from './targetAcquisition';
 
 import Entity from '../entity';
 
@@ -28,4 +29,5 @@ export default {
     stats: (data: any, owner: Entity) => new Stats(data, owner),
     hud: (data: any, owner: Entity) => new Hud (data, owner),
     spritelight: (data: any, owner: Entity) => new Spritelight (data, owner),
+    targetAcquisition: (data: any, owner: Entity) => new TargetAcquisition (data, owner),
 };

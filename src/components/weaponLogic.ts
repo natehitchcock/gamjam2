@@ -4,10 +4,11 @@ import { mouse, keyboard } from "../lib/input";
 import * as THREE from "three";
 import { levelManager, Level } from "../level";
 
-interface IWeaponData {
+export interface IWeaponData {
   fireRate: number;
   magazineSize: number;
   reloadTime: number;
+  spread: number;
   muzzlePosition: number[];
   bulletType: string;
 }
@@ -52,10 +53,17 @@ export default class WeaponLogic implements IComponent {
         if(this.fireTimer > this.data.fireRate) {
             // spawning bullet
             const firedBullet = new Entity(this.bulletToml);
-            firedBullet.sharedData.mousePositions = (dir !== undefined ?
-                                                     dir :
-                                                     new THREE.Vector2(mouse.mouse.xp, mouse.mouse.yp).normalize());
-            firedBullet.sharedData.sender = this.owner.parent;
+            const fireDirection = dir || new THREE.Vector2(mouse.mouse.xp, mouse.mouse.yp).normalize();
+            let angle = Math.atan2(fireDirection.y, fireDirection.x) * THREE.Math.RAD2DEG;
+            angle += (Math.random() - 0.5) * this.data.spread;
+            angle *= THREE.Math.DEG2RAD;
+            firedBullet.sharedData.mousePositions = new THREE.Vector2(Math.cos(angle), Math.sin(angle));
+
+            let sender: Entity;
+            if(this.owner.parent instanceof Entity) sender = this.owner.parent;
+            else sender = this.owner;
+
+            firedBullet.sharedData.sender = sender;
 
             // setting position
             const newPosition = new THREE.Vector3();

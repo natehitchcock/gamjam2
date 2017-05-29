@@ -1,9 +1,21 @@
 [stats]
-    health=100
+    health=5
 
 [sprite]
-    image='img/ship.png'
+    image='img/characters/stalker/stalker.png'
 
 [collider]
     blocks=true
-    radius=30
+    radius=10
+
+[weapon]
+    fireRate = 0.3
+    magazineSize = 6
+    reloadTime = 0
+    spread = 15
+    bulletType = 'enemyBullet'
+    muzzlePosition=[0,0]
+
+[targetAcquisition]
+    detectionRadius = 300
+    targetPlayers = true

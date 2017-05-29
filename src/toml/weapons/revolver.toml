@@ -1,11 +1,12 @@
 [sprite]
     image='img/revolver.png'
     zOrder=3
-    scale=[16,32]
+    scale=[32,16]
 
 [weapon]
     fireRate = 0.5
     magazineSize = 6
     reloadTime = 3
+    spread = 15
     bulletType = 'playerBullet'
-    muzzlePosition=[0,10]
+    muzzlePosition=[10,0]

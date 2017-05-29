@@ -36,6 +36,10 @@ export default class Entity extends THREE.Object3D {
         }
     }
 
+    getComponent(type: string) {
+        return this.components.find(comp => comp.type === type);
+    }
+
     initialize() {
         this.components.forEach(comp => comp.initialize());
     }
