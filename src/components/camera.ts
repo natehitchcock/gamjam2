@@ -4,11 +4,10 @@ import {IComponent} from './component';
 import {levelManager} from '../level';
 
 interface ICameraData {
-    targetLabel: string;
-    xoff: number;
-    yoff: number;
-    maxRadius: number;
-    interpSpeed: number;
+    width: number; // pixels of width
+    zOffset: number;
+    nearClip: number;
+    farClip: number;
 }
 
 export default class Camera implements IComponent {
@@ -20,10 +19,18 @@ export default class Camera implements IComponent {
         this.data = data;
         this.owner = owner;
 
-        const camWidth = 256;
+        const camWidth = data.width; // 256 for gameplay
         const camHeight = camWidth * (window.innerHeight/window.innerWidth);
-        this.camera = new THREE.OrthographicCamera(-camWidth, camWidth, camHeight, -camHeight, -500, 1000);
-        this.camera.position.z = 299;
+        this.camera = new THREE.OrthographicCamera(
+            -camWidth,
+            camWidth,
+            camHeight,
+            -camHeight,
+            data.nearClip,
+            data.farClip,
+        );
+
+        this.camera.position.z = data.zOffset;
         owner.add(this.camera);
     }
 
@@ -34,7 +41,6 @@ export default class Camera implements IComponent {
     destroy() {
         return;
     }
-
 
     update(dt: number) {
         return;
