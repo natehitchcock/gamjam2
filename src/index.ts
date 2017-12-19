@@ -59,17 +59,17 @@ levelManager.addLevel('theRoom', theRoomData);
 const testcavelevelData = require('./toml/testcavelevel.toml');
 levelManager.addLevel('testcavelevel', testcavelevelData);
 
-levelManager.loadLevel('theRoom');
+levelManager.loadLevel('startlevel');
 
 const effectComposer = new EffectComposer(renderer);
 
 const renderPass = new RenderPass(scene, levelManager.currentLevel.currentCamera);
-//renderPass.renderToScreen = true;
+renderPass.renderToScreen = true;
 effectComposer.addPass(renderPass);
 
-const shaderPass = new ShaderPass(PixelLighting);
-shaderPass.renderToScreen = true;
-effectComposer.addPass(shaderPass);
+//const shaderPass = new ShaderPass(PixelLighting);
+//shaderPass.renderToScreen = true;
+//effectComposer.addPass(shaderPass);
 
 const render = () => {
     requestAnimationFrame(render);
@@ -79,27 +79,27 @@ const render = () => {
     const cam = levelManager.currentLevel.currentCamera;
 
     // pacakge up the positions and colors for the spritelight shader
-    shaderPass.uniforms['resolution'].value = new THREE.Vector2(512, 512 * (window.innerHeight/window.innerWidth));
-    shaderPass.uniforms['cameraPos'].value = new THREE.Vector2(cam.parent.position.x, cam.parent.position.y);
-    shaderPass.uniforms['ambientLight'].value = new THREE.Vector3(0.4, 0.4, 0.4);
-    shaderPass.uniforms['lightCount'].value = 0;
-    shaderPass.uniforms['lightRadius'].value = Array<number>();
-    shaderPass.uniforms['lightPos'].value = Array<THREE.Vector3>();
-    shaderPass.uniforms['lightCol'].value = Array<THREE.Vector3>();
-    getAllSpritelights().forEach(light => {
-        shaderPass.uniforms['lightCount'].value++;
-        const col = light.data.color;
-        shaderPass.uniforms['lightCol'].value.push(new THREE.Vector3(col[0], col[1], col[2]));
+    // shaderPass.uniforms['resolution'].value = new THREE.Vector2(512, 512 * (window.innerHeight/window.innerWidth));
+    // shaderPass.uniforms['cameraPos'].value = new THREE.Vector2(cam.parent.position.x, cam.parent.position.y);
+    // shaderPass.uniforms['ambientLight'].value = new THREE.Vector3(0.4, 0.4, 0.4);
+    // shaderPass.uniforms['lightCount'].value = 0;
+    // shaderPass.uniforms['lightRadius'].value = Array<number>();
+    // shaderPass.uniforms['lightPos'].value = Array<THREE.Vector3>();
+    // shaderPass.uniforms['lightCol'].value = Array<THREE.Vector3>();
+    // getAllSpritelights().forEach(light => {
+    //     shaderPass.uniforms['lightCount'].value++;
+    //     const col = light.data.color;
+    //     shaderPass.uniforms['lightCol'].value.push(new THREE.Vector3(col[0], col[1], col[2]));
 
-        const lightRelPos = light.owner.position.clone();
-        lightRelPos.sub(cam.parent.position);
-        lightRelPos.x /= 512;
-        lightRelPos.y /= 512 * (window.innerHeight/window.innerWidth);
-        lightRelPos.x += 0.5;
-        lightRelPos.y += 0.5;
-        shaderPass.uniforms['lightPos'].value.push(lightRelPos);
-        shaderPass.uniforms['lightRadius'].value.push(light.data.radius);
-    });
+    //     const lightRelPos = light.owner.position.clone();
+    //     lightRelPos.sub(cam.parent.position);
+    //     lightRelPos.x /= 512;
+    //     lightRelPos.y /= 512 * (window.innerHeight/window.innerWidth);
+    //     lightRelPos.x += 0.5;
+    //     lightRelPos.y += 0.5;
+    //     shaderPass.uniforms['lightPos'].value.push(lightRelPos);
+    //     shaderPass.uniforms['lightRadius'].value.push(light.data.radius);
+    // });
 
     renderPass.camera = cam;
     effectComposer.render(delta);
