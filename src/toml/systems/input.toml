@@ -64,27 +64,11 @@
 
 # attack action
 [[actions.fire]]
-    key="up"
-    amount=1
-
-[[actions.fire]]
-    key="down"
-    amount=1
-
-[[actions.fire]]
-    key="right"
-    amount=1
-
-[[actions.fire]]
-    key="left"
+    key="v"
     amount=1
 
 [[actions.fire]]
     gamepad=5
-    amount=1
-
-[[actions.fire]]
-    mouse='left'
     amount=1
 
 # interact action
