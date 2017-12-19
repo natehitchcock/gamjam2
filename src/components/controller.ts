@@ -63,7 +63,11 @@ export default class Controller implements IComponent {
         const nextPos = new THREE.Vector2().copy(desiredMove);
         nextPos.multiplyScalar(this.data.moveSpeed * dt);
 
-        if(desiredLook.length() > 0.1) this.owner.sharedData.look = desiredLook.normalize();
+        if(desiredLook.length() > 0.1) {
+            this.owner.sharedData.look = desiredLook.normalize();
+        } else {
+            this.owner.sharedData.look = new THREE.Vector2(0, 0);
+        }
         this.owner.sharedData.nextMove = new THREE.Vector3(nextPos.x, nextPos.y, 0);
     }
 }

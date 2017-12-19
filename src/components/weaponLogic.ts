@@ -80,5 +80,16 @@ export default class WeaponLogic implements IComponent {
     }
     update(dt) {
         this.fireTimer += dt;
+
+        // Rotate to face owners parent aim direction
+        const parent: Entity = this.owner.parent as Entity;
+        if (parent.sharedData) {
+            const parentAimVector: THREE.Vector2 = parent.sharedData.look;
+            if(parentAimVector && parentAimVector.lengthSq() > 0.01) {
+                const angle = Math.atan2(parentAimVector.y, parentAimVector.x);
+                const euler = new THREE.Euler(0, 0, angle);
+                this.owner.setRotationFromEuler(euler);
+            }
+        }
     }
 }
