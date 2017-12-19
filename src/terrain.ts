@@ -15,7 +15,7 @@ interface ICaveParams extends ITerrainGenParams {
     requiredToOpen: number;
 }
 
-const tileSize = {x: 32, y: 64};
+export const tileSize = {x: 32, y: 64};
 
 export class Terrain extends THREE.Object3D {
     levelArray: number[][];

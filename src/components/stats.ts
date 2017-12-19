@@ -23,10 +23,11 @@ export default class Stats implements IComponent {
             }
         });
 
-        this.owner.on('damaged', damage => {data.health -= damage; console.log(data.health);});
+        this.owner.on('damaged', damage => {this.owner.sharedData.health -= damage;});
     }
 
     initialize() {
+        this.owner.sharedData.health = this.data.health;
         return;
     }
 
@@ -35,8 +36,7 @@ export default class Stats implements IComponent {
     }
 
     update(dt: number) {
-       if(this.data.health <= 0) {
-           console.log('you died!');
+       if(this.owner.sharedData.health <= 0) {
            this.owner.sendEvent('died');
            levelManager.currentLevel.removeEntity(this.owner);
        }

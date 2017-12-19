@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {TerrainFactory, Terrain} from './terrain';
+import {TerrainFactory, Terrain, tileSize} from './terrain';
 import Entity from './entity';
 import Camera from './components/camera';
 
@@ -81,6 +81,7 @@ export class Level extends THREE.Object3D {
         this.entities.push(ent);
         ent.parent = this;
         this.add(ent);
+        ent.initialize();
     }
 
     removeEntity(ent: Entity) {
@@ -171,8 +172,8 @@ export function spawnEnemies(pointsToSpend: number, enemies: IEnemySpawnData[], 
         const placedEntities: Entity[] = [];
         for(let i = 0; i < 15 && !placed; ++i) {
             const loc = new THREE.Vector3(
-                Math.random() * terrain.dimensions.x,
-                Math.random() * terrain.dimensions.y,
+                Math.random() * terrain.dimensions.x * tileSize.x,
+                Math.random() * terrain.dimensions.y * tileSize.x,
                 0);
 
             let farEnoughAway = true;
@@ -185,8 +186,11 @@ export function spawnEnemies(pointsToSpend: number, enemies: IEnemySpawnData[], 
 
             if(farEnoughAway
             && terrain.SphereCollisionLineTest(loc, loc, selected.collisionRadius)) {
+                console.log('placed entity');
                 const entityData = require(`./toml/${selected.entityFile}`);
                 const spawned = new Entity(entityData);
+                spawned.position.x = loc.x;
+                spawned.position.y = loc.y;
                 level.addEntity(spawned);
                 pointsToSpend -= selected.pointWorth;
                 placed = true;

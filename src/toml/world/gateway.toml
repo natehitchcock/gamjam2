@@ -7,5 +7,5 @@
     radius=100
     color=[0.6, 0.6, 1.2]
 
-[levelChangeIact]
+[levelGenIact]
     destLevel='testcavelevel'

@@ -17,7 +17,6 @@ export default class LevelChangeIact implements IComponent {
 
     initialize() {
         this.owner.on('interact', data => {
-            console.log('interaction happened');
             levelManager.loadLevel(this.data.destLevel);
         }, this);
     }

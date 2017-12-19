@@ -14,6 +14,7 @@ import Spritelight from './spritelight';
 import TargetAcquisition from './targetAcquisition';
 import Interactor from './interactor';
 import LevelChangeIact from './interactions/levelChangeIact';
+import LevelGenIact from './interactions/levelGenIact';
 
 import Entity from '../entity';
 
@@ -34,4 +35,5 @@ export default {
     targetAcquisition: (data: any, owner: Entity) => new TargetAcquisition (data, owner),
     interactor: (data: any, owner: Entity) => new Interactor(data, owner),
     levelChangeIact: (data: any, owner: Entity) => new LevelChangeIact(data, owner),
+    levelGenIact: (data: any, owner: Entity) => new LevelGenIact(data, owner),
 };
