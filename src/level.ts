@@ -185,7 +185,11 @@ export function spawnEnemies(pointsToSpend: number, enemies: IEnemySpawnData[], 
             });
 
             if(farEnoughAway
-            && terrain.SphereCollisionLineTest(loc, loc, selected.collisionRadius)) {
+            && terrain.SphereCollisionLineTest(
+                loc,
+                loc.add(new THREE.Vector3(1,1,0)),
+                selected.collisionRadius,
+            ).collisionHappened === false) {
                 console.log('placed entity');
                 const entityData = require(`./toml/${selected.entityFile}`);
                 const spawned = new Entity(entityData);
@@ -197,4 +201,32 @@ export function spawnEnemies(pointsToSpend: number, enemies: IEnemySpawnData[], 
             }
         }
     }
+}
+
+// [TODO] parameterize toml file and number of retried for placement
+// [TODO] better fail state for not being able to place the exit portal
+export function spawnExit(level: Level, exitCollisionRadius: number) {
+
+    const terrain = level.terrain;
+    for(let i = 0; i < 150; ++i) {
+        const loc = new THREE.Vector3(
+            Math.random() * terrain.dimensions.x * tileSize.x,
+            Math.random() * terrain.dimensions.y * tileSize.x,
+            0);
+
+        if(terrain.SphereCollisionLineTest(
+                loc,
+                loc.add(new THREE.Vector3(1,1,0)),
+                exitCollisionRadius,
+            ).collisionHappened === false) {
+            const entityData = require(`./toml/world/gateway.toml`);
+            const spawned = new Entity(entityData);
+            spawned.position.x = loc.x;
+            spawned.position.y = loc.y;
+            level.addEntity(spawned);
+            return;
+        }
+    }
+
+    console.error('couldnt place exit portal');
 }

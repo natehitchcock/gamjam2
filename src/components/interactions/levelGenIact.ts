@@ -1,9 +1,10 @@
 import {IComponent} from '../component';
 import Entity from '../../entity';
-import {Level, spawnEnemies, levelManager} from '../../level';
+import {Level, spawnEnemies, spawnExit, levelManager} from '../../level';
 
 interface ILevelGenIactData {
     destLevel: string;
+    enemyPointsToSpend: number;
 }
 
 export default class LevelGenIact implements IComponent {
@@ -18,13 +19,14 @@ export default class LevelGenIact implements IComponent {
     initialize() {
         this.owner.on('interact', data => {
             levelManager.loadLevel(this.data.destLevel);
-            spawnEnemies(30, [{
+            spawnEnemies(this.data.enemyPointsToSpend, [{
                 chance: 1,
                 collisionRadius: 10,
                 entityFile: 'testenemy.toml',
                 isolationRadius: 60,
                 pointWorth: 1,
             }], levelManager.currentLevel);
+            spawnExit(levelManager.currentLevel, 60);
         }, this);
     }
 

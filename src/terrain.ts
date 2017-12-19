@@ -106,6 +106,7 @@ export class Terrain extends THREE.Object3D {
         end.multiplyScalar(1/(tileSize.x));
         radius /= tileSize.x;
 
+        let collisionHappened = false;
         let finalTVal = 1;
         let finalNormal: any = {};
 
@@ -161,6 +162,7 @@ export class Terrain extends THREE.Object3D {
                                 //console.log(message);
                                 finalTVal = tVal;
                                 finalNormal = normal;
+                                collisionHappened = true;
                             }
                         } else {
                             if(collisionX <= x + 1
@@ -168,6 +170,7 @@ export class Terrain extends THREE.Object3D {
                                 //console.log(message);
                                 finalTVal = tVal;
                                 finalNormal = normal;
+                                collisionHappened = true;
                             }
                         }
                     }
@@ -175,7 +178,7 @@ export class Terrain extends THREE.Object3D {
             }
         }
 
-        return {tVal: finalTVal, normal: finalNormal};
+        return {tVal: finalTVal, normal: finalNormal, collisionHappened};
     }
 }
 

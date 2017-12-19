@@ -1,8 +1,8 @@
 terrainCreationMethod="GenerateCave"
 
 [terrainParams]
-    width=100
-    height=100
+    width=50
+    height=50
     chanceToFill=0.5
     iterationCount=3
     extentToScan=1
