@@ -1,10 +1,9 @@
 terrainCreationMethod="GenerateBoxLevel"
-terrainTileSet="hub"
 
 [terrainParams]
-    width=10
-    height=10
-    terrainScale=2
+    width=20
+    height=15
+    tileSet="hub"
 
 [[entities]]
     tomlFile="world/gateway.toml"
@@ -27,13 +26,6 @@ terrainTileSet="hub"
     [entities.position]
         x=150
         y=150
-
-[[entities]]
-    tomlFile="testenemy.toml"
-
-    [entities.position]
-        x=400
-        y=200
 
 [[entities]]
     label="activeCam"

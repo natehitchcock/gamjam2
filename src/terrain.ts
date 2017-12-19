@@ -1,10 +1,13 @@
 import * as THREE from 'three';
 //import * as fs from 'fs';
 
-interface ICaveParams {
+interface ITerrainGenParams {
     width: number;
     height: number;
-    terrainScale: number;
+    tileSet: string;
+}
+
+interface ICaveParams extends ITerrainGenParams {
     chanceToFill: number;
     iterationCount: number;
     extentToScan: number;
@@ -16,8 +19,14 @@ const tileSize = {x: 32, y: 64};
 
 export class Terrain extends THREE.Object3D {
     levelArray: number[][];
-    levelScale: number;
     tileSet: string;
+    dimensions: THREE.Vector2;
+
+    constructor(dim?: THREE.Vector2, tileSet?: string) {
+        super();
+        this.dimensions = dim || new THREE.Vector2(0, 0);
+        this.tileSet = tileSet || 'default';
+    }
 
     getTileType(x: number, y: number): number {
         // [WARN] does not handle being called on a tile outside the boundaries
@@ -54,15 +63,15 @@ export class Terrain extends THREE.Object3D {
                             });
                             const testCube = new THREE.Mesh(
                                 new THREE.CubeGeometry(
-                                    tileSize.x*this.levelScale,
-                                    tileSize.y*this.levelScale,
+                                    tileSize.x,
+                                    tileSize.y,
                                     10),
                                 material);
 
                             testCube.position.copy(
                                 new THREE.Vector3(
-                                    (tileSize.x*x*this.levelScale) + (tileSize.x/2) * this.levelScale,
-                                    (tileSize.x*y*this.levelScale) + (tileSize.y/2) * this.levelScale,
+                                    (tileSize.x*x) + (tileSize.x/2),
+                                    (tileSize.x*y) + (tileSize.y/2),
                                     zorder - y));
 
                             this.add(testCube);
@@ -71,14 +80,14 @@ export class Terrain extends THREE.Object3D {
                     if(this.levelArray[x][y] === 1) {
                         const material = new THREE.MeshBasicMaterial( {color: 0xFa00a3} );
                         const testCube = new THREE.Mesh(
-                            new THREE.CubeGeometry(tileSize.x*this.levelScale,
-                                                   tileSize.y*this.levelScale,
+                            new THREE.CubeGeometry(tileSize.x,
+                                                   tileSize.y,
                                                    10),
                                                    material);
                         testCube.position.copy(
                             new THREE.Vector3(
-                                (tileSize.x*x*this.levelScale) + (tileSize.x/2) * this.levelScale,
-                                (tileSize.x*y*this.levelScale) + (tileSize.x/2) * this.levelScale,
+                                (tileSize.x*x) + (tileSize.x/2),
+                                (tileSize.x*y) + (tileSize.x/2),
                                 2));
                         this.add(testCube);
                     }
@@ -93,9 +102,9 @@ export class Terrain extends THREE.Object3D {
         end = new THREE.Vector3().copy(end);
 
         // Get vector in terms of terrain space
-        start.multiplyScalar(1/(this.levelScale * tileSize.x));
-        end.multiplyScalar(1/(this.levelScale * tileSize.x));
-        radius /= this.levelScale * tileSize.x;
+        start.multiplyScalar(1/(tileSize.x));
+        end.multiplyScalar(1/(tileSize.x));
+        radius /= tileSize.x;
 
         let finalTVal = 1;
         let finalNormal: any = {};
@@ -186,9 +195,8 @@ export class TerrainFactory {
     }
 
     static GenerateBoxLevel(params: any): Terrain {
-        const level = new Terrain();
+        const level = new Terrain(new THREE.Vector2(params.width, params.height), params.tileSet);
         level.levelArray = [];
-        level.levelScale = params.terrainScale || 1;
         for(let x = 0; x < params.width; ++x) {
             level.levelArray.push([]);
             for(let y = 0; y < params.height; ++y) {
@@ -205,9 +213,8 @@ export class TerrainFactory {
 
     static GeneratePerfectMaze(params: any) {
         console.log(`perfect maze ${params.width}, ${params.height}`);
-        const level = new Terrain();
+        const level = new Terrain(new THREE.Vector2(params.width, params.height), params.tileSet);
 
-        level.levelScale = params.terrainScale || 1;
         level.levelArray = [];
         for(let x = 0; x < params.width; ++x) {
             level.levelArray.push([]);
@@ -294,9 +301,8 @@ export class TerrainFactory {
     }
 
     static GenerateCave(params: ICaveParams) {
-        const terrain = new Terrain();
+        const terrain = new Terrain(new THREE.Vector2(params.width, params.height), params.tileSet);
 
-        terrain.levelScale = params.terrainScale || 1;
         terrain.levelArray = [];
         for(let x = 0; x < params.width; ++x) {
             terrain.levelArray.push([]);

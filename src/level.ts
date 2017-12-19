@@ -51,7 +51,6 @@ export class Level extends THREE.Object3D {
         if(this.data.terrainCreationMethod !== undefined) {
             console.log(`spawning terrain ${this.data.terrainCreationMethod}`);
             this.terrain = TerrainFactory[this.data.terrainCreationMethod](this.data.terrainParams);
-            this.terrain.tileSet = this.data.terrainTileSet;
             this.terrain.SpawnLevel();
             this.add(this.terrain);
         }
@@ -139,3 +138,59 @@ export class LevelManager {
 }
 
 export const levelManager = new LevelManager();
+
+export interface IEnemySpawnData {
+    entityFile: string;
+    pointWorth: number;
+    chance: number;
+    collisionRadius: number;
+    isolationRadius: number;
+}
+export function spawnEnemies(pointsToSpend: number, enemies: IEnemySpawnData[], level: Level) {
+    let totalChance = 0;
+    enemies.forEach(edat => totalChance += edat.chance);
+
+    if(totalChance === 0) return;
+
+    for(let j = 0; j < 300 && pointsToSpend > 0; ++j) {
+        // Select and enemy to spawn
+        const r = Math.random() * totalChance;
+        let lchance = 0;
+        let selected: IEnemySpawnData;
+        enemies.forEach(edat => {
+            const hchance = lchance + edat.chance;
+            if(r >= lchance &&  r <= hchance) {
+                selected = edat;
+            }
+            lchance = hchance;
+        });
+
+        // Find a good location for that enemy
+        const terrain = level.terrain;
+        let placed = false;
+        const placedEntities: Entity[] = [];
+        for(let i = 0; i < 15 && !placed; ++i) {
+            const loc = new THREE.Vector3(
+                Math.random() * terrain.dimensions.x,
+                Math.random() * terrain.dimensions.y,
+                0);
+
+            let farEnoughAway = true;
+            placedEntities.forEach(ent => {
+                const entFlatPos = new THREE.Vector3(ent.position.x, ent.position.y, 0);
+                if(entFlatPos.distanceTo(loc) <= selected.isolationRadius) {
+                    farEnoughAway = false;
+                }
+            });
+
+            if(farEnoughAway
+            && terrain.SphereCollisionLineTest(loc, loc, selected.collisionRadius)) {
+                const entityData = require(`./toml/${selected.entityFile}`);
+                const spawned = new Entity(entityData);
+                level.addEntity(spawned);
+                pointsToSpend -= selected.pointWorth;
+                placed = true;
+            }
+        }
+    }
+}
