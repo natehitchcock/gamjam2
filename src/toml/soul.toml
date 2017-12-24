@@ -1,0 +1,9 @@
+[sprite]
+    image = 'img/soul.png'
+    scale = [8,16]
+
+[collider]
+    blocks = false
+    radius = 15
+
+[soul]

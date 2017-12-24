@@ -7,7 +7,9 @@ import Inventory from './inventory';
 import Camera from './camera';
 import Follow from './movement/follow';
 import WeaponLogic from './weaponLogic';
-import BulletLogic from "./bulletLogic";
+import BulletLogic from './bulletLogic';
+import SoulLogic from './soulLogic';
+import DeathSpawn from './deathSpawn';
 import Stats from './stats';
 import Hud from './hud';
 import Spritelight from './spritelight';
@@ -36,4 +38,6 @@ export default {
     interactor: (data: any, owner: Entity) => new Interactor(data, owner),
     levelChangeIact: (data: any, owner: Entity) => new LevelChangeIact(data, owner),
     levelGenIact: (data: any, owner: Entity) => new LevelGenIact(data, owner),
+    soul: (data: any, owner: Entity) => new SoulLogic(data, owner),
+    deathSpawn: (data: any, owner: Entity) => new DeathSpawn(data, owner),
 };

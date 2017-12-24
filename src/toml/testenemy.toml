@@ -6,7 +6,7 @@
 
 [collider]
     blocks=true
-    radius=10
+    radius=1
 
 [weapon]
     fireRate = 0.3
@@ -19,3 +19,12 @@
 [targetAcquisition]
     detectionRadius = 300
     targetPlayers = true
+
+[deathSpawn]
+    spawnSpreadRadius = 10
+    [deathSpawn.objects.soul]
+        file='soul.toml'
+        chance=1
+    [deathSpawn.objects.extrasoul]
+        file='soul.toml'
+        chance=0.1

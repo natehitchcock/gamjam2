@@ -20,14 +20,22 @@ export default class Stats implements IComponent {
             const bl: any = other.components.find(comp => ((comp as any).type === 'bullet'));
             if(bl && bl.owner.sharedData.sender !== this.owner) {
                 this.owner.sendEvent('damaged', bl.damage);
+                return;
+            }
+
+            const sl: any = other.components.find(comp => ((comp as any).type === 'soul'));
+            if(sl) {
+                this.owner.sendEvent('soulConsumed', 1);
             }
         });
 
         this.owner.on('damaged', damage => {this.owner.sharedData.health -= damage;});
+        this.owner.on('soulConsumed', worth => {this.owner.sharedData.souls += worth;});
     }
 
     initialize() {
         this.owner.sharedData.health = this.data.health;
+        this.owner.sharedData.souls = 0;
         return;
     }
 
