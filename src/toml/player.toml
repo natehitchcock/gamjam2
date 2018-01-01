@@ -1,6 +1,6 @@
 
 [sprite]
-    image='img/ship.png'
+    image='img/characters/playable1/worldview.png'
 
 [controller]
     moveSpeed=160
