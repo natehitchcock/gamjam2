@@ -21,9 +21,9 @@ export default class LevelGenIact implements IComponent {
             levelManager.loadLevel(this.data.destLevel);
             spawnEnemies(this.data.enemyPointsToSpend, [{
                 chance: 1,
-                collisionRadius: 10,
+                collisionRadius: 60,
                 entityFile: 'testenemy.toml',
-                isolationRadius: 60,
+                isolationRadius: 200,
                 pointWorth: 1,
             }], levelManager.currentLevel);
             spawnExit(levelManager.currentLevel, 60);

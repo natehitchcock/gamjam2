@@ -96,6 +96,67 @@ export class Terrain extends THREE.Object3D {
         }
     }
 
+    SphereCollisionTest(center: THREE.Vector3, radius: number) {
+        // Get vector in terms of terrain space
+        // Assuming square terrain tiles
+        const newCenter = new THREE.Vector3().copy(center);
+        newCenter.multiplyScalar(1/(tileSize.x));
+        radius /= tileSize.x;
+        const squareExtent = 0.5;
+
+        let collisionDetected = false;
+        const collisionZoneX = [
+            Math.max(Math.floor(newCenter.x) - 1, 0), // min
+            Math.min(Math.floor(newCenter.x) + 1, this.levelArray.length - 1), // max
+        ];
+
+        for (let x = collisionZoneX[0]; x <= collisionZoneX[1]; ++x) {
+            const collisionZoneY = [
+                Math.max(Math.floor(newCenter.y) - 1, 0), // min
+                Math.min(Math.floor(newCenter.y) + 1, this.levelArray[x].length - 1), // max
+            ];
+
+            for(let y = collisionZoneY[0]; y <= collisionZoneY[1]; ++y) {
+                const posX = x + 0.5;
+                const posY = y + 0.5;
+                if(this.levelArray[x][y] === 1) {
+                    // Circle to box collision
+                    if(Math.abs(posX - newCenter.x) > Math.abs(posY - newCenter.y)) {
+                        if (newCenter.x > posX) { // right side
+                            if(newCenter.x - radius < posX + squareExtent) {
+                                newCenter.x += (posX + squareExtent) - (newCenter.x - radius);
+                                collisionDetected = true;
+                            }
+                        } else { // left side
+                            if(newCenter.x + radius > posX - squareExtent) {
+                                newCenter.x -= (newCenter.x + radius) - (posX - squareExtent);
+                                collisionDetected = true;
+                            }
+                        }
+                    } else {
+                        if(newCenter.y > posY) { // top side
+                            if(newCenter.y - radius < posY + squareExtent) {
+                                newCenter.y += (posY + squareExtent) - (newCenter.y - radius);
+                                collisionDetected = true;
+                            }
+                        } else { // bottom side
+                            if(newCenter.y + radius > posY - squareExtent) {
+                                newCenter.y -= (newCenter.y + radius) - (posY - squareExtent);
+                                collisionDetected = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        newCenter.multiplyScalar(tileSize.x);
+        return {
+            collisionDetected,
+            newCenter,
+        };
+    }
+
     SphereCollisionLineTest(start: THREE.Vector3, end: THREE.Vector3, radius: number) {
         // [TODO] make this way more efficient by only iterating over things the line passes through
         start = new THREE.Vector3().copy(start);

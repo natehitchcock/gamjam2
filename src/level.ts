@@ -185,11 +185,10 @@ export function spawnEnemies(pointsToSpend: number, enemies: IEnemySpawnData[], 
             });
 
             if(farEnoughAway
-            && terrain.SphereCollisionLineTest(
+            && terrain.SphereCollisionTest(
                 loc,
-                loc.add(new THREE.Vector3(1,1,0)),
                 selected.collisionRadius,
-            ).collisionHappened === false) {
+            ).collisionDetected === false) {
                 console.log('placed entity');
                 const entityData = require(`./toml/${selected.entityFile}`);
                 const spawned = new Entity(entityData);
@@ -214,11 +213,10 @@ export function spawnExit(level: Level, exitCollisionRadius: number) {
             Math.random() * terrain.dimensions.y * tileSize.x,
             0);
 
-        if(terrain.SphereCollisionLineTest(
+        if(terrain.SphereCollisionTest(
                 loc,
-                loc.add(new THREE.Vector3(1,1,0)),
                 exitCollisionRadius,
-            ).collisionHappened === false) {
+            ).collisionDetected === false) {
             const entityData = require(`./toml/world/gateway.toml`);
             const spawned = new Entity(entityData);
             spawned.position.x = loc.x;
