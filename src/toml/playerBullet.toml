@@ -4,7 +4,7 @@
 
 [collider]
     blocks = false
-    radius = 15
+    radius = 4
 
 [bullet]
     speed = 6

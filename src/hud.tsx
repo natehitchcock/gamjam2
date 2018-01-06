@@ -1,7 +1,61 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import {levelManager} from './level';
+import WeaponLogic from './components/weaponLogic';
 
-export default class HUD extends React.Component<any, any> {
+interface IHUDState {
+    currentAmmo: number;
+    totalAmmo: number;
+    currentHealth: number;
+    totalHealth: number;
+}
+
+export default class HUD extends React.Component<any, IHUDState> {
+    private weaponLogic: WeaponLogic;
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            currentAmmo: 3,
+            totalAmmo: 6,
+            currentHealth: 100,
+            totalHealth: 100,
+        };
+    }
+
+    onWeaponFire() {
+        this.setState({currentAmmo: this.weaponLogic.magazine});
+    }
+
+    levelLoaded() {
+        if(levelManager.currentLevel === undefined) {
+            console.error('current level not found');
+            return;
+        }
+        const playerWeapon = levelManager.currentLevel.getEntityByLabel('wep1');
+
+        if(playerWeapon === undefined) {
+            console.error('player weapon not found');
+            return;
+        }
+        const weaponLogic: WeaponLogic = playerWeapon.getComponent('weapon') as WeaponLogic;
+
+        if(weaponLogic === undefined) {
+            console.error('weapon logic not found');
+            return;
+        }
+
+        this.weaponLogic = weaponLogic;
+
+        playerWeapon.on('fired', this.onWeaponFire, this);
+        playerWeapon.on('reloaded', this.onWeaponFire, this);
+    }
+
+    componentDidMount() {
+        levelManager.onLevelLoad(this.levelLoaded.bind(this));
+    }
+
     render() {
         const healthStyle: React.CSSProperties = {
             'width': '100%',
@@ -30,7 +84,7 @@ export default class HUD extends React.Component<any, any> {
         const ammoStyle: React.CSSProperties = {
             'width': '100%',
             'height': '100%',
-            'background-image': 'url("img/guns/revolver-hud-6.png")',
+            'background-image': `url("img/guns/revolver-hud-${this.state.currentAmmo}.png")`,
             'position': 'absolute',
         };
 

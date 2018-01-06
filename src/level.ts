@@ -114,6 +114,11 @@ export class LevelManager {
     currentLevel: Level;
     scene: THREE.Scene;
     levelMap: any;
+    loadLevelFns: Array<()=>void>;
+
+    constructor() {
+        this.loadLevelFns = [];
+    }
 
     init(scene: THREE.Scene) {
         this.scene = scene;
@@ -124,11 +129,22 @@ export class LevelManager {
         this.levelMap[levelName] = levelData;
     }
 
+    onLevelLoad(fn: ()=>void) {
+        this.loadLevelFns.push(fn);
+
+        if(this.currentLevel !== undefined) {
+            fn();
+        }
+    }
+
     loadLevel(levelName: string) {
         this.currentLevel = new Level(this.levelMap[levelName]);
         this.scene.children = [];
         this.currentLevel.spawnEntities();
         this.scene.add(this.currentLevel);
+
+        // Call load level functions
+        this.loadLevelFns.forEach(fn => fn());
     }
 
     update(dt: number) {

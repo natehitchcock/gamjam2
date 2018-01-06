@@ -43,11 +43,7 @@ export default class WeaponLogic implements IComponent {
 
     tryFire(dir: THREE.Vector2) {
         if(this.magazine <= 0) {
-            if(this.fireTimer > this.data.reloadTime) {
-                this.magazine = this.data.magazineSize;
-            } else {
-                return;
-            }
+            return;
         }
 
         if(this.fireTimer > this.data.fireRate) {
@@ -76,10 +72,19 @@ export default class WeaponLogic implements IComponent {
             firedBullet.position.copy(newPosition);
             this.fireTimer = 0;
             this.magazine--;
+
+            this.owner.sendEvent('fired');
         }
     }
     update(dt) {
         this.fireTimer += dt;
+
+        if(this.magazine <= 0) {
+            if(this.fireTimer > this.data.reloadTime) {
+                this.magazine = this.data.magazineSize;
+                this.owner.sendEvent('reloaded');
+            }
+        }
 
         // Rotate to face owners parent aim direction
         const parent: Entity = this.owner.parent as Entity;

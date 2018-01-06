@@ -6,12 +6,12 @@
 
 [collider]
     blocks=true
-    radius=1
+    radius=15
 
 [weapon]
     fireRate = 0.3
     magazineSize = 6
-    reloadTime = 0
+    reloadTime = 3
     spread = 15
     bulletType = 'enemyBullet'
     muzzlePosition=[0,0]
@@ -25,6 +25,3 @@
     [deathSpawn.objects.soul]
         file='soul.toml'
         chance=1
-    [deathSpawn.objects.extrasoul]
-        file='soul.toml'
-        chance=0.1
