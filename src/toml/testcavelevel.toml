@@ -11,6 +11,13 @@ terrainCreationMethod="GenerateCave"
     tileSet="hub"
 
 [[entities]]
+    label="hud"
+    
+    [entities.position]
+        x=0
+        y=0
+
+[[entities]]
     label="wep1"
     tomlFile="guns/revolver.toml"
 

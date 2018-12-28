@@ -55,8 +55,12 @@ export class Level extends THREE.Object3D {
             this.add(this.terrain);
         }
         this.data.entities.forEach(ent => {
-            console.log(ent.tomlFile);
-            const entityData = require(`./toml/${ent.tomlFile}`);
+            let entityData: any;
+            if(ent.tomlFile !== undefined) {
+                console.log(ent.tomlFile);
+                entityData = require(`./toml/${ent.tomlFile}`);
+            }
+
             const entity = new Entity(entityData, ent.label);
             entity.position.x = ent.position.x;
             entity.position.y = ent.position.y;

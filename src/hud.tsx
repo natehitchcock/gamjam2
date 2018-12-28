@@ -4,6 +4,7 @@ import {levelManager} from './level';
 import WeaponLogic from './components/weaponLogic';
 
 interface IHUDState {
+    shouldRenderHUD: boolean;
     currentAmmo: number;
     totalAmmo: number;
     currentHealth: number;
@@ -17,6 +18,7 @@ export default class HUD extends React.Component<any, IHUDState> {
         super(props);
 
         this.state = {
+            shouldRenderHUD: false,
             currentAmmo: 3,
             totalAmmo: 6,
             currentHealth: 100,
@@ -50,6 +52,8 @@ export default class HUD extends React.Component<any, IHUDState> {
 
         playerWeapon.on('fired', this.onWeaponFire, this);
         playerWeapon.on('reloaded', this.onWeaponFire, this);
+
+        this.setState({shouldRenderHUD: levelManager.currentLevel.getEntityByLabel('hud') !== undefined});
     }
 
     componentDidMount() {
@@ -57,6 +61,9 @@ export default class HUD extends React.Component<any, IHUDState> {
     }
 
     render() {
+
+        if (!this.state.shouldRenderHUD) return <div/>;
+
         const healthStyle: React.CSSProperties = {
             'width': '100%',
             'height': '100%',
@@ -106,7 +113,6 @@ export default class HUD extends React.Component<any, IHUDState> {
         };
 
         return <div>
-            <h1> This is the HUD </h1>
             <div style={healthContainerStyle}>
                 <div style={healthBGStyle}></div>
                 <div style={healthStyle}></div>
