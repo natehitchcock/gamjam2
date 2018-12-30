@@ -25,6 +25,13 @@ export default class LevelGenIact implements IComponent {
                 entityFile: 'testenemy.toml',
                 isolationRadius: 200,
                 pointWorth: 1,
+            },
+            {
+                chance: 0.1,
+                collisionRadius: 60,
+                entityFile: 'chest.toml',
+                isolationRadius: 500,
+                pointWorth: 1,
             }], levelManager.currentLevel);
             spawnExit(levelManager.currentLevel, 60);
         }, this);

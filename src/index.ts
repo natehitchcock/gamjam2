@@ -38,9 +38,9 @@ const renderPass = new RenderPass(scene, levelManager.currentLevel.currentCamera
 renderPass.renderToScreen = true;
 effectComposer.addPass(renderPass);
 
-//const shaderPass = new ShaderPass(PixelLighting);
-//shaderPass.renderToScreen = true;
-//effectComposer.addPass(shaderPass);
+// const shaderPass = new ShaderPass(PixelLighting);
+// shaderPass.renderToScreen = true;
+// effectComposer.addPass(shaderPass);
 
 const render = () => {
     requestAnimationFrame(render);

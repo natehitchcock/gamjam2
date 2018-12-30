@@ -1,0 +1,43 @@
+[stats]
+    health=5
+
+[sprite]
+    image = 'img/chest-closed.png'
+    scale = [32,32]
+
+[collider]
+    blocks = false
+    radius = 16
+
+[deathSpawn]
+    spawnSpreadRadius = 20
+    [deathSpawn.objects.soul1]
+        file='soul.toml'
+        chance=1
+    [deathSpawn.objects.soul2]
+        file='soul.toml'
+        chance=1
+    [deathSpawn.objects.soul3]
+        file='soul.toml'
+        chance=0.75
+    [deathSpawn.objects.soul4]
+        file='soul.toml'
+        chance=0.5
+    [deathSpawn.objects.soul5]
+        file='soul.toml'
+        chance=0.25
+    [deathSpawn.objects.soul6]
+        file='soul.toml'
+        chance=1
+    [deathSpawn.objects.soul7]
+        file='soul.toml'
+        chance=1
+    [deathSpawn.objects.soul8]
+        file='soul.toml'
+        chance=0.75
+    [deathSpawn.objects.soul9]
+        file='soul.toml'
+        chance=0.5
+    [deathSpawn.objects.soul10]
+        file='soul.toml'
+        chance=0.25
