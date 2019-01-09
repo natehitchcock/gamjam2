@@ -5,7 +5,7 @@ import Sway from './movement/sway';
 import ButtonTransition from './buttonTransition';
 import Inventory from './inventory';
 import Camera from './camera';
-import Follow from './movement/follow';
+import {Follow} from './movement/follow';
 import WeaponLogic from './weaponLogic';
 import BulletLogic from './bulletLogic';
 import SoulLogic from './soulLogic';
@@ -14,6 +14,8 @@ import Stats from './stats';
 import Hud from './hud';
 import Spritelight from './spritelight';
 import TargetAcquisition from './targetAcquisition';
+import FlickMelee from './flickMelee';
+import orbitTarget from './movement/orbitTarget';
 import Interactor from './interactor';
 import LevelChangeIact from './interactions/levelChangeIact';
 import LevelGenIact from './interactions/levelGenIact';
@@ -40,4 +42,6 @@ export default {
     levelGenIact: (data: any, owner: Entity) => new LevelGenIact(data, owner),
     soul: (data: any, owner: Entity) => new SoulLogic(data, owner),
     deathSpawn: (data: any, owner: Entity) => new DeathSpawn(data, owner),
+    flickMelee: (data: any, owner: Entity) => new FlickMelee(data, owner),
+    orbitTarget: (data: any, owner: Entity) => new orbitTarget(data, owner),
 };

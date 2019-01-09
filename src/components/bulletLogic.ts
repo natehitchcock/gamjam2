@@ -12,6 +12,7 @@ interface IBulletData {
     bulletLife: number;
     speed: number;
     pattern: number;
+    lifetime?: number;
 }
 
 export default class BulletLogic implements IComponent {
@@ -20,11 +21,14 @@ export default class BulletLogic implements IComponent {
     x: number = 0;
     y: number = 0;
     damage: number;
+    lifetime: number;
 
     constructor(data: IBulletData, owner: Entity) {
         this.data = data;
         this.owner = owner;
-        this.damage = 1;
+        this.damage = this.data.damageMultiplier || 1;
+        this.lifetime = 0;
+
         function resolveBulletCollision(other: any) {
             if(other !== this.owner.sharedData.sender) {
                 const ent = (other as Entity);
@@ -48,6 +52,14 @@ export default class BulletLogic implements IComponent {
     }
 
     movement(dt: number) {
+        this.lifetime += dt;
+
+        if(this.data.lifetime) {
+            if(this.lifetime >= this.data.lifetime) {
+                levelManager.currentLevel.removeEntity(this.owner);
+            }
+        }
+
         const bulletSpeed = (this.data.speed);
         // making it move
         this.owner.sharedData.nextMove = new THREE.Vector3(0, 0, 0);
@@ -71,12 +83,18 @@ export default class BulletLogic implements IComponent {
            const bulletPath = new THREE.Vector3(this.currentXPosition, currentYPosition);
           // var aimDirection = new THREE.Vector3(1).multiplyScalar;
            this.owner.position.add(bulletPath);*/
-
-
     }
 
     update(dt) {
         this.movement(dt);
-        return;
+
+        const parentAimVector: THREE.Vector2 =
+            this.owner.sharedData.mousePositions ? this.owner.sharedData.mousePositions.clone() : undefined;
+
+        if(parentAimVector && parentAimVector.lengthSq() > 0.01) {
+            const angle = Math.atan2(parentAimVector.y, parentAimVector.x);
+            const euler = new THREE.Euler(0, 0, angle - 3.14159/2);
+            this.owner.setRotationFromEuler(euler);
+        }
     }
 }

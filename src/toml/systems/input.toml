@@ -96,3 +96,6 @@
     gamepad=0
     amount=1
 
+[[actions.dodge]]
+    key='shift'
+    amount=1

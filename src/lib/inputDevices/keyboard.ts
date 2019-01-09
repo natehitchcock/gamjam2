@@ -11,6 +11,7 @@ export const KS_RELEASED = 2;
 
 const KeyLookUp = {
     13: 'enter',
+    16: 'shift',
     8: 'backspace',
     9: 'tab',
     17: 'ctrl',

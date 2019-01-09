@@ -3,7 +3,7 @@ import Entity from '../../entity';
 import {IComponent} from '../component';
 import {levelManager} from '../../level';
 
-interface IFollowData {
+export interface IFollowData {
     targetLabel: string;
     xoff: number;
     yoff: number;
@@ -12,7 +12,7 @@ interface IFollowData {
     interp: string;
 }
 
-export default class Follow implements IComponent {
+export class Follow implements IComponent {
     data: IFollowData;
     owner: Entity;
     target: Entity;
@@ -33,10 +33,14 @@ export default class Follow implements IComponent {
     }
 
     update(dt: number) {
+        this.moveTo(this.target.position, dt);
+    }
+
+    moveTo(targetPosition: THREE.Vector3, dt: number) {
         const ownerPos = new THREE.Vector3(this.data.xoff || 0, this.data.yoff || 0, 0)
         .add(this.owner.position);
 
-        const movement = new THREE.Vector3().copy(this.target.position);
+        const movement = new THREE.Vector3().copy(targetPosition);
         movement.sub(ownerPos);
         movement.z = 0;
         const dist = movement.length();

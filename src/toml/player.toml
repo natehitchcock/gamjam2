@@ -4,6 +4,8 @@
 
 [controller]
     moveSpeed=160
+    dodgeDistance=100
+    dodgeTime=0.4
 
 [collider]
     blocks=true

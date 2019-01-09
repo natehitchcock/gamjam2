@@ -1,0 +1,12 @@
+[sprite]
+    image = 'img/swipe.png'
+    scale = [32,32]
+
+[collider]
+    blocks = false
+    radius = 15
+
+[bullet]
+    speed = 3
+    lifetime = 0.1
+    damageMultiplier = 5

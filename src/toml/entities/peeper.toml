@@ -1,0 +1,30 @@
+[stats]
+    health=5
+
+[sprite]
+    image='img/characters/peeper/peeper.png'
+
+[collider]
+    blocks=true
+    radius=15
+
+[targetAcquisition]
+    detectionRadius = 300
+    targetPlayers = true
+
+[orbitTarget]
+    targetLabel="player"
+    xoff=0
+    yoff=0
+    maxRadius=1
+    interp="linear"
+    interpSpeed=100
+    orbitFactor=100
+    orbitShrinkRate=0
+    orbitingTriggerDistance=400
+
+[deathSpawn]
+    spawnSpreadRadius = 10
+    [deathSpawn.objects.soul]
+        file='soul.toml'
+        chance=0.5

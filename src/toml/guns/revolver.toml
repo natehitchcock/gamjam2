@@ -9,4 +9,11 @@
     reloadTime = 1
     spread = 15
     bulletType = 'playerBullet'
+    meleeType = 'playerMeleeSwipe' 
     muzzlePosition=[10,0]
+
+[flickMelee]
+  damage=5
+  cooldown=1
+  flickTriggerDelta=3
+  deltaAccumulationTime=0.25

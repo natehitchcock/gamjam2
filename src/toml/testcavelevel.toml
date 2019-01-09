@@ -34,13 +34,6 @@ terrainCreationMethod="GenerateCave"
         y=150
 
 [[entities]]
-    tomlFile="testenemy.toml"
-
-    [entities.position]
-        x=400
-        y=200
-
-[[entities]]
     label="activeCam"
     tomlFile="followingCamera.toml"
 

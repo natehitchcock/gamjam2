@@ -4,6 +4,7 @@ import {IGamepadSettings} from './inputDevices/gamepad';
 const inputActions: {[action: string]: Array<{obj: any, handler: (value: number)=>void}>} = {};
 const fireActions = (action: string, value: number) => {
     if(inputActions[action]) {
+        // console.log(`firing actions for ${action} at ${inputActions[action].length} targets`);
         inputActions[action].forEach(pair => pair.handler.call(pair.obj, value));
     }
 };
@@ -27,7 +28,8 @@ function setupInputMappings(inputActionMap: IInputActionMap) {
     for(const action in inputActionMap.actions) {
         if(inputActionMap.actions[action]) {
             for(const mapping of inputActionMap.actions[action]) {
-                console.log(`mapping ${mapping.key} with value ${mapping.amount}`);
+                console.log(`mapping ${mapping.key || mapping.gamepad || mapping.mouse} with value ${mapping.amount} `
+                    + `for action ${action}`);
                 if(mapping.mouse !== undefined) {
                     inputDevices.mouse.on(mapping.mouse, value =>fireActions(action, mapping.amount * value));
                 } else if(mapping.gamepad !== undefined) {

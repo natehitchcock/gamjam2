@@ -22,7 +22,14 @@ export default class LevelGenIact implements IComponent {
             spawnEnemies(this.data.enemyPointsToSpend, [{
                 chance: 1,
                 collisionRadius: 60,
-                entityFile: 'testenemy.toml',
+                entityFile: 'entities/stalker.toml',
+                isolationRadius: 200,
+                pointWorth: 5,
+            },
+            {
+                chance: 5,
+                collisionRadius: 60,
+                entityFile: 'entities/peeper.toml',
                 isolationRadius: 200,
                 pointWorth: 1,
             },
