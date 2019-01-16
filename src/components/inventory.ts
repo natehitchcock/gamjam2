@@ -32,13 +32,17 @@ export default class Inventory implements IComponent {
                 return;
             }
             const itemRef = levelManager.currentLevel.getEntityByLabel(item.label);
-            levelManager.currentLevel.removeEntity(itemRef);
-            this.owner.add(itemRef);
-            itemRef.parent=this.owner;
-            itemRef.position.x = item.x || 0;
-            itemRef.position.y = item.y || 0;
-            this.itemRefs.push(itemRef);
+            this.addItem(itemRef, item.x, item.y);
         });
+    }
+
+    addItem(itemRef: Entity, offsetX?: number, offsetY?: number) {
+        levelManager.currentLevel.removeEntity(itemRef);
+        this.owner.add(itemRef);
+        itemRef.parent=this.owner;
+        itemRef.position.x = offsetX || 0;
+        itemRef.position.y = offsetY || 0;
+        this.itemRefs.push(itemRef);
     }
 
     destroy() {

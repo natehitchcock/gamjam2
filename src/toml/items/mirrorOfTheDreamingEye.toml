@@ -1,0 +1,14 @@
+[sprite]
+    image='img/items/mirrorOfTheDreamingEye.png'
+    zOrder=3
+    scale=[16,16]
+
+[item]
+    type='artifact'
+    stackable=false
+    activatable=true
+    description='''A gold hand mirror in perfect shape. You can't bring yourself to look directly at it before a sense of dread overwhelms you.'''
+
+[reverseBulletsEffect]
+    onEvent='activate'
+    effectiveRadius=200
