@@ -41,3 +41,11 @@ usePixelShader=true
     [entities.position]
         x=0
         y=0
+
+[[entities]]
+    label="itemTest"
+    tomlFile="items/mirrorOfTheDreamingEye.toml"
+
+    [entities.position]
+        x=200
+        y=200
