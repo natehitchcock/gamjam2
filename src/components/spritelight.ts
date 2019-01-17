@@ -13,7 +13,7 @@ interface ISpritelightData {
 const Spritelights: Spritelight[] = [];
 
 export function getAllSpritelights() {
-    return Spritelights;
+    return levelManager.currentLevel.getAllComponents('spritelight') as Array<Spritelight>;
 }
 
 export default class Spritelight implements IComponent {

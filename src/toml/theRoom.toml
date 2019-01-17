@@ -1,9 +1,10 @@
 terrainCreationMethod="GenerateBoxLevel"
+usePixelShader=true
 
 [terrainParams]
     width=20
     height=15
-    tileSet="hub"
+    tileSet="masonInterior"
 
 [[entities]]
     tomlFile="world/gateway.toml"

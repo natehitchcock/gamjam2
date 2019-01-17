@@ -1,7 +1,9 @@
 import * as THREE from 'three';
 import Pass from './Pass';
+import { RepeatWrapping } from 'three';
 
 export default class ShaderPass extends Pass {
+    enabled: boolean;
     textureID: string;
     uniforms: {[uniform: string]: THREE.IUniform};
     material: THREE.ShaderMaterial;
@@ -13,6 +15,7 @@ export default class ShaderPass extends Pass {
         super();
 
         this.textureID = ( textureID !== undefined ) ? textureID : "tDiffuse";
+        this.enabled = true;
 
         if ( shader instanceof THREE.ShaderMaterial ) {
             this.uniforms = shader.uniforms;
@@ -39,6 +42,8 @@ export default class ShaderPass extends Pass {
     }
 
     render( renderer, writeBuffer?, readBuffer?, delta?, maskActive? ) {
+        if(this.enabled === false) return;
+
         if ( this.uniforms[ this.textureID ] ) {
             this.uniforms[ this.textureID ].value = readBuffer.texture;
         }

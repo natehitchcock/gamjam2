@@ -1,5 +1,5 @@
 [camera]
-    width = 400
+    width = 250
     zOffset = 299
     nearClip = -500
     farClip = 1000

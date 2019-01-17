@@ -9,4 +9,6 @@
 [bullet]
     speed = 5
 
-
+[spritelight]
+    radius=4
+    color=[0.5, 0.1 , 0.1]

@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import {TerrainFactory, Terrain, tileSize} from './terrain';
 import Entity from './entity';
 import Camera from './components/camera';
+import {IComponent} from './components/component';
 
 interface ILoadTerrainParameters {
     filename: string;
@@ -24,6 +25,7 @@ interface IEntityData {
 }
 
 interface ILevelData {
+    usePixelShader: boolean;
     terrainCreationMethod: string;
     terrainTileSet: string;
     terrainParams: ILoadTerrainParameters | IGenTerrainParameters;
@@ -74,6 +76,18 @@ export class Level extends THREE.Object3D {
         });
 
         this.currentCamera = this.getActiveCamera();
+    }
+
+    getAllComponents(type: string) {
+        const comps = new Array<IComponent>();
+        this.entities.forEach(ent => {
+            const comp = ent.getComponent(type);
+            if(comp) {
+                comps.push(comp)
+            }
+        });
+
+        return comps;
     }
 
     getEntityByLabel(label: string) {

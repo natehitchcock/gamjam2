@@ -4,7 +4,7 @@
     scale=[64, 64]
 
 [spritelight]
-    radius=100
+    radius=30
     color=[0.6, 0.6, 1.2]
 
 [levelGenIact]

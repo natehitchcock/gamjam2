@@ -1,4 +1,5 @@
 terrainCreationMethod="GenerateCave"
+usePixelShader=true
 
 [terrainParams]
     width=50

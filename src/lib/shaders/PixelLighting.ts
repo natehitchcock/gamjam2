@@ -7,7 +7,7 @@ export const PixelLighting = {
         tDiffuse: { value: null },
         cameraPos: {value: new THREE.Vector2()},
         ambientLight: {value: new THREE.Vector3()},
-        pixelSize: { value: 8 },
+        pixelSize: { value: 2 },
         lightCount: { value: 0 },
         lightRadius: { value: new Array<number>() },
         lightPos: { value: new Array<THREE.Vector3>() },
@@ -38,7 +38,7 @@ export const PixelLighting = {
 
             uniform float pixelSize;
 
-            #define maxlc 1
+            #define maxlc 100
             uniform int lightCount;
             uniform float lightRadius[maxlc];
             uniform vec3 lightPos[maxlc];
@@ -62,22 +62,25 @@ export const PixelLighting = {
 
                             float distance = length(dv);
 
-                            if(distance < lightRadius[i])
+                            float remappedDist = distance / lightRadius[i];
+
+                            float intensity = 1. / (remappedDist * remappedDist);
+                            intensity -= 0.1;
+
+                            if(intensity > 0.001)
                             {
-                                float intensity = 1. - (distance / lightRadius[i]);
+                                intensity = clamp(intensity, 0., 1.);
                                 litAmt += intensity;
-                                lightValue += lightCol[i];
+                                lightValue += lightCol[i] * intensity;
                                 lightTestCount += 1;
                             }
                         }
                     }
+                    
+                    lightValue += ambientLight;
+                    lightValue = clamp(lightValue, 0., 1.);
 
-                    if(lightTestCount > 0)
-                    {
-                        lightValue /= float(lightTestCount);
-                        litAmt = clamp(litAmt, 0., 1.);
-                    }
-                    gl_FragColor = vec4(originalSample * (lightValue * litAmt + ambientLight * (1. - litAmt)), 1.0);
+                    gl_FragColor = vec4(originalSample * lightValue, 1.0);
                 }
                 else
                 {
