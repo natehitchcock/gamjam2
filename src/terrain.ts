@@ -53,7 +53,7 @@ export class Terrain extends THREE.Object3D {
                 if(this.tileSet) {
                     const tileType = this.getTileType(x, y);
                     const img = tileType + ".png";
-                    const zorder = (tileType & 1);
+                    const zorder = (tileType & 1) * (tileSize.y / 2);
 
                     textureLoader.load(`/img/tilesets/${this.tileSet}/${img}`, (texture) => {
                             texture.magFilter = THREE.NearestFilter;
@@ -72,7 +72,7 @@ export class Terrain extends THREE.Object3D {
                                 new THREE.Vector3(
                                     (tileSize.x*x) + (tileSize.x/2),
                                     (tileSize.x*y) + (tileSize.y/2),
-                                    zorder - y));
+                                    zorder - (tileSize.x*y) + (tileSize.y/2)));
 
                             this.add(testCube);
                         });

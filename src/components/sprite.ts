@@ -26,7 +26,7 @@ export default class Sprite implements IComponent {
             }
 
             texture.magFilter = THREE.NearestFilter;
-            const material = new THREE.MeshBasicMaterial( {map: texture, transparent: true} );
+            const material = new THREE.MeshBasicMaterial( {map: texture, transparent: true, side: THREE.DoubleSide} );
             this.mesh = new THREE.Mesh(new THREE.CubeGeometry(scaleX, scaleY, 50), material);
             this.mesh.position.z = data.zOrder || 0;
             owner.add(this.mesh);

@@ -20,6 +20,7 @@ import Interactor from './interactor';
 import LevelChangeIact from './interactions/levelChangeIact';
 import LevelGenIact from './interactions/levelGenIact';
 import Item from './item';
+import LoadLevelOnDeath from './loadLevelOnDeath';
 
 import Entity from '../entity';
 
@@ -45,5 +46,6 @@ export default {
     deathSpawn: (data: any, owner: Entity) => new DeathSpawn(data, owner),
     flickMelee: (data: any, owner: Entity) => new FlickMelee(data, owner),
     orbitTarget: (data: any, owner: Entity) => new orbitTarget(data, owner),
-    item: (data: any, owner: Entity) => new Item(data, owner)
+    item: (data: any, owner: Entity) => new Item(data, owner),
+    loadLevelOnDeath: (data: any, owner: Entity) => new LoadLevelOnDeath(data, owner),
 };

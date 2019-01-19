@@ -17,6 +17,9 @@ export default class Stats implements IComponent {
         this.owner = owner;
 
         this.owner.on('collided', (other: Entity) => {
+            // Collision with walls and inanimate objects wont have components
+            if(other.components === undefined || other.components.length === 0) return;
+
             const bl: any = other.components.find(comp => ((comp as any).type === 'bullet'));
             if(bl && bl.owner.sharedData.sender !== this.owner) {
                 this.owner.sendEvent('damaged', bl.damage);

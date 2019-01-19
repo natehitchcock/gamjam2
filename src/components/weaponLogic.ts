@@ -10,8 +10,12 @@ export interface IWeaponData {
   reloadTime: number;
   spread: number;
   muzzlePosition: number[];
+  weaponOffset: number[];
+  meleeOffset: number[];
   bulletType: string;
   meleeType: string;
+  useParentForAim: boolean;
+  rotateToAimVector: boolean;
 }
 
 export default class WeaponLogic implements IComponent {
@@ -25,6 +29,7 @@ export default class WeaponLogic implements IComponent {
     meleeToml: any;
     bulletsFired: Entity[];
     position: any;
+    facingAngle: number;
 
     constructor(data: IWeaponData, owner: Entity) {
         this.data = data;
@@ -51,13 +56,16 @@ export default class WeaponLogic implements IComponent {
         }
 
         if(this.fireTimer > this.data.fireRate) {
+
+            // Update which direction I'm facing
+            this.updateLookAt();
+
             // spawning bullet
             const firedBullet = new Entity(this.bulletToml);
-            const fireDirection = dir || new THREE.Vector2(mouse.mouse.xp, -mouse.mouse.yp).normalize();
-            let angle = Math.atan2(fireDirection.y, fireDirection.x) * THREE.Math.RAD2DEG;
-            angle += (Math.random() - 0.5) * this.data.spread;
-            angle *= THREE.Math.DEG2RAD;
-            firedBullet.sharedData.mousePositions = new THREE.Vector2(Math.cos(angle), Math.sin(angle));
+            firedBullet.sharedData.mousePositions =
+                new THREE.Vector2(
+                    Math.cos(this.facingAngle),
+                    Math.sin(this.facingAngle));
 
             let sender: Entity;
             if(this.owner.parent instanceof Entity) sender = this.owner.parent;
@@ -69,7 +77,12 @@ export default class WeaponLogic implements IComponent {
             const newPosition = new THREE.Vector3();
             newPosition.copy(this.owner.parent.position);
             newPosition.add(this.owner.position);
-            newPosition.add(new THREE.Vector3(this.data.muzzlePosition[0], this.data.muzzlePosition[1], 0));
+            newPosition.add(new THREE.Vector3(
+                this.data.muzzlePosition[0] * Math.cos(this.facingAngle)
+                    + this.data.muzzlePosition[1] * Math.sin(this.facingAngle),
+                this.data.muzzlePosition[0] * Math.sin(this.facingAngle)
+                    + this.data.muzzlePosition[1] * -Math.cos(this.facingAngle),
+                this.data.muzzlePosition[2] || 0));
 
             levelManager.currentLevel.addEntity(firedBullet);
             this.bulletsFired.push(firedBullet);
@@ -83,6 +96,8 @@ export default class WeaponLogic implements IComponent {
 
     tryMelee(dir: THREE.Vector2) {
         // spawning bullet
+        this.updateLookAt();
+
         const firedBullet = new Entity(this.meleeToml);
         const fireDirection = dir || new THREE.Vector2(mouse.mouse.xp, -mouse.mouse.yp).normalize();
         let angle = Math.atan2(fireDirection.y, fireDirection.x) * THREE.Math.RAD2DEG;
@@ -100,7 +115,12 @@ export default class WeaponLogic implements IComponent {
         const newPosition = new THREE.Vector3();
         newPosition.copy(this.owner.parent.position);
         newPosition.add(this.owner.position);
-        newPosition.add(new THREE.Vector3(this.data.muzzlePosition[0], this.data.muzzlePosition[1], 0));
+        newPosition.add(new THREE.Vector3(
+            this.data.meleeOffset[0] * Math.cos(this.facingAngle)
+                + this.data.meleeOffset[1] * Math.sin(this.facingAngle),
+            this.data.meleeOffset[0] * Math.sin(this.facingAngle)
+                + this.data.meleeOffset[1] * -Math.cos(this.facingAngle),
+            this.data.meleeOffset[2] || 0));
 
         levelManager.currentLevel.addEntity(firedBullet);
         this.bulletsFired.push(firedBullet);
@@ -121,14 +141,43 @@ export default class WeaponLogic implements IComponent {
             }
         }
 
+        this.updateLookAt();
+    }
+
+    updateLookAt() {
         // Rotate to face owners parent aim direction
+        let sharedData;
         const parent: Entity = this.owner.parent as Entity;
-        if (parent.sharedData) {
-            const parentAimVector: THREE.Vector2 = parent.sharedData.look ? parent.sharedData.look.clone() : undefined;
-            if(parentAimVector && parentAimVector.lengthSq() > 0.01) {
-                const angle = Math.atan2(parentAimVector.y, parentAimVector.x);
+
+        if(this.data.useParentForAim) {
+            sharedData = parent.sharedData;
+        } else {
+            sharedData = this.owner.sharedData;
+        }
+
+        if (sharedData) {
+            const aimVector: THREE.Vector2 = sharedData.look ? sharedData.look.clone() : undefined;
+            if(aimVector && aimVector.lengthSq() > 0.01) {
+                const angle = Math.atan2(aimVector.y, aimVector.x);
                 const euler = new THREE.Euler(0, 0, angle);
-                this.owner.setRotationFromEuler(euler);
+                this.facingAngle = angle;
+
+                if(this.data.rotateToAimVector) {
+                    this.owner.setRotationFromEuler(euler);
+
+                    const offset = new THREE.Vector3(
+                        this.data.weaponOffset[0] * Math.cos(angle) + this.data.weaponOffset[1] * Math.sin(angle),
+                        this.data.weaponOffset[0] * Math.sin(angle) + this.data.weaponOffset[1] * -Math.cos(angle),
+                        this.data.weaponOffset[2]);
+
+                    this.owner.position.copy(offset);
+
+                    if(angle > Math.PI / 2 || angle < -Math.PI/2) {
+                        this.owner.scale.y = -1;
+                    } else {
+                        this.owner.scale.y = 1;
+                    }
+                }
             }
         }
     }

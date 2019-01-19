@@ -43,6 +43,7 @@ export default class Collider implements IComponent {
     IsCollidingWith(other: Collider) {
         const deltaPos = new THREE.Vector3().copy(this.owner.position);
         deltaPos.sub(other.owner.position);
+        deltaPos.z = 0;
 
         const overlap = deltaPos.length() - (this.data.radius + other.data.radius);
         if( overlap < 0 ) {
@@ -71,6 +72,8 @@ export default class Collider implements IComponent {
                 if(this.data.blocks && other.data.blocks) {
                     const sumRadius = this.data.radius + other.data.radius;
                     const deltaVec = new THREE.Vector3().copy(this.owner.position).sub(other.owner.position);
+                    deltaVec.z = 0;
+
                     const entityResolve = new THREE.Vector3()
                         .copy(deltaVec)
                         .normalize()
@@ -95,6 +98,7 @@ export default class Collider implements IComponent {
             }
 
             this.owner.position.copy(collisionData.newCenter);
+            this.owner.position.z = 64-this.owner.position.y;
             this.lastPosition.copy(this.owner.position);
         }
 

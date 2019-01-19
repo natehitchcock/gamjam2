@@ -10,7 +10,11 @@
     spread = 15
     bulletType = 'playerBullet'
     meleeType = 'playerMeleeSwipe' 
-    muzzlePosition=[10,0]
+    muzzlePosition=[16,0]
+    meleeOffset=[0,0]
+    weaponOffset=[20, 0, 10]
+    useParentForAim=true
+    rotateToAimVector=true
 
 [flickMelee]
   damage=5

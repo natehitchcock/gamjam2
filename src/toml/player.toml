@@ -3,13 +3,13 @@
     image='img/characters/wanderer/worldview.png'
 
 [controller]
-    moveSpeed=160
+    moveSpeed=100
     dodgeDistance=100
     dodgeTime=0.4
 
 [collider]
     blocks=true
-    radius=10
+    radius=3
 
 [inventory]
     [[inventory.items]]
@@ -24,3 +24,9 @@
 [spritelight]
     radius=50
     color=[1.1, 0.9, 0.9]
+
+[stats]
+    health=1
+
+[loadLevelOnDeath]
+    levelToLoad="theRoom"

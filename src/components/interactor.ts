@@ -21,7 +21,12 @@ export default class Interactor implements IComponent {
         let closestEntity;
         let distance = this.data.radius;
         levelManager.currentLevel.entities.forEach(ent => {
-            const dv = this.owner.position.distanceTo(ent.position);
+            const targetPos = ent.position.clone();
+            targetPos.z = 0;
+            const ownerPos = this.owner.position.clone();
+            ownerPos.z = 0;
+
+            const dv = ownerPos.distanceTo(targetPos);
             if(dv < distance) {
                 if(ent.hasEvent('interact')) {
                     closestEntity = ent;

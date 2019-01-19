@@ -14,7 +14,11 @@
     reloadTime = 3
     spread = 15
     bulletType = 'enemyBullet'
-    muzzlePosition=[0,0]
+    muzzlePosition=[0,30]
+    weaponOffset=[0,0]
+    meleeOffset=[0,0]
+    useParentForAim=false
+    rotateToAimVector=false
 
 [targetAcquisition]
     detectionRadius = 300

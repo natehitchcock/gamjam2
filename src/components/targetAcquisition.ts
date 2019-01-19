@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import { IComponent } from "./component";
 import Entity from '../entity';
 import {levelManager} from '../level';
@@ -35,7 +36,13 @@ export default class TargetAcquisition implements IComponent {
             if(!this.data.targetPlayers && !isPlayer) canTarget = true;
 
             if(canTarget) {
-                const dv = this.owner.position.distanceTo(ent.position);
+                const ownerPosition = this.owner.position.clone();
+                ownerPosition.z = 0;
+
+                const entPosition = ent.position.clone();
+                entPosition.z = 0;
+
+                const dv = ownerPosition.distanceTo(entPosition);
                 if(dv < this.data.detectionRadius
                 && (targetEnt === undefined || dv < distance)) {
                     targetEnt = ent;
@@ -53,6 +60,19 @@ export default class TargetAcquisition implements IComponent {
         } else {
             const targetDirection = this.target.position.clone();
             targetDirection.sub(this.owner.position);
+
+            this.owner.sharedData.rawLastLook = this.owner.sharedData.rawLook;
+            this.owner.sharedData.rawLook = targetDirection.clone();
+
+            this.owner.sharedData.lastLook =
+                this.owner.sharedData.look ? this.owner.sharedData.look.clone() : undefined;
+
+            if(targetDirection.length() > 0.3) {
+                this.owner.sharedData.look = targetDirection.normalize().clone();
+            } else {
+                this.owner.sharedData.look = new THREE.Vector2(0, 0);
+            }
+
             // [TODO] adapt fire function to take points or directions (using .w 0 or 1)
             this.owner.sendEvent('fire', targetDirection);
         }

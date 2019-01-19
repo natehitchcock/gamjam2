@@ -26,6 +26,7 @@ export default class Controller implements IComponent {
     myClock: THREE.Clock;
     dodgeDirection: THREE.Vector2;
     dodgeStartPosition: THREE.Vector2;
+    wantToFire: boolean = false;
 
     constructor(data: IControllerData, owner: Entity) {
         this.data = data;
@@ -49,9 +50,7 @@ export default class Controller implements IComponent {
         }, this);
         InputManager.on('fire', value =>  {
             if(value > 0.1) {
-                this.owner.sendEvent('fire',
-                this.owner.sharedData.look ? this.owner.sharedData.look.clone() : undefined,
-                true);
+                this.wantToFire = true;
             }
         }, this);
     }
@@ -89,6 +88,14 @@ export default class Controller implements IComponent {
         }
 
         this.lookOwner(desiredLook, dt);
+
+        if(this.wantToFire) {
+            this.owner.sendEvent('fire',
+            this.owner.sharedData.look ? this.owner.sharedData.look.clone() : undefined,
+            true);
+
+            this.wantToFire = false;
+        }
     }
 
     shouldBeDodging() {

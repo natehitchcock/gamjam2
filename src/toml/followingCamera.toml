@@ -1,8 +1,8 @@
 [camera]
     width = 250
-    zOffset = 299
-    nearClip = -500
-    farClip = 1000
+    zOffset = 2990
+    nearClip = -5000
+    farClip = 10000
 
 [follow]
     targetLabel="player"
