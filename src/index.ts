@@ -30,7 +30,7 @@ levelManager.addLevel('theRoom', theRoomData);
 const testcavelevelData = require('./toml/testcavelevel.toml');
 levelManager.addLevel('testcavelevel', testcavelevelData);
 
-levelManager.loadLevel('startlevel');
+levelManager.loadLevel('startlevel', true);
 
 const effectComposer = new EffectComposer(renderer);
 

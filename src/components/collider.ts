@@ -30,6 +30,10 @@ export default class Collider implements IComponent {
         return;
     }
 
+    uninitialize() {
+        return;
+        }
+
     destroy() {
         this.deleted = true;
         delete allColliders[allColliders.indexOf(this)];

@@ -1,3 +1,4 @@
+persistent=true
 
 [sprite]
     image='img/characters/wanderer/worldview.png'

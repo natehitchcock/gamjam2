@@ -46,6 +46,10 @@ export default class WeaponLogic implements IComponent {
         this.owner.on('melee', this.tryMelee.bind(this));
     }
 
+    uninitialize() {
+        return;
+      }
+
     destroy() {
         return;
     }

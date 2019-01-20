@@ -49,6 +49,10 @@ export default class DeathSpawn implements IComponent {
     initialize() {
         return;
     }
+    
+    uninitialize() {
+        return;
+      }
 
     destroy() {
         return;

@@ -43,6 +43,9 @@ export default class LevelGenIact implements IComponent {
             spawnExit(levelManager.currentLevel, 60);
         }, this);
     }
+    uninitialize() {
+        return;
+        }
 
     destroy() {
         return;

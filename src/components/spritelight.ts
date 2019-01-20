@@ -29,6 +29,10 @@ export default class Spritelight implements IComponent {
         Spritelights.push(this);
     }
 
+    uninitialize() {
+        return;
+      }
+
     destroy() {
         Spritelights.splice(Spritelights.indexOf(this), 1);
     }

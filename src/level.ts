@@ -83,7 +83,7 @@ export class Level extends THREE.Object3D {
         this.entities.forEach(ent => {
             const comp = ent.getComponent(type);
             if(comp) {
-                comps.push(comp)
+                comps.push(comp);
             }
         });
 
@@ -91,7 +91,7 @@ export class Level extends THREE.Object3D {
     }
 
     getEntityByLabel(label: string) {
-        const found = this.entities.find(ent => ent.label === label);
+        const found = this.entities.find(ent => ent && ent.label === label);
         return found;
     }
 
@@ -102,8 +102,34 @@ export class Level extends THREE.Object3D {
         ent.initialize();
     }
 
+    movePersistentEntitiesFrom(oldLevel: Level) {
+        const removeList = [];
+        oldLevel.entities.forEach(ent => {
+            if(ent.persistent) {
+                removeList.push(ent);
+            }
+        });
+
+        removeList.forEach(ent => {
+            oldLevel.remove(ent);
+            oldLevel.entities.splice(oldLevel.entities.indexOf(ent), 1);
+
+            console.log(`moving over persistent object ${ent.tomlFile} [${ent.label}]`);
+
+            this.entities.push(ent);
+            ent.parent = this;
+            this.add(ent);
+        });
+
+        this.entities.forEach(ent => ent.initialize());
+    }
+
     removeEntity(ent: Entity) {
         this.removeList.push(ent);
+    }
+
+    removeAllEntities() {
+        this.removeList.push(... this.entities);
     }
 
     update(dt: number) {
@@ -121,10 +147,12 @@ export class Level extends THREE.Object3D {
         return camComp.camera;
     }
 
-    private internal_removeEntity(ent: Entity) {
-        this.remove(ent);
-        ent.destroy();
-        delete this.entities[this.entities.indexOf(ent)];
+    private internal_removeEntity(ent: Entity, overridePersistence: boolean = false) {
+        if(ent && !ent.persistent || overridePersistence) {
+            this.remove(ent);
+            ent.destroy();
+            this.entities.splice(this.entities.indexOf(ent), 1);
+        }
     }
 }
 
@@ -133,6 +161,8 @@ export class LevelManager {
     scene: THREE.Scene;
     levelMap: any;
     loadLevelFns: Array<()=>void>;
+
+    private nextLevel: string = null;
 
     constructor() {
         this.loadLevelFns = [];
@@ -155,20 +185,42 @@ export class LevelManager {
         }
     }
 
-    loadLevel(levelName: string) {
-        this.currentLevel = new Level(this.levelMap[levelName]);
-        this.scene.children = [];
-        this.currentLevel.spawnEntities();
-        this.scene.add(this.currentLevel);
+    loadLevel(levelName: string, immediate: boolean = false) {
+        this.nextLevel = levelName;
 
-        // Call load level functions
-        this.loadLevelFns.forEach(fn => fn());
+        if(immediate) {
+            this.loadLevel_internal();
+        }
     }
 
     update(dt: number) {
         if(this.currentLevel) {
             this.currentLevel.update(dt);
         }
+
+        if(this.nextLevel !== null) {
+
+            this.loadLevel_internal();
+
+            this.nextLevel = null;
+        }
+    }
+
+    private loadLevel_internal() {
+        const newLevel = new Level(this.levelMap[this.nextLevel]);
+
+        this.scene.children = [];
+        if(this.currentLevel != null) {
+            newLevel.movePersistentEntitiesFrom(this.currentLevel);
+            this.currentLevel.removeAllEntities();
+        }
+
+        this.currentLevel = newLevel;
+        this.currentLevel.spawnEntities();
+        this.scene.add(this.currentLevel);
+
+        // Call load level functions
+        this.loadLevelFns.forEach(fn => fn());
     }
 }
 

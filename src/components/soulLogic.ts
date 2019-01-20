@@ -32,6 +32,10 @@ export default class SoulLogic implements IComponent {
         return;
     }
 
+    uninitialize() {
+        return;
+      }
+
     destroy() {
         return;
     }

@@ -12,6 +12,7 @@ export default class Entity extends THREE.Object3D {
     collision: ICollisionData;
     data: any;
     parent: THREE.Object3D;
+    persistent: boolean;
 
     components: IComponent[];
     sharedData: {[key: string]: any};
@@ -24,6 +25,7 @@ export default class Entity extends THREE.Object3D {
         this.eventMap = {};
         this.sharedData = {};
         this.label = label || "";
+        this.persistent = data ? data.persistent || false : false;
 
         this.components = [];
         for(const prop in data) {

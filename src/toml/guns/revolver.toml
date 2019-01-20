@@ -1,3 +1,5 @@
+persistent=true
+
 [sprite]
     image='img/guns/revolver.png'
     zOrder=3

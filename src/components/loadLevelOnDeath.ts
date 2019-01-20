@@ -22,6 +22,10 @@ export default class LoadLevelOnDeathData implements IComponent {
         return;
     }
 
+    uninitialize() {
+        return;
+      }
+
     destroy() {
         return;
     }

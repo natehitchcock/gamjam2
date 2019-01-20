@@ -49,6 +49,10 @@ export default class Interactor implements IComponent {
         }, this);
     }
 
+    uninitialize() {
+        return;
+      }
+
     destroy() {
         return;
     }

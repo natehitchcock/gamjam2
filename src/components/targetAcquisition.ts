@@ -22,6 +22,10 @@ export default class TargetAcquisition implements IComponent {
         return;
     }
 
+    uninitialize() {
+        return;
+      }
+
     destroy() {
         return;
     }

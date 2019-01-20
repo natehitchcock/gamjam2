@@ -29,6 +29,10 @@ export class Effect implements IComponent {
     return;
   }
 
+  uninitialize() {
+    return;
+    }
+
   destroy() {
     return;
   }

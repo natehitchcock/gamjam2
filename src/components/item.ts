@@ -31,6 +31,10 @@ export default class Item implements IComponent {
         return;
     }
 
+    uninitialize() {
+        return;
+      }
+
     destroy() {
         return;
     }

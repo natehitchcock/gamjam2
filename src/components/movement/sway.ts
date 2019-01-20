@@ -27,6 +27,10 @@ export default class Sway implements IComponent {
         return;
     }
 
+    uninitialize() {
+        return;
+        }
+
     destroy() {
         return;
     }

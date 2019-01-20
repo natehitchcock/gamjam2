@@ -5,5 +5,6 @@ export interface IComponent {
     type?: string;
     initialize: ()=>void;
     update: (dt: number)=>void;
+    uninitialize: ()=>void;
     destroy: ()=>void;
 }

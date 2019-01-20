@@ -43,6 +43,10 @@ sceneHUD.add( plane );
         return;
     }
 
+    uninitialize() {
+        return;
+      }
+
    destroy() {
         return;
     }

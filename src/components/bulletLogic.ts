@@ -46,6 +46,10 @@ export default class BulletLogic implements IComponent {
     initialize() {
         return;
     }
+    
+    uninitialize() {
+        return;
+    }
 
     destroy() {
         return;

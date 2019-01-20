@@ -20,11 +20,14 @@ export class Follow implements IComponent {
     constructor(data: IFollowData, owner: Entity) {
         this.data = data;
         this.owner = owner;
-
-        this.target = levelManager.currentLevel.getEntityByLabel(data.targetLabel);
     }
 
     initialize() {
+        this.target = levelManager.currentLevel.getEntityByLabel(this.data.targetLabel);
+        return;
+    }
+
+    uninitialize() {
         return;
     }
 
@@ -33,7 +36,11 @@ export class Follow implements IComponent {
     }
 
     update(dt: number) {
-        this.moveTo(this.target.position, dt);
+        if(this.target) {
+            this.moveTo(this.target.position, dt);
+        } else {
+            this.target = levelManager.currentLevel.getEntityByLabel(this.data.targetLabel);
+        }
     }
 
     moveTo(targetPosition: THREE.Vector3, dt: number) {

@@ -37,6 +37,10 @@ export default class Sprite implements IComponent {
         return;
     }
 
+    uninitialize() {
+        return;
+      }
+
     destroy() {
         return;
     }

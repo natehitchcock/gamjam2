@@ -21,6 +21,10 @@ export default class ButtonTransition implements IComponent {
         return;
     }
 
+    uninitialize() {
+        return;
+        }
+
     destroy() {
         return;
     }

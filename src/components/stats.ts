@@ -42,6 +42,10 @@ export default class Stats implements IComponent {
         return;
     }
 
+    uninitialize() {
+        return;
+      }
+
     destroy() {
         return;
     }
