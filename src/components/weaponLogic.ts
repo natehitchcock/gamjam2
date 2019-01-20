@@ -73,15 +73,19 @@ export default class WeaponLogic implements IComponent {
 
             firedBullet.sharedData.sender = sender;
 
+            let aimAngle = 0;
+            if(this.data.rotateToAimVector) {
+                aimAngle = this.facingAngle;
+            }
             // setting position
             const newPosition = new THREE.Vector3();
             newPosition.copy(this.owner.parent.position);
             newPosition.add(this.owner.position);
             newPosition.add(new THREE.Vector3(
-                this.data.muzzlePosition[0] * Math.cos(this.facingAngle)
-                    + this.data.muzzlePosition[1] * Math.sin(this.facingAngle),
-                this.data.muzzlePosition[0] * Math.sin(this.facingAngle)
-                    + this.data.muzzlePosition[1] * -Math.cos(this.facingAngle),
+                this.data.muzzlePosition[0] * Math.cos(aimAngle)
+                    + this.data.muzzlePosition[1] * Math.sin(aimAngle),
+                this.data.muzzlePosition[0] * Math.sin(aimAngle)
+                    + this.data.muzzlePosition[1] * -Math.cos(aimAngle),
                 this.data.muzzlePosition[2] || 0));
 
             levelManager.currentLevel.addEntity(firedBullet);
@@ -111,15 +115,20 @@ export default class WeaponLogic implements IComponent {
 
         firedBullet.sharedData.sender = sender;
 
+        let aimAngle = 0;
+        if(this.data.rotateToAimVector) {
+            aimAngle = this.facingAngle;
+        }
+
         // setting position
         const newPosition = new THREE.Vector3();
         newPosition.copy(this.owner.parent.position);
         newPosition.add(this.owner.position);
         newPosition.add(new THREE.Vector3(
-            this.data.meleeOffset[0] * Math.cos(this.facingAngle)
-                + this.data.meleeOffset[1] * Math.sin(this.facingAngle),
-            this.data.meleeOffset[0] * Math.sin(this.facingAngle)
-                + this.data.meleeOffset[1] * -Math.cos(this.facingAngle),
+            this.data.meleeOffset[0] * Math.cos(aimAngle)
+                + this.data.meleeOffset[1] * Math.sin(aimAngle),
+            this.data.meleeOffset[0] * Math.sin(aimAngle)
+                + this.data.meleeOffset[1] * -Math.cos(aimAngle),
             this.data.meleeOffset[2] || 0));
 
         levelManager.currentLevel.addEntity(firedBullet);

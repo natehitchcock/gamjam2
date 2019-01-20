@@ -29,6 +29,7 @@ export default class DeathSpawn implements IComponent {
                     const ent = new Entity(entityData);
                     ent.position.x = owner.position.x + (Math.random() - 0.5) * this.data.spawnSpreadRadius;
                     ent.position.y = owner.position.y + (Math.random() - 0.5) * this.data.spawnSpreadRadius;
+                    ent.position.z = owner.position.z;
                     console.log(`spawning ${objectData.file} at ${ent.position.x}, ${ent.position.y}`);
 
                     let sender: Entity;

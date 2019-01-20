@@ -4,6 +4,9 @@
 [sprite]
     image='img/characters/stalker/stalker.png'
 
+[depthControl]
+    zOrder=59
+
 [collider]
     blocks=true
     radius=15
@@ -14,7 +17,7 @@
     reloadTime = 3
     spread = 15
     bulletType = 'enemyBullet'
-    muzzlePosition=[0,30]
+    muzzlePosition=[0,-14]
     weaponOffset=[0,0]
     meleeOffset=[0,0]
     useParentForAim=false
