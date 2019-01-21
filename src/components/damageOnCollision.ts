@@ -24,8 +24,8 @@ export default class DamageOnCollision implements IComponent {
             // Collision with walls and inanimate objects wont have components
             if(other.components === undefined) return;
 
-            //other.sendEvent('damage', this.data.damage);
-            //this.owner.sendEvent('damage', this.data.selfDamage);
+            other.sendEvent('damaged', this.data.damage);
+            this.owner.sendEvent('damaged', this.data.selfDamage);
         });
     }
 

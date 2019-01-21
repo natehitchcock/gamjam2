@@ -26,13 +26,13 @@ export default class LevelGenIact implements IComponent {
                 isolationRadius: 200,
                 pointWorth: 5,
             },
-            // {
-            //     chance: 5,
-            //     collisionRadius: 60,
-            //     entityFile: 'entities/peeper.toml',
-            //     isolationRadius: 200,
-            //     pointWorth: 1,
-            // },
+            {
+                chance: 5,
+                collisionRadius: 60,
+                entityFile: 'entities/peeper.toml',
+                isolationRadius: 200,
+                pointWorth: 1,
+            },
             {
                 chance: 0.1,
                 collisionRadius: 60,
