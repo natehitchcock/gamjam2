@@ -18,7 +18,7 @@ export default class LevelGenIact implements IComponent {
 
     initialize() {
         this.owner.on('interact', data => {
-            levelManager.loadLevel(this.data.destLevel);
+            levelManager.loadLevel(this.data.destLevel, true);
             spawnEnemies(this.data.enemyPointsToSpend, [{
                 chance: 1,
                 collisionRadius: 60,

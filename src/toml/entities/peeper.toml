@@ -23,6 +23,10 @@
     orbitShrinkRate=0
     orbitingTriggerDistance=400
 
+[damageOnCollision]
+    damage=1
+    selfDamage=15
+
 [deathSpawn]
     spawnSpreadRadius = 10
     [deathSpawn.objects.soul]

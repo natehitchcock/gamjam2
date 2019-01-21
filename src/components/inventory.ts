@@ -40,7 +40,8 @@ export default class Inventory implements IComponent {
 
     addItem(itemRef: Entity, offsetX?: number, offsetY?: number) {
 
-        if(itemRef === undefined) return;
+        // If the item is null or it has already been parented to me
+        if(itemRef === undefined || itemRef.parent === this.owner) return;
 
         this.owner.add(itemRef);
         levelManager.currentLevel.removeEntity(itemRef);

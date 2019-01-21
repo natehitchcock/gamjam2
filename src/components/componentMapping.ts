@@ -22,6 +22,7 @@ import LevelGenIact from './interactions/levelGenIact';
 import Item from './item';
 import LoadLevelOnDeath from './loadLevelOnDeath';
 import DepthControl from './depthControl';
+import DamageOnCollision from './damageOnCollision';
 
 import Entity from '../entity';
 
@@ -50,4 +51,5 @@ export default {
     item: (data: any, owner: Entity) => new Item(data, owner),
     loadLevelOnDeath: (data: any, owner: Entity) => new LoadLevelOnDeath(data, owner),
     depthControl: (data: any, owner: Entity) => new DepthControl(data, owner),
+    damageOnCollision: (data: any, owner: Entity) => new DamageOnCollision(data, owner),
 };

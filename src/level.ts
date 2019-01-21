@@ -162,7 +162,7 @@ export class LevelManager {
     levelMap: any;
     loadLevelFns: Array<()=>void>;
 
-    private nextLevel: string = null;
+    private nextLevel: string = undefined;
 
     constructor() {
         this.loadLevelFns = [];
@@ -190,6 +190,7 @@ export class LevelManager {
 
         if(immediate) {
             this.loadLevel_internal();
+            this.nextLevel = undefined;
         }
     }
 
@@ -198,15 +199,16 @@ export class LevelManager {
             this.currentLevel.update(dt);
         }
 
-        if(this.nextLevel !== null) {
+        if(this.nextLevel !== undefined) {
 
             this.loadLevel_internal();
 
-            this.nextLevel = null;
+            this.nextLevel = undefined;
         }
     }
 
     private loadLevel_internal() {
+        console.log(`loading level ${this.nextLevel}`);
         const newLevel = new Level(this.levelMap[this.nextLevel]);
 
         this.scene.children = [];
@@ -280,6 +282,7 @@ export function spawnEnemies(pointsToSpend: number, enemies: IEnemySpawnData[], 
                 const spawned = new Entity(entityData);
                 spawned.position.x = loc.x;
                 spawned.position.y = loc.y;
+                spawned.position.z = 64-loc.y;
                 level.addEntity(spawned);
                 pointsToSpend -= selected.pointWorth;
                 placed = true;
