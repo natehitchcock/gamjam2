@@ -44,7 +44,7 @@ export default class Inventory implements IComponent {
         if(itemRef === undefined || itemRef.parent === this.owner) return;
 
         this.owner.add(itemRef);
-        levelManager.currentLevel.removeEntity(itemRef);
+        // levelManager.currentLevel.removeEntity(itemRef);
 
         itemRef.parent=this.owner;
         itemRef.position.x = offsetX || 0;
@@ -57,12 +57,12 @@ export default class Inventory implements IComponent {
       }
 
     destroy() {
-        this.itemRefs.forEach(entity => entity.destroy());
+        // this.itemRefs.forEach(entity => entity.destroy());
     }
 
     update(dt: number) {
-        this.itemRefs.forEach((item)  =>  {
-            item.update(dt);
-        });
+        // this.itemRefs.forEach((item)  =>  {
+        //     item.update(dt);
+        // });
     }
 }

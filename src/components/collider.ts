@@ -22,6 +22,7 @@ export default class Collider implements IComponent {
         this.deleted = false;
         this.owner = owner;
         this.lastPosition = new THREE.Vector3().copy(owner.position);
+
         this.collided = [];
         allColliders.push(this);
     }
@@ -36,7 +37,12 @@ export default class Collider implements IComponent {
 
     destroy() {
         this.deleted = true;
-        delete allColliders[allColliders.indexOf(this)];
+        const myIdx = allColliders.indexOf(this);
+
+        if(myIdx === -1) {
+            console.log('asdasd');
+        }
+        allColliders.splice(myIdx, 1);
     }
 
     HandleCollision(other: Collider) {
@@ -105,7 +111,7 @@ export default class Collider implements IComponent {
             }
 
             this.owner.position.copy(collisionData.newCenter);
-            this.owner.position.z = 64-this.owner.position.y;
+            // this.owner.position.z = 64-this.owner.position.y;
             this.lastPosition.copy(this.owner.position);
         }
 

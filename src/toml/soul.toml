@@ -1,3 +1,6 @@
+bindDepthToY=true
+depthOffset=64
+
 [sprite]
     image = 'img/soul.png'
     scale = [8,16]

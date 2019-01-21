@@ -46,7 +46,7 @@ export default class BulletLogic implements IComponent {
     initialize() {
         return;
     }
-    
+
     uninitialize() {
         return;
     }
@@ -58,20 +58,17 @@ export default class BulletLogic implements IComponent {
     movement(dt: number) {
         this.lifetime += dt;
 
-        if(this.data.lifetime) {
-            if(this.lifetime >= this.data.lifetime) {
-                levelManager.currentLevel.removeEntity(this.owner);
-            }
+        if(this.lifetime >= this.data.lifetime) {
+            levelManager.currentLevel.removeEntity(this.owner);
         }
 
         const bulletSpeed = (this.data.speed);
         // making it move
         this.owner.sharedData.nextMove = new THREE.Vector3(0, 0, 0);
-        const bulletPosition = this.owner.sharedData.nextMove;
         const bulletDirection = new THREE.Vector3().copy(this.owner.sharedData.mousePositions);
-        (bulletDirection).multiplyScalar(bulletSpeed);
-        bulletPosition.y += bulletDirection.y;
-        bulletPosition.x += bulletDirection.x;
+        bulletDirection.multiplyScalar(bulletSpeed);
+
+        this.owner.sharedData.nextMove.copy(bulletDirection);
 
         /* //  console.log(this.data.speed);
            /*var bulletPosition = Entity;

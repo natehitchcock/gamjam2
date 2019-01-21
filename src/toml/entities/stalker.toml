@@ -1,5 +1,9 @@
+bindDepthToY=true
+depthOffset=64
+
 [stats]
     health=5
+    destroyOnDeath=true
 
 [sprite]
     image='img/characters/stalker/stalker.png'

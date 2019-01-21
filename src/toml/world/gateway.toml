@@ -1,3 +1,5 @@
+bindDepthToY=true
+depthOffset=64
 
 [sprite]
     image='img/gateway.png'

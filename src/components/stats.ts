@@ -6,6 +6,7 @@ import {levelManager} from '../level';
 
 interface IStatsData {
     health: number;
+    destroyOnDeath: boolean;
 }
 
 export default class Stats implements IComponent {
@@ -32,8 +33,14 @@ export default class Stats implements IComponent {
             }
         });
 
-        this.owner.on('damaged', damage => {this.owner.sharedData.health -= damage;});
-        this.owner.on('soulConsumed', worth => {this.owner.sharedData.souls += worth;});
+        this.owner.on('damaged', damage => {
+            this.owner.sharedData.health -= damage;
+            this.owner.sendEvent('statsUpdated');
+        });
+        this.owner.on('soulConsumed', worth => {
+            this.owner.sharedData.souls += worth;
+            this.owner.sendEvent('statsUpdated');
+        });
     }
 
     initialize() {
@@ -53,7 +60,10 @@ export default class Stats implements IComponent {
     update(dt: number) {
        if(this.owner.sharedData.health <= 0) {
            this.owner.sendEvent('died');
-           levelManager.currentLevel.removeEntity(this.owner);
+
+           if(this.data.destroyOnDeath) {
+                levelManager.currentLevel.removeEntity(this.owner);
+           }
        }
     }
 }

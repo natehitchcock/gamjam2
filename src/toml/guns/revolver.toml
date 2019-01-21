@@ -6,9 +6,9 @@ persistent=true
     scale=[32,16]
 
 [weapon]
-    fireRate = 0.4
+    fireRate = 0.2
     magazineSize = 6
-    reloadTime = 3
+    reloadTime = 0.5
     spread = 15
     bulletType = 'playerBullet'
     meleeType = 'playerMeleeSwipe' 

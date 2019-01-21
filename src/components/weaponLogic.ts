@@ -1,3 +1,4 @@
+import * as winston from 'winston';
 import { IComponent } from "./component";
 import Entity from "../entity";
 import { mouse, keyboard } from "../lib/input";
@@ -27,23 +28,23 @@ export default class WeaponLogic implements IComponent {
     owner: Entity;
     bulletToml: any;
     meleeToml: any;
-    bulletsFired: Entity[];
     position: any;
     facingAngle: number;
 
     constructor(data: IWeaponData, owner: Entity) {
         this.data = data;
-        this.bulletsFired = [];
         this.fireTimer = 0;
         this.magazine = this.data.magazineSize;
         this.owner = owner;
         this.bulletToml = require(`../toml/${this.data.bulletType || 'enemyBullet'}.toml`);
         this.meleeToml = require(`../toml/${this.data.meleeType || 'playerMeleeSwipe'}.toml`);
+
+        this.owner.on('fire', this.tryFire.bind(this));
+        this.owner.on('melee', this.tryMelee.bind(this));
     }
 
     initialize() {
-        this.owner.on('fire', this.tryFire.bind(this));
-        this.owner.on('melee', this.tryMelee.bind(this));
+        return;
     }
 
     uninitialize() {
@@ -66,6 +67,7 @@ export default class WeaponLogic implements IComponent {
 
             // spawning bullet
             const firedBullet = new Entity(this.bulletToml);
+            firedBullet.sharedData.tomlFile = this.data.bulletType;
             firedBullet.sharedData.mousePositions =
                 new THREE.Vector2(
                     Math.cos(this.facingAngle),
@@ -93,7 +95,6 @@ export default class WeaponLogic implements IComponent {
                 this.data.muzzlePosition[2] || 0));
 
             levelManager.currentLevel.addEntity(firedBullet);
-            this.bulletsFired.push(firedBullet);
             firedBullet.position.copy(newPosition);
             this.fireTimer = 0;
             this.magazine--;
@@ -103,10 +104,13 @@ export default class WeaponLogic implements IComponent {
     }
 
     tryMelee(dir: THREE.Vector2) {
+        console.log('meleeing');
+
         // spawning bullet
         this.updateLookAt();
 
         const firedBullet = new Entity(this.meleeToml);
+        firedBullet.sharedData.tomlFile = this.data.meleeType;
         const fireDirection = dir || new THREE.Vector2(mouse.mouse.xp, -mouse.mouse.yp).normalize();
         let angle = Math.atan2(fireDirection.y, fireDirection.x) * THREE.Math.RAD2DEG;
         angle += (Math.random() - 0.5) * this.data.spread;
@@ -136,7 +140,6 @@ export default class WeaponLogic implements IComponent {
             this.data.meleeOffset[2] || 0));
 
         levelManager.currentLevel.addEntity(firedBullet);
-        this.bulletsFired.push(firedBullet);
         firedBullet.position.copy(newPosition);
         this.fireTimer = 0;
         this.magazine--;
@@ -162,7 +165,7 @@ export default class WeaponLogic implements IComponent {
         let sharedData;
         const parent: Entity = this.owner.parent as Entity;
 
-        if(this.data.useParentForAim) {
+        if(this.data.useParentForAim && parent) {
             sharedData = parent.sharedData;
         } else {
             sharedData = this.owner.sharedData;

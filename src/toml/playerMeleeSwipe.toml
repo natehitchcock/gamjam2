@@ -1,3 +1,6 @@
+bindDepthToY=true
+depthOffset=64
+
 [sprite]
     image = 'img/swipe.png'
     scale = [32,32]

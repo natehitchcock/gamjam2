@@ -41,12 +41,14 @@ export class Level extends THREE.Object3D {
     currentCamera: THREE.Camera;
 
     private removeList: Entity[];
+    private addList: Entity[];
 
     constructor(data: ILevelData) {
         super();
         this.data = data;
         this.entities = [];
         this.removeList = [];
+        this.addList = [];
     }
 
     spawnEntities() {
@@ -64,6 +66,7 @@ export class Level extends THREE.Object3D {
             }
 
             const entity = new Entity(entityData, ent.label);
+            entity.sharedData.tomlFile = ent.tomlFile;
             entity.position.x = ent.position.x;
             entity.position.y = ent.position.y;
             entity.parent = this;
@@ -96,10 +99,7 @@ export class Level extends THREE.Object3D {
     }
 
     addEntity(ent: Entity) {
-        this.entities.push(ent);
-        ent.parent = this;
-        this.add(ent);
-        ent.initialize();
+        this.addList.push(ent);
     }
 
     movePersistentEntitiesFrom(oldLevel: Level) {
@@ -117,7 +117,11 @@ export class Level extends THREE.Object3D {
             console.log(`moving over persistent object ${ent.tomlFile} [${ent.label}]`);
 
             this.entities.push(ent);
-            ent.parent = this;
+
+            if(ent.parent === oldLevel) {
+                ent.parent = this;
+            }
+
             this.add(ent);
         });
 
@@ -128,16 +132,25 @@ export class Level extends THREE.Object3D {
         this.removeList.push(ent);
     }
 
-    removeAllEntities() {
+    removeAllEntities(immediate?: boolean) {
+        this.addList = [];
+
         this.removeList.push(... this.entities);
+
+        if(immediate) {
+            this.removeList.forEach(ent => this.internal_removeEntity(ent, true));
+        }
     }
 
     update(dt: number) {
+        this.addList.forEach(ent => this.internal_addEntity(ent));
+        this.addList = [];
+
         this.entities.forEach(ent => {
             ent.update(dt);
         });
 
-        this.removeList.forEach(ent => this.internal_removeEntity(ent));
+        this.removeList.forEach(ent => this.internal_removeEntity(ent, true));
         this.removeList = [];
     }
 
@@ -147,11 +160,23 @@ export class Level extends THREE.Object3D {
         return camComp.camera;
     }
 
+    private internal_addEntity(ent: Entity) {
+        this.entities.push(ent);
+        ent.parent = this;
+        this.add(ent);
+        ent.initialize();
+    }
+
     private internal_removeEntity(ent: Entity, overridePersistence: boolean = false) {
-        if(ent && !ent.persistent || overridePersistence) {
+        if(ent && (!ent.persistent || overridePersistence)) {
+            console.log('removing ' + ent.sharedData.tomlFile);
             this.remove(ent);
             ent.destroy();
-            this.entities.splice(this.entities.indexOf(ent), 1);
+            delete ent.parent;
+            const entIdx = this.entities.indexOf(ent);
+            if(entIdx >= 0) {
+                this.entities.splice(entIdx, 1);
+            }
         }
     }
 }
@@ -214,7 +239,7 @@ export class LevelManager {
         this.scene.children = [];
         if(this.currentLevel != null) {
             newLevel.movePersistentEntitiesFrom(this.currentLevel);
-            this.currentLevel.removeAllEntities();
+            this.currentLevel.removeAllEntities(true);
         }
 
         this.currentLevel = newLevel;

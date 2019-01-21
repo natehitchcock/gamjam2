@@ -16,7 +16,8 @@
     "three": "^0.85.0",
     "toml-loader": "^1.0.0",
     "ts-node": "^3.0.2",
-    "uuid": "^3.0.1",
+    "uuid": "^3.3.2",
+    "winston": "^3.1.0",
     "ws": "^2.3.1"
   },
   "devDependencies": {
@@ -28,6 +29,8 @@
     "@types/react-dom": "^16.0.3",
     "@types/tape": "^4.2.29",
     "@types/three": "^0.84.6",
+    "@types/uuid": "^3.4.4",
+    "@types/winston": "^2.4.4",
     "@types/ws": "0.0.40",
     "awesome-typescript-loader": "^3.1.2",
     "node-static": "^0.7.9",

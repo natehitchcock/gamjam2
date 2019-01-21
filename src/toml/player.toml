@@ -1,4 +1,6 @@
 persistent=true
+bindDepthToY=true
+depthOffset=64
 
 [sprite]
     image='img/characters/wanderer/worldview.png'
@@ -28,6 +30,7 @@ persistent=true
 
 [stats]
     health=1
+    destroyOnDeath=false
 
 [loadLevelOnDeath]
     levelToLoad="theRoom"

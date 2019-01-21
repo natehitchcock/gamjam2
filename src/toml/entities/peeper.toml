@@ -1,5 +1,9 @@
+bindDepthToY=true
+depthOffset=256
+
 [stats]
     health=5
+    destroyOnDeath=true
 
 [sprite]
     image='img/characters/peeper/peeper.png'

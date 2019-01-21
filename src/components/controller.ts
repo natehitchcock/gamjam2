@@ -50,7 +50,7 @@ export default class Controller implements IComponent {
           this.dodgeStartTimer = this.myClock.getElapsedTime();
         }
       },
-      this
+      this,
     );
     InputManager.on(
       'fire',
@@ -59,7 +59,7 @@ export default class Controller implements IComponent {
           this.wantToFire = true;
         }
       },
-      this
+      this,
     );
   }
 
@@ -107,7 +107,7 @@ export default class Controller implements IComponent {
         this.owner.sharedData.look
           ? this.owner.sharedData.look.clone()
           : undefined,
-        true
+        true,
       );
 
       this.wantToFire = false;
@@ -140,7 +140,7 @@ export default class Controller implements IComponent {
       this.dodgeDirection = desiredMove.clone();
       this.dodgeStartPosition = new THREE.Vector2(
         this.owner.position.x,
-        this.owner.position.y
+        this.owner.position.y,
       );
     }
 
@@ -161,7 +161,7 @@ export default class Controller implements IComponent {
       this.owner.sharedData.nextMove = new THREE.Vector3(
         targetPosition.x,
         targetPosition.y,
-        0
+        0,
       );
     }
   }

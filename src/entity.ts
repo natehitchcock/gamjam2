@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import {IComponent} from './components/component';
 import ComponentMapping from './components/componentMapping';
+import * as uuid from 'uuid/v4';
 
 interface ICollisionData {
     blocks: boolean;
@@ -13,11 +14,13 @@ export default class Entity extends THREE.Object3D {
     data: any;
     parent: THREE.Object3D;
     persistent: boolean;
+    bindDepthToY: boolean;
+    depthOffset: number;
 
     components: IComponent[];
     sharedData: {[key: string]: any};
 
-    private eventMap: {[key: string]: Array<{fn: (data: any)=>void, this?: any}> };
+    private eventMap: {[key: string]: Array<{id: string, fn: (data: any)=>void, this?: any}> };
 
     constructor(data: any, label?: string) {
         super();
@@ -26,6 +29,8 @@ export default class Entity extends THREE.Object3D {
         this.sharedData = {};
         this.label = label || "";
         this.persistent = data ? data.persistent || false : false;
+        this.bindDepthToY = data ? data.bindDepthToY || false : false;
+        this.depthOffset = data ? data.depthOffset || 0 : 0;
 
         this.components = [];
         for(const prop in data) {
@@ -56,7 +61,23 @@ export default class Entity extends THREE.Object3D {
     on(key: string, func: (data: any) => void, thisObj?: any) {
         if(this.eventMap[key] === undefined) this.eventMap[key] = [];
 
-        this.eventMap[key].push({fn: func, this: thisObj});
+        const fid = uuid();
+        this.eventMap[key].push({id: fid, fn: func, this: thisObj});
+
+        return fid;
+    }
+
+    // Remove a function from the event listener map via the id (returned from the 'on' function)
+    off(key: string, id: string) {
+        if(this.eventMap[key] === undefined) return;
+
+        const idx = this.eventMap[key].findIndex((val) => {
+            return val.id === id;
+        });
+
+        if(idx >= 0) {
+            this.eventMap[key].slice(idx, 1);
+        }
     }
 
     sendEvent(key: string, data?: any, sendToChildren?: boolean) {
@@ -74,5 +95,13 @@ export default class Entity extends THREE.Object3D {
 
     update(dt) {
         this.components.forEach((comp)=>comp.update(dt));
+
+        this.internal_update(dt);
+    }
+
+    private internal_update(dt) {
+        if(this.bindDepthToY) {
+            this.position.z = this.depthOffset - this.position.y;
+        }
     }
 }
