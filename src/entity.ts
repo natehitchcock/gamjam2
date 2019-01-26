@@ -103,5 +103,8 @@ export default class Entity extends THREE.Object3D {
         if(this.bindDepthToY) {
             this.position.z = this.depthOffset - this.position.y;
         }
+
+        this.position.x = Math.trunc(this.position.x * 100) / 100;
+        this.position.y = Math.trunc(this.position.y * 100) / 100;
     }
 }

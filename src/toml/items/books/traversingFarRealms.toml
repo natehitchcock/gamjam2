@@ -1,0 +1,30 @@
+[sprite]
+    image='img/items/TraversingFarRealms.png'
+    zOrder=3
+    scale=[16,16]
+
+[item]
+    type='book'
+    stackable=false
+    activatable=false
+    description='''Book'''
+
+[changeStats]
+    onEvent='pickedUp'
+    actOnPickUp=true
+
+    [changeStats.statsChanged]
+        bulletSpeed=0
+        bulletSize=0
+        reloadTime=0
+        damageMultiplier=0
+        additionalDamage=0
+        additionalBulletDamage=0
+        additionalMeleeDamage=0
+        shields=0
+        moveSpeed=5
+        dodgeSpeed=1
+        dodgeDistance=5
+        cameraZoom=3
+        lightDistance=0
+

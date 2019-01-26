@@ -1,0 +1,18 @@
+bindDepthToY=true
+depthOffset=64
+
+[sprite]
+    image='img/ship.png'
+    scale=[64, 64]
+
+[spritelight]
+    radius=130
+    color=[0.9, 0.3, 0.3]
+
+[moveEntityOnInit]
+    [[moveEntityOnInit.entities]]
+        label='player'
+        offset=[0, 0, 0]
+    [[moveEntityOnInit.entities]]
+        label='activeCam'
+        offset=[0, 0, 0]

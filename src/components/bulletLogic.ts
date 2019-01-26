@@ -43,6 +43,11 @@ export default class BulletLogic implements IComponent {
         this.owner.on('collided', resolveBulletCollision.bind(this));
     }
 
+    getDamage() {
+        return (this.damage + (this.owner.sharedData.additionalDamage || 0))
+            * (this.owner.sharedData.damageMultiplier || 1);
+    }
+
     initialize() {
         return;
     }
@@ -62,7 +67,7 @@ export default class BulletLogic implements IComponent {
             levelManager.currentLevel.removeEntity(this.owner);
         }
 
-        const bulletSpeed = (this.data.speed);
+        const bulletSpeed = (this.data.speed + (this.owner.sharedData.bulletSpeed || 0));
         // making it move
         this.owner.sharedData.nextMove = new THREE.Vector3(0, 0, 0);
         const bulletDirection = new THREE.Vector3().copy(this.owner.sharedData.mousePositions);

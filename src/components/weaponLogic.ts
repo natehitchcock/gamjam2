@@ -72,6 +72,15 @@ export default class WeaponLogic implements IComponent {
                 new THREE.Vector2(
                     Math.cos(this.facingAngle),
                     Math.sin(this.facingAngle));
+            const player = this.owner.parent as Entity;
+            if(player && player.sharedData) {
+                firedBullet.sharedData.bulletSpeed = player.sharedData.bulletSpeed || 0;
+                const scale = firedBullet.sharedData.bulletSize = player.sharedData.bulletSize || 1;
+                firedBullet.sharedData.additionalDamage = player.sharedData.additionalDamage || 0;
+                console.log(`bullets additional damage is ${firedBullet.sharedData.additionalDamage}`);
+                firedBullet.sharedData.damageMultiplier = player.sharedData.damageMultiplier || 1;
+                firedBullet.scale.multiplyScalar(scale);
+            }
 
             let sender: Entity;
             if(this.owner.parent instanceof Entity) sender = this.owner.parent;

@@ -23,6 +23,8 @@ import Item from './item';
 import LoadLevelOnDeath from './loadLevelOnDeath';
 import DepthControl from './depthControl';
 import DamageOnCollision from './damageOnCollision';
+import ChangeStats from './changeStats';
+import MoveEntityOnInit from './moveEntityOnInit';
 
 import Entity from '../entity';
 
@@ -52,4 +54,6 @@ export default {
     loadLevelOnDeath: (data: any, owner: Entity) => new LoadLevelOnDeath(data, owner),
     depthControl: (data: any, owner: Entity) => new DepthControl(data, owner),
     damageOnCollision: (data: any, owner: Entity) => new DamageOnCollision(data, owner),
+    changeStats: (data: any, owner: Entity) => new ChangeStats(data, owner),
+    moveEntityOnInit: (data: any, owner: Entity) => new MoveEntityOnInit(data, owner),
 };

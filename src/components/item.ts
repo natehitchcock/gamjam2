@@ -26,6 +26,7 @@ export default class Item implements IComponent {
 
             if(inv) {
                 inv.addItem(this.owner, 0, 40);
+                this.owner.sendEvent('pickedUp', playerEntity);
             }
         });
         return;

@@ -111,18 +111,17 @@ export class Level extends THREE.Object3D {
         });
 
         removeList.forEach(ent => {
-            oldLevel.remove(ent);
+            if(ent.parent === oldLevel) {
+                oldLevel.remove(ent);
+                ent.parent = this;
+                this.add(ent);
+            }
+
             oldLevel.entities.splice(oldLevel.entities.indexOf(ent), 1);
 
             console.log(`moving over persistent object ${ent.tomlFile} [${ent.label}]`);
 
             this.entities.push(ent);
-
-            if(ent.parent === oldLevel) {
-                ent.parent = this;
-            }
-
-            this.add(ent);
         });
 
         this.entities.forEach(ent => ent.initialize());
@@ -253,6 +252,11 @@ export class LevelManager {
 
 export const levelManager = new LevelManager();
 
+export interface IEnemyDeadZones {
+    position: THREE.Vector3;
+    isolationRadius: number;
+}
+
 export interface IEnemySpawnData {
     entityFile: string;
     pointWorth: number;
@@ -260,7 +264,12 @@ export interface IEnemySpawnData {
     collisionRadius: number;
     isolationRadius: number;
 }
-export function spawnEnemies(pointsToSpend: number, enemies: IEnemySpawnData[], level: Level) {
+export function spawnEnemies(
+    pointsToSpend: number,
+    enemies: IEnemySpawnData[],
+    level: Level,
+    deadZones?: IEnemyDeadZones[]) {
+
     let totalChance = 0;
     enemies.forEach(edat => totalChance += edat.chance);
 
@@ -290,12 +299,23 @@ export function spawnEnemies(pointsToSpend: number, enemies: IEnemySpawnData[], 
                 0);
 
             let farEnoughAway = true;
-            placedEntities.forEach(ent => {
-                const entFlatPos = new THREE.Vector3(ent.position.x, ent.position.y, 0);
-                if(entFlatPos.distanceTo(loc) <= selected.isolationRadius) {
-                    farEnoughAway = false;
-                }
-            });
+            if(deadZones) {
+                deadZones.forEach(zone => {
+                    const zoneFlatPos = new THREE.Vector3(zone.position.x, zone.position.y, 0);
+                    if(zoneFlatPos.distanceTo(loc) <= selected.isolationRadius) {
+                        farEnoughAway = false;
+                    }
+                });
+            }
+
+            if(farEnoughAway) {
+                placedEntities.forEach(ent => {
+                    const entFlatPos = new THREE.Vector3(ent.position.x, ent.position.y, 0);
+                    if(entFlatPos.distanceTo(loc) <= selected.isolationRadius) {
+                        farEnoughAway = false;
+                    }
+                });
+            }
 
             if(farEnoughAway
             && terrain.SphereCollisionTest(
@@ -341,4 +361,29 @@ export function spawnExit(level: Level, exitCollisionRadius: number) {
     }
 
     console.error('couldnt place exit portal');
+}
+
+export function spawnEntry(level: Level, exitCollisionRadius: number) {
+    const terrain = level.terrain;
+    for(let i = 0; i < 150; ++i) {
+        const loc = new THREE.Vector3(
+            Math.random() * terrain.dimensions.x * tileSize.x,
+            Math.random() * terrain.dimensions.y * tileSize.x,
+            0);
+
+        if(terrain.SphereCollisionTest(
+                loc,
+                exitCollisionRadius,
+            ).collisionDetected === false) {
+            const entityData = require(`./toml/world/playerEntry.toml`);
+            const spawned = new Entity(entityData);
+            spawned.position.x = loc.x;
+            spawned.position.y = loc.y;
+            level.addEntity(spawned);
+            return spawned;
+        }
+    }
+
+    console.error('couldnt place exit portal');
+    return undefined;
 }

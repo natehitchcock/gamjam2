@@ -45,3 +45,14 @@ depthOffset=64
     [deathSpawn.objects.soul10]
         file='soul.toml'
         chance=0.25
+
+    [deathSpawn.oneOf]
+        [[deathSpawn.oneOf.books]]
+            file='items/books/bewareThe.toml'
+            chance=1
+        [[deathSpawn.oneOf.books]]
+            file='items/books/DONOTOPEN.toml'
+            chance=1
+        [[deathSpawn.oneOf.books]]
+            file='items/books/firesideSigil.toml'
+            chance=1

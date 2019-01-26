@@ -134,6 +134,9 @@ export default class HUD extends React.Component<any, IHUDState> {
             <div>
                 {this.player.sharedData.souls}
             </div>
+            <div>
+                {this.player.sharedData.health}
+            </div>
             <div style={healthContainerStyle}>
                 <div style={healthBGStyle}></div>
                 <div style={healthStyle}></div>
