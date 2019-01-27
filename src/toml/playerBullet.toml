@@ -8,6 +8,7 @@ depthOffset=64
 [collider]
     blocks = false
     radius = 4
+    collisionMask = 4
 
 [bullet]
     speed = 6

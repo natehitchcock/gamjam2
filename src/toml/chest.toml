@@ -12,6 +12,7 @@ depthOffset=64
 [collider]
     blocks = false
     radius = 16
+    collisionMask = 2
 
 [deathSpawn]
     spawnSpreadRadius = 20
@@ -55,4 +56,19 @@ depthOffset=64
             chance=1
         [[deathSpawn.oneOf.books]]
             file='items/books/firesideSigil.toml'
+            chance=1
+        [[deathSpawn.oneOf.books]]
+            file='items/books/howTheSightlessThingsSee.toml'
+            chance=1
+        [[deathSpawn.oneOf.books]]
+            file='items/books/howToHideProperly.toml'
+            chance=1
+        [[deathSpawn.oneOf.books]]
+            file='items/books/movingQuickly.toml'
+            chance=1
+        [[deathSpawn.oneOf.books]]
+            file='items/books/movingSlowly.toml'
+            chance=1
+        [[deathSpawn.oneOf.books]]
+            file='items/books/necronomicon.toml'
             chance=1

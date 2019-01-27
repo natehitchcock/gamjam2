@@ -15,6 +15,15 @@ export default class Interactor implements IComponent {
     constructor(data: IInteractorData, owner: Entity) {
         this.data = data;
         this.owner = owner;
+
+        Input.on('interact', value => {
+            if(value === 0) return;
+            const nearestInteractable = this.findInteractable();
+            if(nearestInteractable) {
+                nearestInteractable.sendEvent('interact', this.owner);
+            }
+            console.log('interacted');
+        }, this);
     }
 
     findInteractable(): Entity {
@@ -39,14 +48,7 @@ export default class Interactor implements IComponent {
     }
 
     initialize() {
-        Input.on('interact', value => {
-            if(value === 0) return;
-            const nearestInteractable = this.findInteractable();
-            if(nearestInteractable) {
-                nearestInteractable.sendEvent('interact', this.owner);
-            }
-            console.log('interacted');
-        }, this);
+        return;
     }
 
     uninitialize() {

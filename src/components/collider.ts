@@ -8,7 +8,15 @@ const allColliders: Collider[] = [];
 interface IColliderData {
     blocks: boolean;
     radius: number;
+    collisionMask: number;
 }
+
+/* CollisionMask:
+    1: Player
+    2: Enemy
+    4: Bullet
+    8: Item
+*/
 
 export default class Collider implements IComponent {
     data: IColliderData;
@@ -24,10 +32,10 @@ export default class Collider implements IComponent {
         this.lastPosition = new THREE.Vector3().copy(owner.position);
 
         this.collided = [];
-        allColliders.push(this);
     }
 
     initialize() {
+        allColliders.push(this);
         return;
     }
 

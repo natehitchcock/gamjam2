@@ -62,6 +62,12 @@ export default class TargetAcquisition implements IComponent {
         if(this.target === undefined) {
             this.target = this.findClosestTarget();
         } else {
+            const dv = this.owner.position.distanceTo(this.target.position);
+
+            if(dv > this.data.detectionRadius) {
+                this.target = undefined;
+            }
+
             const targetDirection = this.target.position.clone();
             targetDirection.sub(this.owner.position);
 

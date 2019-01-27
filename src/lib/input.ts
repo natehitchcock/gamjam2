@@ -13,6 +13,8 @@ interface IInputMapping {
     mouse?: string|number;
     gamepad?: string;
     key?: string|number;
+    // Action corresponds to which key action triggers the event, value is the enum value in keyboad.ts
+    action?: number;
     amount: number;
 }
 
@@ -29,14 +31,15 @@ function setupInputMappings(inputActionMap: IInputActionMap) {
         if(inputActionMap.actions[action]) {
             for(const mapping of inputActionMap.actions[action]) {
                 console.log(`mapping ${mapping.key || mapping.gamepad || mapping.mouse} with value ${mapping.amount} `
-                    + `for action ${action}`);
+                    + `for action ${action} on ${mapping.action}`);
                 if(mapping.mouse !== undefined) {
                     inputDevices.mouse.on(mapping.mouse, value =>fireActions(action, mapping.amount * value));
                 } else if(mapping.gamepad !== undefined) {
                     const gp = inputDevices.gamepad;
                     gp.addTemplateHandler(mapping.gamepad, value => {fireActions(action, mapping.amount * value);});
                 } else if(mapping.key !== undefined) {
-                    inputDevices.keyboard.onKeyEvent(mapping.key, inputDevices.keyboard.KS_PRESSED, () => {
+                    inputDevices.keyboard.onKeyEvent(mapping.key,
+                        mapping.action === undefined ? inputDevices.keyboard.KS_PRESSED : mapping.action, () => {
                         fireActions(action, mapping.amount);
                     });
                 }

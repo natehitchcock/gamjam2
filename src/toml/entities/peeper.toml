@@ -11,6 +11,7 @@ depthOffset=256
 [collider]
     blocks=true
     radius=15
+    collisionMask=2
 
 [targetAcquisition]
     detectionRadius = 300
@@ -30,6 +31,7 @@ depthOffset=256
 [damageOnCollision]
     damage=1
     selfDamage=15
+    collisionMask=1
 
 [deathSpawn]
     spawnSpreadRadius = 10

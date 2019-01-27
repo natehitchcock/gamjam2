@@ -14,9 +14,10 @@ depthOffset=64
 [collider]
     blocks=true
     radius=15
+    collisionMask=2
 
 [weapon]
-    fireRate = 0.3
+    fireRate = 0.8
     magazineSize = 6
     reloadTime = 3
     spread = 15
@@ -26,6 +27,36 @@ depthOffset=64
     meleeOffset=[0,0]
     useParentForAim=false
     rotateToAimVector=false
+
+[evolutionaryData]
+    id='peeperData'
+    [evolutionaryData.shotgun]
+        prediction='none'
+        fireRate=0.01
+        magazineSize=10
+        reloadTime=10
+        spread=90
+
+    [evolutionaryData.veteran]
+        prediction='leadTarget'
+        fireRate=0.01
+        magazineSize=10
+        reloadTime=10
+        spread=90
+
+    [evolutionaryData.basic]
+        prediction='none'
+        fireRate=0.01
+        magazineSize=10
+        reloadTime=10
+        spread=90
+
+    [evolutionaryData.chainGunner]
+        prediction='none'
+        fireRate=0.01
+        magazineSize=10
+        reloadTime=10
+        spread=90
 
 [targetAcquisition]
     detectionRadius = 300

@@ -82,6 +82,8 @@ export default class Stats implements IComponent {
            if(this.data.destroyOnDeath) {
                 levelManager.currentLevel.removeEntity(this.owner);
            }
+
+           this.damage = 0;
        }
     }
 }

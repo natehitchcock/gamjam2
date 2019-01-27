@@ -64,3 +64,34 @@ usePixelShader=true
     [entities.position]
         x=240
         y=280
+[[entities]]
+    label=""
+    tomlFile="chest.toml"
+
+    [entities.position]
+        x=280
+        y=200
+
+[[entities]]
+    label=""
+    tomlFile="chest.toml"
+
+    [entities.position]
+        x=240
+        y=200
+
+[[entities]]
+    label=""
+    tomlFile="chest.toml"
+
+    [entities.position]
+        x=200
+        y=240
+
+[[entities]]
+    label=""
+    tomlFile="chest.toml"
+
+    [entities.position]
+        x=200
+        y=280

@@ -115,17 +115,19 @@ export default class Controller implements IComponent {
   }
 
   shouldBeDodging() {
+    const dodgeTime = this.data.dodgeTime / (1 + (this.owner.sharedData.dodgeSpeed || 0));
     return (
       this.dodgeStartTimer !== undefined &&
       this.data.dodgeTime !== undefined &&
       this.myClock.getElapsedTime() - this.dodgeStartTimer <=
-        this.data.dodgeTime
+        dodgeTime
     );
   }
 
   moveOwner(desiredMove: THREE.Vector2, dt: number) {
     const nextPos = new THREE.Vector2().copy(desiredMove);
-    nextPos.multiplyScalar(this.data.moveSpeed * dt);
+    const speed = this.data.moveSpeed + (this.owner.sharedData.moveSpeed || 0);
+    nextPos.multiplyScalar(speed * dt);
     this.owner.sharedData.nextMove = new THREE.Vector3(nextPos.x, nextPos.y, 0);
   }
 
@@ -144,7 +146,9 @@ export default class Controller implements IComponent {
       );
     }
 
-    const dodgeSpeed = this.data.dodgeDistance / this.data.dodgeTime;
+    const dodgeTime = this.data.dodgeTime / (1 + (this.owner.sharedData.dodgeSpeed || 0));
+    const dodgeDistance = this.data.dodgeDistance + (this.owner.sharedData.dodgeDistance || 0);
+    const dodgeSpeed = dodgeDistance / dodgeTime;
     const dodgeElapsedTime =
       this.myClock.getElapsedTime() - this.dodgeStartTimer;
 
@@ -155,7 +159,7 @@ export default class Controller implements IComponent {
       .add(this.dodgeStartPosition)
       .sub(new THREE.Vector2(this.owner.position.x, this.owner.position.y));
 
-    if (this.data.dodgeTime - dodgeElapsedTime <= 0.03) {
+    if (dodgeTime - dodgeElapsedTime <= 0.03) {
       this.owner.sharedData.nextMove = new THREE.Vector3(0, 0, 0);
     } else {
       this.owner.sharedData.nextMove = new THREE.Vector3(

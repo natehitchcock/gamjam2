@@ -91,6 +91,7 @@
 [[actions.interact]]
     key="space"
     amount=1
+    action=0
 
 [[actions.interact]]
     gamepad=0

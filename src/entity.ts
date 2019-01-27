@@ -54,6 +54,10 @@ export default class Entity extends THREE.Object3D {
         this.components.forEach(comp => comp.initialize());
     }
 
+    uninitialize() {
+        this.components.forEach(comp => comp.uninitialize());
+    }
+
     destroy() {
         this.components.forEach(comp => comp.destroy());
     }

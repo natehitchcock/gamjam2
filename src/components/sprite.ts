@@ -11,6 +11,7 @@ interface ISpriteData {
 export default class Sprite implements IComponent {
     data: ISpriteData;
     mesh: THREE.Mesh;
+    destroyed: boolean = false;
 
     constructor(data: ISpriteData, owner: Entity) {
         this.data = data;
@@ -24,6 +25,8 @@ export default class Sprite implements IComponent {
                 scaleX = data.scale[0] || 32;
                 scaleY = data.scale[1] || 32;
             }
+
+            if(this.destroyed) return;
 
             texture.magFilter = THREE.NearestFilter;
             const material = new THREE.MeshBasicMaterial( {map: texture, transparent: true, side: THREE.DoubleSide} );
@@ -42,6 +45,7 @@ export default class Sprite implements IComponent {
       }
 
     destroy() {
+        this.destroyed = true;
         return;
     }
 

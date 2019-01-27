@@ -169,6 +169,7 @@ export class Level extends THREE.Object3D {
     private internal_removeEntity(ent: Entity, overridePersistence: boolean = false) {
         if(ent && (!ent.persistent || overridePersistence)) {
             console.log('removing ' + ent.sharedData.tomlFile);
+            ent.uninitialize();
             this.remove(ent);
             ent.destroy();
             delete ent.parent;

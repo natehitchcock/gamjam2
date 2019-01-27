@@ -13,6 +13,7 @@ depthOffset=64
 [collider]
     blocks=true
     radius=3
+    collisionMask=1
 
 [inventory]
     [[inventory.items]]
