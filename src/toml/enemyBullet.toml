@@ -1,3 +1,6 @@
+bindDepthToY=true
+depthOffset=64
+
 [sprite]
     image = 'img/bulletred.png'
     scale = [8,8]
@@ -5,9 +8,10 @@
 [collider]
     blocks = false
     radius = 4
+    collisionMask = 4
 
 [bullet]
-    speed = 5
+    speed = 2.5
 
 [spritelight]
     radius=4

@@ -30,6 +30,10 @@ export default class OrbitTarget extends Follow {
         return;
     }
 
+    uninitialize() {
+        return;
+        }
+
     destroy() {
         return;
     }

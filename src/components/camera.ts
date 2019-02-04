@@ -38,6 +38,10 @@ export default class Camera implements IComponent {
         return;
     }
 
+    uninitialize() {
+        return;
+        }
+
     destroy() {
         return;
     }

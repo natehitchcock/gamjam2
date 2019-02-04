@@ -1,6 +1,6 @@
 import {IComponent} from '../component';
 import Entity from '../../entity';
-import {Level, spawnEnemies, spawnExit, levelManager} from '../../level';
+import {Level, spawnEnemies, spawnExit, spawnEntry, levelManager} from '../../level';
 
 interface ILevelGenIactData {
     destLevel: string;
@@ -18,7 +18,8 @@ export default class LevelGenIact implements IComponent {
 
     initialize() {
         this.owner.on('interact', data => {
-            levelManager.loadLevel(this.data.destLevel);
+            levelManager.loadLevel(this.data.destLevel, true);
+            const entry = spawnEntry(levelManager.currentLevel, 120);
             spawnEnemies(this.data.enemyPointsToSpend, [{
                 chance: 1,
                 collisionRadius: 60,
@@ -39,10 +40,13 @@ export default class LevelGenIact implements IComponent {
                 entityFile: 'chest.toml',
                 isolationRadius: 500,
                 pointWorth: 1,
-            }], levelManager.currentLevel);
+            }], levelManager.currentLevel, [{isolationRadius: 300, position: entry.position}]);
             spawnExit(levelManager.currentLevel, 60);
         }, this);
     }
+    uninitialize() {
+        return;
+        }
 
     destroy() {
         return;

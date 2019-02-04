@@ -25,11 +25,16 @@ export default class Item implements IComponent {
             const inv: Inventory = playerEntity.getComponent('inventory') as Inventory;
 
             if(inv) {
-                inv.addItem(this.owner, 0, 100);
+                inv.addItem(this.owner, 0, 40);
+                this.owner.sendEvent('pickedUp', playerEntity);
             }
         });
         return;
     }
+
+    uninitialize() {
+        return;
+      }
 
     destroy() {
         return;

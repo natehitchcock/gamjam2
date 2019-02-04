@@ -7,26 +7,23 @@ usePixelShader=true
     tileSet="masonInterior"
 
 [[entities]]
-    tomlFile="world/gateway.toml"
-    [entities.position]
-        x=300
-        y=400
-
-[[entities]]
-    label="wep1"
-    tomlFile="guns/revolver.toml"
-
+    label="hud"
+    
     [entities.position]
         x=0
         y=0
 
 [[entities]]
-    label="player"
-    tomlFile="player.toml"
-
+    tomlFile="world/playerEntry.toml"
     [entities.position]
-        x=150
-        y=150
+        x=300
+        y=100
+
+[[entities]]
+    tomlFile="world/gateway.toml"
+    [entities.position]
+        x=300
+        y=400
 
 [[entities]]
     label="activeCam"
@@ -35,3 +32,66 @@ usePixelShader=true
     [entities.position]
         x=0
         y=0
+
+[[entities]]
+    label=""
+    tomlFile="chest.toml"
+
+    [entities.position]
+        x=200
+        y=200
+
+[[entities]]
+    label=""
+    tomlFile="chest.toml"
+
+    [entities.position]
+        x=240
+        y=240
+
+[[entities]]
+    label=""
+    tomlFile="chest.toml"
+
+    [entities.position]
+        x=280
+        y=280
+
+[[entities]]
+    label=""
+    tomlFile="chest.toml"
+
+    [entities.position]
+        x=240
+        y=280
+[[entities]]
+    label=""
+    tomlFile="chest.toml"
+
+    [entities.position]
+        x=280
+        y=200
+
+[[entities]]
+    label=""
+    tomlFile="chest.toml"
+
+    [entities.position]
+        x=240
+        y=200
+
+[[entities]]
+    label=""
+    tomlFile="chest.toml"
+
+    [entities.position]
+        x=200
+        y=240
+
+[[entities]]
+    label=""
+    tomlFile="chest.toml"
+
+    [entities.position]
+        x=200
+        y=280

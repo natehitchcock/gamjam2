@@ -10,6 +10,7 @@ interface IDeathSpawnObject {
 
 interface IDeathSpawnData {
     objects: {[key: string]: IDeathSpawnObject};
+    oneOf: {[key: string]: IDeathSpawnObject[]};
     spawnSpreadRadius: number;
 }
 
@@ -22,24 +23,48 @@ export default class DeathSpawn implements IComponent {
         this.owner = owner;
         function spawnEntities(other: any) {
             console.log('spawning entities for dead thing');
-            Object.keys(this.data.objects).forEach(key => {
-                const objectData: IDeathSpawnObject = this.data.objects[key];
-                if(Math.random() <= objectData.chance) {
-                    const entityData = require(`../toml/${objectData.file}`);
-                    const ent = new Entity(entityData);
-                    ent.position.x = owner.position.x + (Math.random() - 0.5) * this.data.spawnSpreadRadius;
-                    ent.position.y = owner.position.y + (Math.random() - 0.5) * this.data.spawnSpreadRadius;
-                    console.log(`spawning ${objectData.file} at ${ent.position.x}, ${ent.position.y}`);
+            
+            if(this.data.objects) {
+                Object.keys(this.data.objects).forEach(key => {
+                    const objectData: IDeathSpawnObject = this.data.objects[key];
+                    if(Math.random() <= objectData.chance) {
+                        this.SpawnEntity(objectData.file);
+                    }
+                });
+            }
 
-                    let sender: Entity;
-                    if(this.owner.parent instanceof Entity) sender = this.owner.parent;
-                    else sender = this.owner;
+            if(this.data.oneOf) {
+                Object.keys(this.data.oneOf).forEach(key => {
+                    console.log('spawning one item from the category' + key);
+                    const arr: IDeathSpawnObject[] = this.data.oneOf[key];
 
-                    ent.sharedData.sender = sender;
+                    if(arr === undefined) return;
 
-                    levelManager.currentLevel.addEntity(ent);
-                }
-            });
+                    let totalChance = 0;
+
+                    arr.forEach(item => {
+                        totalChance += item.chance;
+                    });
+
+                    const selectedChance = Math.random() * totalChance;
+                    let selected: IDeathSpawnObject;
+
+                    let currChanceIdx = 0;
+                    arr.forEach(item => {
+                        if(selected !== undefined) return;
+
+                        if(selectedChance <= currChanceIdx + item.chance) {
+                            selected = item;
+                        }
+
+                        currChanceIdx += item.chance;
+                    });
+
+                    if(selected) {
+                        this.SpawnEntity(selected.file);
+                    }
+                });
+            }
         }
 
         this.owner.on('died', spawnEntities.bind(this));
@@ -49,11 +74,32 @@ export default class DeathSpawn implements IComponent {
         return;
     }
 
+    uninitialize() {
+        return;
+      }
+
     destroy() {
         return;
     }
 
     update(dt) {
         return;
+    }
+
+    private SpawnEntity(tomlFile: string) {
+        const entityData = require(`../toml/${tomlFile}`);
+        const ent = new Entity(entityData);
+        ent.position.x = this.owner.position.x + (Math.random() - 0.5) * this.data.spawnSpreadRadius;
+        ent.position.y = this.owner.position.y + (Math.random() - 0.5) * this.data.spawnSpreadRadius;
+        ent.position.z = this.owner.position.z;
+        console.log(`spawning ${tomlFile} at ${ent.position.x}, ${ent.position.y}`);
+
+        let sender: Entity;
+        if(this.owner.parent instanceof Entity) sender = this.owner.parent;
+        else sender = this.owner;
+
+        ent.sharedData.sender = sender;
+
+        levelManager.currentLevel.addEntity(ent);
     }
 }

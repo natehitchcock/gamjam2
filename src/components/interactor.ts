@@ -15,13 +15,27 @@ export default class Interactor implements IComponent {
     constructor(data: IInteractorData, owner: Entity) {
         this.data = data;
         this.owner = owner;
+
+        Input.on('interact', value => {
+            if(value === 0) return;
+            const nearestInteractable = this.findInteractable();
+            if(nearestInteractable) {
+                nearestInteractable.sendEvent('interact', this.owner);
+            }
+            console.log('interacted');
+        }, this);
     }
 
     findInteractable(): Entity {
         let closestEntity;
         let distance = this.data.radius;
         levelManager.currentLevel.entities.forEach(ent => {
-            const dv = this.owner.position.distanceTo(ent.position);
+            const targetPos = ent.position.clone();
+            targetPos.z = 0;
+            const ownerPos = this.owner.position.clone();
+            ownerPos.z = 0;
+
+            const dv = ownerPos.distanceTo(targetPos);
             if(dv < distance) {
                 if(ent.hasEvent('interact')) {
                     closestEntity = ent;
@@ -34,15 +48,12 @@ export default class Interactor implements IComponent {
     }
 
     initialize() {
-        Input.on('interact', value => {
-            if(value === 0) return;
-            const nearestInteractable = this.findInteractable();
-            if(nearestInteractable) {
-                nearestInteractable.sendEvent('interact', this.owner);
-            }
-            console.log('interacted');
-        }, this);
+        return;
     }
+
+    uninitialize() {
+        return;
+      }
 
     destroy() {
         return;

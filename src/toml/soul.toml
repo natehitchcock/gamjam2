@@ -1,3 +1,6 @@
+bindDepthToY=true
+depthOffset=64
+
 [sprite]
     image = 'img/soul.png'
     scale = [8,16]
@@ -5,5 +8,10 @@
 [collider]
     blocks = false
     radius = 15
+    collisionMask = 8
 
 [soul]
+
+[spritelight]
+    radius=5
+    color=[0.3, 0.3, 0.8]

@@ -41,12 +41,14 @@ export class Level extends THREE.Object3D {
     currentCamera: THREE.Camera;
 
     private removeList: Entity[];
+    private addList: Entity[];
 
     constructor(data: ILevelData) {
         super();
         this.data = data;
         this.entities = [];
         this.removeList = [];
+        this.addList = [];
     }
 
     spawnEntities() {
@@ -64,6 +66,7 @@ export class Level extends THREE.Object3D {
             }
 
             const entity = new Entity(entityData, ent.label);
+            entity.sharedData.tomlFile = ent.tomlFile;
             entity.position.x = ent.position.x;
             entity.position.y = ent.position.y;
             entity.parent = this;
@@ -83,7 +86,7 @@ export class Level extends THREE.Object3D {
         this.entities.forEach(ent => {
             const comp = ent.getComponent(type);
             if(comp) {
-                comps.push(comp)
+                comps.push(comp);
             }
         });
 
@@ -91,27 +94,62 @@ export class Level extends THREE.Object3D {
     }
 
     getEntityByLabel(label: string) {
-        const found = this.entities.find(ent => ent.label === label);
+        const found = this.entities.find(ent => ent && ent.label === label);
         return found;
     }
 
     addEntity(ent: Entity) {
-        this.entities.push(ent);
-        ent.parent = this;
-        this.add(ent);
-        ent.initialize();
+        this.addList.push(ent);
+    }
+
+    movePersistentEntitiesFrom(oldLevel: Level) {
+        const removeList = [];
+        oldLevel.entities.forEach(ent => {
+            if(ent.persistent) {
+                removeList.push(ent);
+            }
+        });
+
+        removeList.forEach(ent => {
+            if(ent.parent === oldLevel) {
+                oldLevel.remove(ent);
+                ent.parent = this;
+                this.add(ent);
+            }
+
+            oldLevel.entities.splice(oldLevel.entities.indexOf(ent), 1);
+
+            console.log(`moving over persistent object ${ent.tomlFile} [${ent.label}]`);
+
+            this.entities.push(ent);
+        });
+
+        this.entities.forEach(ent => ent.initialize());
     }
 
     removeEntity(ent: Entity) {
         this.removeList.push(ent);
     }
 
+    removeAllEntities(immediate?: boolean) {
+        this.addList = [];
+
+        this.removeList.push(... this.entities);
+
+        if(immediate) {
+            this.removeList.forEach(ent => this.internal_removeEntity(ent, true));
+        }
+    }
+
     update(dt: number) {
+        this.addList.forEach(ent => this.internal_addEntity(ent));
+        this.addList = [];
+
         this.entities.forEach(ent => {
             ent.update(dt);
         });
 
-        this.removeList.forEach(ent => this.internal_removeEntity(ent));
+        this.removeList.forEach(ent => this.internal_removeEntity(ent, true));
         this.removeList = [];
     }
 
@@ -121,10 +159,25 @@ export class Level extends THREE.Object3D {
         return camComp.camera;
     }
 
-    private internal_removeEntity(ent: Entity) {
-        this.remove(ent);
-        ent.destroy();
-        delete this.entities[this.entities.indexOf(ent)];
+    private internal_addEntity(ent: Entity) {
+        this.entities.push(ent);
+        ent.parent = this;
+        this.add(ent);
+        ent.initialize();
+    }
+
+    private internal_removeEntity(ent: Entity, overridePersistence: boolean = false) {
+        if(ent && (!ent.persistent || overridePersistence)) {
+            console.log('removing ' + ent.sharedData.tomlFile);
+            ent.uninitialize();
+            this.remove(ent);
+            ent.destroy();
+            delete ent.parent;
+            const entIdx = this.entities.indexOf(ent);
+            if(entIdx >= 0) {
+                this.entities.splice(entIdx, 1);
+            }
+        }
     }
 }
 
@@ -133,6 +186,8 @@ export class LevelManager {
     scene: THREE.Scene;
     levelMap: any;
     loadLevelFns: Array<()=>void>;
+
+    private nextLevel: string = undefined;
 
     constructor() {
         this.loadLevelFns = [];
@@ -155,24 +210,53 @@ export class LevelManager {
         }
     }
 
-    loadLevel(levelName: string) {
-        this.currentLevel = new Level(this.levelMap[levelName]);
-        this.scene.children = [];
-        this.currentLevel.spawnEntities();
-        this.scene.add(this.currentLevel);
+    loadLevel(levelName: string, immediate: boolean = false) {
+        this.nextLevel = levelName;
 
-        // Call load level functions
-        this.loadLevelFns.forEach(fn => fn());
+        if(immediate) {
+            this.loadLevel_internal();
+            this.nextLevel = undefined;
+        }
     }
 
     update(dt: number) {
         if(this.currentLevel) {
             this.currentLevel.update(dt);
         }
+
+        if(this.nextLevel !== undefined) {
+
+            this.loadLevel_internal();
+
+            this.nextLevel = undefined;
+        }
+    }
+
+    private loadLevel_internal() {
+        console.log(`loading level ${this.nextLevel}`);
+        const newLevel = new Level(this.levelMap[this.nextLevel]);
+
+        this.scene.children = [];
+        if(this.currentLevel != null) {
+            newLevel.movePersistentEntitiesFrom(this.currentLevel);
+            this.currentLevel.removeAllEntities(true);
+        }
+
+        this.currentLevel = newLevel;
+        this.currentLevel.spawnEntities();
+        this.scene.add(this.currentLevel);
+
+        // Call load level functions
+        this.loadLevelFns.forEach(fn => fn());
     }
 }
 
 export const levelManager = new LevelManager();
+
+export interface IEnemyDeadZones {
+    position: THREE.Vector3;
+    isolationRadius: number;
+}
 
 export interface IEnemySpawnData {
     entityFile: string;
@@ -181,7 +265,12 @@ export interface IEnemySpawnData {
     collisionRadius: number;
     isolationRadius: number;
 }
-export function spawnEnemies(pointsToSpend: number, enemies: IEnemySpawnData[], level: Level) {
+export function spawnEnemies(
+    pointsToSpend: number,
+    enemies: IEnemySpawnData[],
+    level: Level,
+    deadZones?: IEnemyDeadZones[]) {
+
     let totalChance = 0;
     enemies.forEach(edat => totalChance += edat.chance);
 
@@ -211,12 +300,23 @@ export function spawnEnemies(pointsToSpend: number, enemies: IEnemySpawnData[], 
                 0);
 
             let farEnoughAway = true;
-            placedEntities.forEach(ent => {
-                const entFlatPos = new THREE.Vector3(ent.position.x, ent.position.y, 0);
-                if(entFlatPos.distanceTo(loc) <= selected.isolationRadius) {
-                    farEnoughAway = false;
-                }
-            });
+            if(deadZones) {
+                deadZones.forEach(zone => {
+                    const zoneFlatPos = new THREE.Vector3(zone.position.x, zone.position.y, 0);
+                    if(zoneFlatPos.distanceTo(loc) <= selected.isolationRadius) {
+                        farEnoughAway = false;
+                    }
+                });
+            }
+
+            if(farEnoughAway) {
+                placedEntities.forEach(ent => {
+                    const entFlatPos = new THREE.Vector3(ent.position.x, ent.position.y, 0);
+                    if(entFlatPos.distanceTo(loc) <= selected.isolationRadius) {
+                        farEnoughAway = false;
+                    }
+                });
+            }
 
             if(farEnoughAway
             && terrain.SphereCollisionTest(
@@ -228,6 +328,7 @@ export function spawnEnemies(pointsToSpend: number, enemies: IEnemySpawnData[], 
                 const spawned = new Entity(entityData);
                 spawned.position.x = loc.x;
                 spawned.position.y = loc.y;
+                spawned.position.z = 64-loc.y;
                 level.addEntity(spawned);
                 pointsToSpend -= selected.pointWorth;
                 placed = true;
@@ -261,4 +362,29 @@ export function spawnExit(level: Level, exitCollisionRadius: number) {
     }
 
     console.error('couldnt place exit portal');
+}
+
+export function spawnEntry(level: Level, exitCollisionRadius: number) {
+    const terrain = level.terrain;
+    for(let i = 0; i < 150; ++i) {
+        const loc = new THREE.Vector3(
+            Math.random() * terrain.dimensions.x * tileSize.x,
+            Math.random() * terrain.dimensions.y * tileSize.x,
+            0);
+
+        if(terrain.SphereCollisionTest(
+                loc,
+                exitCollisionRadius,
+            ).collisionDetected === false) {
+            const entityData = require(`./toml/world/playerEntry.toml`);
+            const spawned = new Entity(entityData);
+            spawned.position.x = loc.x;
+            spawned.position.y = loc.y;
+            level.addEntity(spawned);
+            return spawned;
+        }
+    }
+
+    console.error('couldnt place exit portal');
+    return undefined;
 }

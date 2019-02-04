@@ -1,5 +1,9 @@
+bindDepthToY=true
+depthOffset=64
+
 [stats]
     health=5
+    destroyOnDeath=true
 
 [sprite]
     image = 'img/chest-closed.png'
@@ -8,6 +12,7 @@
 [collider]
     blocks = false
     radius = 16
+    collisionMask = 2
 
 [deathSpawn]
     spawnSpreadRadius = 20
@@ -41,3 +46,29 @@
     [deathSpawn.objects.soul10]
         file='soul.toml'
         chance=0.25
+
+    [deathSpawn.oneOf]
+        [[deathSpawn.oneOf.books]]
+            file='items/books/bewareThe.toml'
+            chance=1
+        [[deathSpawn.oneOf.books]]
+            file='items/books/DONOTOPEN.toml'
+            chance=1
+        [[deathSpawn.oneOf.books]]
+            file='items/books/firesideSigil.toml'
+            chance=1
+        [[deathSpawn.oneOf.books]]
+            file='items/books/howTheSightlessThingsSee.toml'
+            chance=1
+        [[deathSpawn.oneOf.books]]
+            file='items/books/howToHideProperly.toml'
+            chance=1
+        [[deathSpawn.oneOf.books]]
+            file='items/books/movingQuickly.toml'
+            chance=1
+        [[deathSpawn.oneOf.books]]
+            file='items/books/movingSlowly.toml'
+            chance=1
+        [[deathSpawn.oneOf.books]]
+            file='items/books/necronomicon.toml'
+            chance=1

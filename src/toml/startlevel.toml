@@ -26,3 +26,19 @@
     [entities.position]
         x=5
         y=-240
+
+[[entities]]
+    label="wep1"
+    tomlFile="guns/revolver.toml"
+
+    [entities.position]
+        x=0
+        y=0
+
+[[entities]]
+    label="player"
+    tomlFile="player.toml"
+
+    [entities.position]
+        x=150
+        y=150

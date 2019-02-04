@@ -35,6 +35,10 @@ export default class FlickMelee implements IComponent {
         return;
     }
 
+    uninitialize() {
+        return;
+      }
+
     destroy() {
         return;
     }

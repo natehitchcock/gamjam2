@@ -1,39 +1,53 @@
+import * as winston from 'winston';
 import * as THREE from 'three';
 import Entity from '../../entity';
 import { IComponent } from '../component';
 import { levelManager } from '../../level';
 
 export interface IEffectData {
-  onEvent: string;
+    onEvent: string;
 }
 
 export class Effect implements IComponent {
-  data: IEffectData;
-  owner: Entity;
-  target: Entity;
+    data: IEffectData;
+    owner: Entity;
+    target: Entity;
+    effectEventId: string;
 
-  constructor(data: IEffectData, owner: Entity) {
-    this.data = data;
-    this.owner = owner;
-  }
+    constructor(data: IEffectData, owner: Entity) {
+        this.data = data;
+        this.owner = owner;
 
-  activate() {
-    console.log('activated');
-    return;
-  }
-
-  initialize() {
-    if (this.data.onEvent) {
-      this.owner.on(this.data.onEvent, this.activate, this);
+        if (this.data.onEvent) {
+            this.effectEventId = this.owner.on(
+            this.data.onEvent,
+            this.activate,
+            this,
+            );
+        }
     }
-    return;
-  }
 
-  destroy() {
-    return;
-  }
+    activate() {
+        winston.log('trace', 'activated');
+        return;
+    }
 
-  update(dt: number) {
-    return;
-  }
+    initialize() {
+        return;
+    }
+
+    uninitialize() {
+        return;
+    }
+
+    destroy() {
+        if (this.data.onEvent) {
+            this.owner.off(this.data.onEvent, this.effectEventId);
+        }
+        return;
+    }
+
+    update(dt: number) {
+        return;
+    }
 }

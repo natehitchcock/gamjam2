@@ -1,3 +1,5 @@
+persistent=true
+
 [sprite]
     image='img/guns/revolver.png'
     zOrder=3
@@ -6,11 +8,15 @@
 [weapon]
     fireRate = 0.2
     magazineSize = 6
-    reloadTime = 1
+    reloadTime = 0.5
     spread = 15
     bulletType = 'playerBullet'
     meleeType = 'playerMeleeSwipe' 
-    muzzlePosition=[10,0]
+    muzzlePosition=[16,0]
+    meleeOffset=[0,0]
+    weaponOffset=[20, 0, 10]
+    useParentForAim=true
+    rotateToAimVector=true
 
 [flickMelee]
   damage=5

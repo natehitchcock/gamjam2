@@ -6,20 +6,27 @@ import {levelManager} from '../level';
 
 interface IStatsData {
     health: number;
+    barriers: number;
+    destroyOnDeath: boolean;
 }
 
 export default class Stats implements IComponent {
     data: IStatsData;
     owner: Entity;
+    damage: number = 0;
 
     constructor(data: IStatsData, owner: Entity) {
         this.data = data;
         this.owner = owner;
 
         this.owner.on('collided', (other: Entity) => {
+            // Collision with walls and inanimate objects wont have components
+            if(other.components === undefined || other.components.length === 0) return;
+
             const bl: any = other.components.find(comp => ((comp as any).type === 'bullet'));
             if(bl && bl.owner.sharedData.sender !== this.owner) {
-                this.owner.sendEvent('damaged', bl.damage);
+                console.log(`doing ${bl.getDamage()} damage`);
+                this.owner.sendEvent('damaged', bl.getDamage());
                 return;
             }
 
@@ -29,8 +36,29 @@ export default class Stats implements IComponent {
             }
         });
 
-        this.owner.on('damaged', damage => {this.owner.sharedData.health -= damage;});
-        this.owner.on('soulConsumed', worth => {this.owner.sharedData.souls += worth;});
+        this.owner.on('statsChanged', () => {
+            this.owner.sharedData.health = this.data.health
+                + (this.data.barriers || 0)
+                + (this.owner.sharedData.shields || 0)
+                - this.damage;
+
+            this.owner.sendEvent('statsUpdated');
+        });
+
+        this.owner.on('damaged', damage => {
+            this.damage += damage;
+            this.owner.sharedData.health = this.data.health
+                + (this.data.barriers || 0)
+                + (this.owner.sharedData.shields || 0)
+                - this.damage;
+
+            this.owner.sendEvent('statsUpdated');
+        });
+
+        this.owner.on('soulConsumed', worth => {
+            this.owner.sharedData.souls += worth;
+            this.owner.sendEvent('statsUpdated');
+        });
     }
 
     initialize() {
@@ -39,6 +67,10 @@ export default class Stats implements IComponent {
         return;
     }
 
+    uninitialize() {
+        return;
+      }
+
     destroy() {
         return;
     }
@@ -46,7 +78,12 @@ export default class Stats implements IComponent {
     update(dt: number) {
        if(this.owner.sharedData.health <= 0) {
            this.owner.sendEvent('died');
-           levelManager.currentLevel.removeEntity(this.owner);
+
+           if(this.data.destroyOnDeath) {
+                levelManager.currentLevel.removeEntity(this.owner);
+           }
+
+           this.damage = 0;
        }
     }
 }

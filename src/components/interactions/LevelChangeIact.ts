@@ -21,6 +21,10 @@ export default class LevelChangeIact implements IComponent {
         }, this);
     }
 
+    uninitialize() {
+        return;
+      }
+
     destroy() {
         return;
     }

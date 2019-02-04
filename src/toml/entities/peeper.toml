@@ -1,5 +1,9 @@
+bindDepthToY=true
+depthOffset=256
+
 [stats]
     health=5
+    destroyOnDeath=true
 
 [sprite]
     image='img/characters/peeper/peeper.png'
@@ -7,6 +11,7 @@
 [collider]
     blocks=true
     radius=15
+    collisionMask=2
 
 [targetAcquisition]
     detectionRadius = 300
@@ -22,6 +27,11 @@
     orbitFactor=100
     orbitShrinkRate=0
     orbitingTriggerDistance=400
+
+[damageOnCollision]
+    damage=1
+    selfDamage=15
+    collisionMask=1
 
 [deathSpawn]
     spawnSpreadRadius = 10

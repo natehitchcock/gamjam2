@@ -8,7 +8,15 @@ const allColliders: Collider[] = [];
 interface IColliderData {
     blocks: boolean;
     radius: number;
+    collisionMask: number;
 }
+
+/* CollisionMask:
+    1: Player
+    2: Enemy
+    4: Bullet
+    8: Item
+*/
 
 export default class Collider implements IComponent {
     data: IColliderData;
@@ -22,17 +30,27 @@ export default class Collider implements IComponent {
         this.deleted = false;
         this.owner = owner;
         this.lastPosition = new THREE.Vector3().copy(owner.position);
+
         this.collided = [];
-        allColliders.push(this);
     }
 
     initialize() {
+        allColliders.push(this);
         return;
     }
 
+    uninitialize() {
+        return;
+        }
+
     destroy() {
         this.deleted = true;
-        delete allColliders[allColliders.indexOf(this)];
+        const myIdx = allColliders.indexOf(this);
+
+        if(myIdx === -1) {
+            console.log('asdasd');
+        }
+        allColliders.splice(myIdx, 1);
     }
 
     HandleCollision(other: Collider) {
@@ -43,6 +61,7 @@ export default class Collider implements IComponent {
     IsCollidingWith(other: Collider) {
         const deltaPos = new THREE.Vector3().copy(this.owner.position);
         deltaPos.sub(other.owner.position);
+        deltaPos.z = 0;
 
         const overlap = deltaPos.length() - (this.data.radius + other.data.radius);
         if( overlap < 0 ) {
@@ -71,6 +90,8 @@ export default class Collider implements IComponent {
                 if(this.data.blocks && other.data.blocks) {
                     const sumRadius = this.data.radius + other.data.radius;
                     const deltaVec = new THREE.Vector3().copy(this.owner.position).sub(other.owner.position);
+                    deltaVec.z = 0;
+
                     const entityResolve = new THREE.Vector3()
                         .copy(deltaVec)
                         .normalize()
@@ -87,14 +108,18 @@ export default class Collider implements IComponent {
 
         if(this.owner.sharedData.nextMove) {
             const nextLocation = new THREE.Vector3().copy(this.owner.position).add(this.owner.sharedData.nextMove);
-            const collisionData = levelManager.currentLevel.terrain
-                .SphereCollisionTest(nextLocation, this.data.radius);
+            let collisionData = {collisionDetected: false, newCenter: nextLocation};
+
+            if(levelManager.currentLevel && levelManager.currentLevel.terrain) {
+                collisionData = levelManager.currentLevel.terrain.SphereCollisionTest(nextLocation, this.data.radius);
+            }
 
             if(collisionData.collisionDetected) {
                 this.owner.sendEvent('collided', levelManager.currentLevel.terrain);
             }
 
             this.owner.position.copy(collisionData.newCenter);
+            // this.owner.position.z = 64-this.owner.position.y;
             this.lastPosition.copy(this.owner.position);
         }
 

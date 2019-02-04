@@ -1,0 +1,30 @@
+[sprite]
+    image='img/items/SimpleSummoningSurrendered.png'
+    zOrder=3
+    scale=[16,16]
+
+[item]
+    type='book'
+    stackable=false
+    activatable=false
+    description='''Book'''
+
+[changeStats]
+    onEvent='pickedUp'
+    actOnPickUp=true
+
+    [changeStats.statsChanged]
+        bulletSpeed=0
+        bulletSize=0
+        reloadTime=0
+        damageMultiplier=0
+        additionalDamage=1
+        additionalBulletDamage=0
+        additionalMeleeDamage=0
+        shields=0
+        moveSpeed=0
+        dodgeSpeed=0
+        dodgeDistance=0
+        cameraZoom=0
+        lightDistance=0
+

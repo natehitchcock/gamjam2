@@ -13,13 +13,12 @@ export default class SoulLogic implements IComponent {
     constructor(data: any, owner: Entity) {
         // this.data = data; No data yet
         this.owner = owner;
-        function resolveSoulCollision(other: any) {
+        function resolveSoulCollision(other: Entity) {
             if(other !== owner && other !== this.owner.sharedData.sender) {
-                const ent = (other as Entity);
-                if( ent.components
-                && ent.components.find(comp => comp.type === 'bullet' || comp.type === 'soul')) {
-                    return;
-                }
+
+                // Check if we are colliding with the player
+                const collider = other.getComponent('collider') as Collider;
+                if((collider.data.collisionMask & 1) === 0) return;
 
                 levelManager.currentLevel.removeEntity(this.owner);
             }
@@ -31,6 +30,10 @@ export default class SoulLogic implements IComponent {
     initialize() {
         return;
     }
+
+    uninitialize() {
+        return;
+      }
 
     destroy() {
         return;
