@@ -25,6 +25,7 @@ import DepthControl from './depthControl';
 import DamageOnCollision from './damageOnCollision';
 import ChangeStats from './changeStats';
 import MoveEntityOnInit from './moveEntityOnInit';
+import EnemyLogic from './enemyLogic';
 
 import Entity from '../entity';
 
@@ -56,4 +57,5 @@ export default {
     damageOnCollision: (data: any, owner: Entity) => new DamageOnCollision(data, owner),
     changeStats: (data: any, owner: Entity) => new ChangeStats(data, owner),
     moveEntityOnInit: (data: any, owner: Entity) => new MoveEntityOnInit(data, owner),
+    enemyLogic: (data: any, owner: Entity) => new EnemyLogic(data, owner),
 };
