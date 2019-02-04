@@ -5,6 +5,7 @@
     -Hub world
     -Randomly generated levels
     -Lovecraftian theme (maybe dreams, where the twist is that you become a great old one at the end of the game)
+    - You collect books!! whole books! in search for the book of iod
 
 ### Other mechanics to explore
     -Exapnding the hub world
