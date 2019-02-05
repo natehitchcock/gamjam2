@@ -66,6 +66,7 @@ export default class TargetAcquisition implements IComponent {
 
             if(dv > this.data.detectionRadius) {
                 this.target = undefined;
+                return;
             }
 
             const targetDirection = this.target.position.clone();
@@ -84,7 +85,7 @@ export default class TargetAcquisition implements IComponent {
             }
 
             // [TODO] adapt fire function to take points or directions (using .w 0 or 1)
-            this.owner.sendEvent('fire', targetDirection);
+            this.owner.sendEvent('fire', this.target);
         }
     }
 }

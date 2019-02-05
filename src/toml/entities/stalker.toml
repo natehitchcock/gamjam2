@@ -16,16 +16,16 @@ depthOffset=64
     radius=15
     collisionMask=2
 
-[weapon]
+[enemy]
     fireRate = 0.8
     magazineSize = 6
     reloadTime = 3
     spread = 15
     bulletType = 'enemyBullet'
+    bulletPattern = 'FiveScatterBurstShot'
     muzzlePosition=[0,-14]
     weaponOffset=[0,0]
     meleeOffset=[0,0]
-    useParentForAim=false
     rotateToAimVector=false
 
 [evolutionaryData]

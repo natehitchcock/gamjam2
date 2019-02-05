@@ -4,6 +4,7 @@ import Entity from "../entity";
 import { mouse, keyboard } from "../lib/input";
 import * as THREE from "three";
 import { levelManager, Level } from "../level";
+import BulletPatterns from '../helpers/bulletPatterns';
 
 export interface IEnemyData {
   fireRate: number;
@@ -14,6 +15,7 @@ export interface IEnemyData {
   weaponOffset: number[];
   meleeOffset: number[];
   bulletType: string;
+  bulletPattern: string;
   meleeType: string;
   rotateToAimVector: boolean;
 }
@@ -54,7 +56,7 @@ export default class EnemyLogic implements IComponent {
         return;
     }
 
-    tryFire(dir: THREE.Vector2) {
+    tryFire(target: Entity) {
         if(this.magazine <= 0) {
             return;
         }
@@ -64,43 +66,49 @@ export default class EnemyLogic implements IComponent {
             // Update which direction I'm facing
             this.updateLookAt();
 
-            // spawning bullet
-            const firedBullet = new Entity(this.bulletToml);
-            firedBullet.sharedData.tomlFile = this.data.bulletType;
-            firedBullet.sharedData.mousePositions =
-                new THREE.Vector2(
-                    Math.cos(this.facingAngle),
-                    Math.sin(this.facingAngle));
-            const enemy = this.owner as Entity;
-            if(enemy && enemy.sharedData) {
-                firedBullet.sharedData.bulletSpeed = enemy.sharedData.bulletSpeed || 0;
-                const scale = firedBullet.sharedData.bulletSize = enemy.sharedData.bulletSize || 1;
-                firedBullet.sharedData.additionalDamage = enemy.sharedData.additionalDamage || 0;
-                firedBullet.sharedData.damageMultiplier = enemy.sharedData.damageMultiplier || 1;
-                firedBullet.scale.multiplyScalar(scale);
-            }
+            const bulletIndex = this.data.magazineSize - this.magazine;
+            const bulletDirections = BulletPatterns[this.data.bulletPattern](
+                this.owner, target, bulletIndex, this.data.spread, this.owner.sharedData.bulletSpeed || 1
+            );
 
-            const sender: Entity = this.owner;
+            bulletDirections.forEach(dir => {
 
-            firedBullet.sharedData.sender = sender;
+                // spawning bullet
+                const firedBullet = new Entity(this.bulletToml);
+                firedBullet.sharedData.tomlFile = this.data.bulletType;
+                firedBullet.sharedData.mousePositions = dir;
+                const enemy = this.owner as Entity;
+                if(enemy && enemy.sharedData) {
+                    firedBullet.sharedData.bulletSpeed = enemy.sharedData.bulletSpeed || 0;
+                    const scale = firedBullet.sharedData.bulletSize = enemy.sharedData.bulletSize || 1;
+                    firedBullet.sharedData.additionalDamage = enemy.sharedData.additionalDamage || 0;
+                    firedBullet.sharedData.damageMultiplier = enemy.sharedData.damageMultiplier || 1;
+                    firedBullet.scale.multiplyScalar(scale);
+                }
 
-            let aimAngle = 0;
-            if(this.data.rotateToAimVector) {
-                aimAngle = this.facingAngle;
-            }
-            // setting position
-            const newPosition = new THREE.Vector3();
-            newPosition.copy(this.owner.parent.position);
-            newPosition.add(this.owner.position);
-            newPosition.add(new THREE.Vector3(
-                this.data.muzzlePosition[0] * Math.cos(aimAngle)
-                    + this.data.muzzlePosition[1] * Math.sin(aimAngle),
-                this.data.muzzlePosition[0] * Math.sin(aimAngle)
-                    + this.data.muzzlePosition[1] * -Math.cos(aimAngle),
-                this.data.muzzlePosition[2] || 0));
+                const sender: Entity = this.owner;
 
-            levelManager.currentLevel.addEntity(firedBullet);
-            firedBullet.position.copy(newPosition);
+                firedBullet.sharedData.sender = sender;
+
+                let aimAngle = 0;
+                if(this.data.rotateToAimVector) {
+                    aimAngle = this.facingAngle;
+                }
+                // setting position
+                const newPosition = new THREE.Vector3();
+                newPosition.copy(this.owner.parent.position);
+                newPosition.add(this.owner.position);
+                newPosition.add(new THREE.Vector3(
+                    this.data.muzzlePosition[0] * Math.cos(aimAngle)
+                        + this.data.muzzlePosition[1] * Math.sin(aimAngle),
+                    this.data.muzzlePosition[0] * Math.sin(aimAngle)
+                        + this.data.muzzlePosition[1] * -Math.cos(aimAngle),
+                    this.data.muzzlePosition[2] || 0));
+
+                levelManager.currentLevel.addEntity(firedBullet);
+                firedBullet.position.copy(newPosition);
+            });
+            
             this.fireTimer = 0;
             this.magazine--;
 

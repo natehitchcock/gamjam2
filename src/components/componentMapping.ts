@@ -57,5 +57,5 @@ export default {
     damageOnCollision: (data: any, owner: Entity) => new DamageOnCollision(data, owner),
     changeStats: (data: any, owner: Entity) => new ChangeStats(data, owner),
     moveEntityOnInit: (data: any, owner: Entity) => new MoveEntityOnInit(data, owner),
-    enemyLogic: (data: any, owner: Entity) => new EnemyLogic(data, owner),
+    enemy: (data: any, owner: Entity) => new EnemyLogic(data, owner),
 };

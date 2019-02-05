@@ -35,6 +35,14 @@ usePixelShader=true
 
 [[entities]]
     label=""
+    tomlFile="entities/stalker.toml"
+
+    [entities.position]
+        x=400
+        y=400
+
+[[entities]]
+    label=""
     tomlFile="chest.toml"
 
     [entities.position]
