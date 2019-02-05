@@ -1,0 +1,18 @@
+[[enemies]]
+    tomlFile = 'entities/stalker.toml'
+    chance = 1
+    collisionRadius = 60
+    isolationRadius = 200
+    pointWorth = 5
+    age = 2
+    insight = 80
+
+[[enemies]]
+    tomlFile = 'entities/peeper.toml'
+    chance = 5
+    collisionRadius = 60
+    isolationRadius = 200
+    pointWorth = 1
+    age = 1
+    insight = 75
+            

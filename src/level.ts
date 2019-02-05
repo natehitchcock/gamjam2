@@ -265,6 +265,7 @@ export interface IEnemySpawnData {
     collisionRadius: number;
     isolationRadius: number;
 }
+
 export function spawnEnemies(
     pointsToSpend: number,
     enemies: IEnemySpawnData[],
@@ -386,5 +387,50 @@ export function spawnEntry(level: Level, exitCollisionRadius: number) {
     }
 
     console.error('couldnt place exit portal');
+    return undefined;
+}
+
+export function attemptSpawn(
+    level: Level,
+    entityTomlFile: string,
+    isolationRadius: number,
+    collisionRadius: number,
+    maxRetries: number,
+    deadZones?: IEnemyDeadZones[]) {
+
+    const terrain = level.terrain;
+    for(let i = 0; i < maxRetries; ++i) {
+        const loc = new THREE.Vector3(
+            Math.random() * terrain.dimensions.x * tileSize.x,
+            Math.random() * terrain.dimensions.y * tileSize.x,
+            0);
+
+        let farEnoughAway = true;
+        if(deadZones) {
+            deadZones.forEach(zone => {
+                const zoneFlatPos = new THREE.Vector3(zone.position.x, zone.position.y, 0);
+                if(zoneFlatPos.distanceTo(loc) <= zone.isolationRadius
+                || zoneFlatPos.distanceTo(loc) <= isolationRadius) {
+                    farEnoughAway = false;
+                }
+            });
+        }
+
+        if(farEnoughAway
+        && terrain.SphereCollisionTest(
+            loc,
+            collisionRadius,
+        ).collisionDetected === false) {
+            console.log('placed entity');
+            const entityData = require(`./toml/${entityTomlFile}`);
+            const spawned = new Entity(entityData);
+            spawned.position.x = loc.x;
+            spawned.position.y = loc.y;
+            spawned.position.z = 64-loc.y;
+            level.addEntity(spawned);
+            return spawned;
+        }
+    }
+
     return undefined;
 }

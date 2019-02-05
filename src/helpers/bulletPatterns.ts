@@ -1,9 +1,21 @@
 import Entity from '../entity';
 import * as THREE from 'three';
 
-const BulletPatterns: {[key: string]: (me: Entity, target: Entity, shotIndex: number, spreadDeg: number, bulletSpeed: number) => THREE.Vector2[]} = {}
+const BulletPatterns: {
+    [key: string]: (
+        me: Entity,
+        target: Entity,
+        shotIndex: number,
+        spreadDeg: number,
+        bulletSpeed: number) => THREE.Vector2[]} = {};
 
-BulletPatterns['StraightShot'] = (me: Entity, target: Entity, shotIndex: number, spreadDeg: number, bulletSpeed: number) => {
+BulletPatterns['StraightShot'] = (
+    me: Entity,
+    target: Entity,
+    shotIndex: number,
+    spreadDeg: number,
+    bulletSpeed: number) => {
+
     const myPosition = me.position.clone();
     const targetPosition = target.position.clone();
     const dir = targetPosition.sub(myPosition).normalize();
@@ -17,7 +29,7 @@ BulletPatterns['StraightShot'] = (me: Entity, target: Entity, shotIndex: number,
     const final = spreadedDir.multiplyScalar(bulletSpeed);
 
     return [ final ];
-}
+};
 
 BulletPatterns['ThreeBurstShot'] = (
     me: Entity,
@@ -47,7 +59,7 @@ BulletPatterns['ThreeBurstShot'] = (
         lowDir.multiplyScalar(bulletSpeed),
         highDir.multiplyScalar(bulletSpeed),
     ];
-}
+};
 
 BulletPatterns['FiveScatterBurstShot'] = (
     me: Entity,
@@ -81,7 +93,6 @@ BulletPatterns['FiveScatterBurstShot'] = (
         .multiplyScalar(bulletSpeed * ((Math.random() * 0.1) + 0.9)));
 
     return dirs;
-}
-
+};
 
 export default BulletPatterns;
