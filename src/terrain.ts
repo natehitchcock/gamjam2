@@ -57,206 +57,239 @@ export class Terrain extends THREE.Object3D {
         //     fragmentShader: frag
         // } );
 
-        textureLoader.load(`/img/tilesets/${this.tileSet}/0.png`, (texture) => {
+        // textureLoader.load(`/img/tilesets/${this.tileSet}/0.png`, (texture) => {
     
-            texture.magFilter = THREE.NearestFilter;
+        //     texture.magFilter = THREE.NearestFilter;
             
-            const material = new THREE.MeshBasicMaterial({
-                map: texture,
-                alphaTest: 0.1,
-            });
+        //     const material = new THREE.MeshBasicMaterial({
+        //         map: texture,
+        //         alphaTest: 0.1,
+        //     });
 
-            material.side = THREE.FrontSide;
+        //     material.side = THREE.FrontSide;
 
-            const cubeGeo = new THREE.PlaneGeometry(
-                tileSize.x,
-                tileSize.y);
+        //     const cubeGeo = new THREE.PlaneGeometry(
+        //         tileSize.x,
+        //         tileSize.y);
 
-            const mgeo = new THREE.BufferGeometry();
-            const posCount = 1;
+        //     const mgeo = new THREE.BufferGeometry();
+        //     const posCount = 1;
             
-            console.log(`rendering ${1} (${posCount})`);
+        //     console.log(`rendering ${1} (${posCount})`);
 
-            let verts = new THREE.BufferAttribute(
-                new Float32Array(6 * 3), 3
-            );
+        //     let verts = new THREE.BufferAttribute(
+        //         new Float32Array(6 * 3), 3
+        //     );
 
-            let uv = new THREE.BufferAttribute(
-                new Float32Array(6 * 2), 2
-            );
+        //     let uv = new THREE.BufferAttribute(
+        //         new Float32Array(6 * 2), 2
+        //     );
 
-            for(let i = 0; i < posCount; i++) {
+        //     for(let i = 0; i < posCount; i++) {
 
-                const pos = new THREE.Vector3(0, 0, 0);
-                const offset = i * cubeGeo.vertices.length * 3;
+        //         const pos = new THREE.Vector3(0, 0, 0);
+        //         const offset = i * cubeGeo.vertices.length * 3;
 
-                let v0 = cubeGeo.vertices[0].clone();
-                let v1 = cubeGeo.vertices[1].clone();
-                let v2 = cubeGeo.vertices[2].clone();
-                let v3 = cubeGeo.vertices[3].clone();
+        //         console.log('Verts are:');
+        //         console.log(JSON.stringify(cubeGeo.vertices));
 
-                v0 = v0.add(pos); 
-                v1 = v1.add(pos); 
-                v2 = v2.add(pos); 
-                v3 = v3.add(pos); 
+        //         let v0 = cubeGeo.vertices[0].clone();
+        //         let v1 = cubeGeo.vertices[1].clone();
+        //         let v2 = cubeGeo.vertices[2].clone();
+        //         let v3 = cubeGeo.vertices[3].clone();
+
+        //         v0 = v0.add(pos); 
+        //         v1 = v1.add(pos); 
+        //         v2 = v2.add(pos); 
+        //         v3 = v3.add(pos); 
 
                 
-                v1.toArray(verts.array as Array<number>, offset + 0 * 3);
-                v0.toArray(verts.array as Array<number>, offset + 1 * 3);
-                v2.toArray(verts.array as Array<number>, offset + 2 * 3);
+        //         v1.toArray(verts.array as Array<number>, offset + 0 * 3);
+        //         v0.toArray(verts.array as Array<number>, offset + 1 * 3);
+        //         v2.toArray(verts.array as Array<number>, offset + 2 * 3);
 
-                v1.toArray(verts.array as Array<number>, offset + 3 * 3);
-                v2.toArray(verts.array as Array<number>, offset + 4 * 3);
-                v3.toArray(verts.array as Array<number>, offset + 5 * 3);
+        //         v1.toArray(verts.array as Array<number>, offset + 3 * 3);
+        //         v2.toArray(verts.array as Array<number>, offset + 4 * 3);
+        //         v3.toArray(verts.array as Array<number>, offset + 5 * 3);
 
-                let uv0 = new THREE.Vector2(1, 1); //top left
-                let uv1 = new THREE.Vector2(0, 1);
-                let uv2 = new THREE.Vector2(0, 0);
-                let uv3 = new THREE.Vector2(1, 0);
+        //         let uv0 = new THREE.Vector2(0, 1); //top left
+        //         let uv1 = new THREE.Vector2(1, 1);
+        //         let uv2 = new THREE.Vector2(0, 0);
+        //         let uv3 = new THREE.Vector2(1, 0);
 
-                uv1.toArray(uv.array as Array<number>, offset + 0 * 2);
-                uv0.toArray(uv.array as Array<number>, offset + 1 * 2);
-                uv2.toArray(uv.array as Array<number>, offset + 2 * 2);
+        //         uv1.toArray(uv.array as Array<number>, offset + 0 * 2);
+        //         uv0.toArray(uv.array as Array<number>, offset + 1 * 2);
+        //         uv2.toArray(uv.array as Array<number>, offset + 2 * 2);
 
-                uv1.toArray(uv.array as Array<number>, offset + 3 * 2);
-                uv2.toArray(uv.array as Array<number>, offset + 4 * 2);
-                uv3.toArray(uv.array as Array<number>, offset + 5 * 2);
-            }
-
-            let colors = new THREE.BufferAttribute(
-                new Float32Array(posCount * 2 * 3 * 3), 3
-            );
-
-            const r = new THREE.Vector3(1, 0, 0);
-            const g = new THREE.Vector3(0, 1, 0);
-            const b = new THREE.Vector3(0, 0, 1);
-            const p = new THREE.Vector3(1, 0, 1);
-
-            r.toArray(colors.array as Array<number>, 0 * 3);
-            g.toArray(colors.array as Array<number>, 1 * 3);
-            b.toArray(colors.array as Array<number>, 2 * 3);
-            p.toArray(colors.array as Array<number>, 3 * 3);
-
-            g.toArray(colors.array as Array<number>, 4 * 3);
-            b.toArray(colors.array as Array<number>, 5 * 3);
-
-            console.log(JSON.stringify(verts.array));
-            mgeo.addAttribute('position', verts);
-            mgeo.addAttribute('uv', uv);
-            //mgeo.addAttribute('color', colors);
-
-            const mesh = new THREE.Mesh( mgeo, material );
-            this.add(mesh);
-        });
-
-        // const meshMap: {[key: string]: {geo: THREE.Geometry, mat: THREE.Material, pos: THREE.Vector3[]}} = {};
-        
-        // const allPromise = [];
-        // for(let x = 0; x < this.levelArray.length; ++x) {
-        //     for(let y = 0; y < this.levelArray[x].length; ++y) {
-        //         if(this.tileSet) {
-        //             const tileType = this.getTileType(x, y);
-        //             const img = tileType + ".png";
-        //             const zorder = (tileType & 1) * (tileSize.y / 2);
-
-        //             allPromise.push(new Promise((res, rej) => {
-        //                 textureLoader.load(`/img/tilesets/${this.tileSet}/${img}`, (texture) => {
-        //                     const imgName = `${this.tileSet}-${img}`;
-
-        //                     texture.magFilter = THREE.NearestFilter;
-        //                     // const material = new THREE.MeshBasicMaterial({
-        //                     //     map: texture,
-        //                     //     alphaTest: 0.1,
-        //                     // });
-
-        //                     var vert = document.getElementById( 'vertMerged' ).textContent;
-        //                     var frag = document.getElementById( 'fragMerged' ).textContent;
-        //                     var material = new THREE.RawShaderMaterial( {
-        //                         vertexShader: vert,
-        //                         fragmentShader: frag
-        //                     } );
-
-        //                     const cubeGeo = new THREE.CubeGeometry(
-        //                         tileSize.x,
-        //                         tileSize.y,
-        //                         10);
-
-        //                     const pos = new THREE.Vector3(
-        //                         (tileSize.x*x) + (tileSize.x/2),
-        //                         (tileSize.x*y) + (tileSize.y/2),
-        //                         zorder - (tileSize.x*y) + (tileSize.y/2));
-
-        //                     //this.add(testCube);
-        //                     if(meshMap[imgName] === undefined) {
-        //                         console.log(`added mesh map entry for ${imgName}`);
-        //                         meshMap[imgName] = {
-        //                             geo: cubeGeo,
-        //                             mat: material,
-        //                             pos: [pos]
-        //                         }
-        //                     } else {
-        //                         meshMap[imgName].pos.push(pos);
-        //                     }
-        //                     res();
-        //                 });
-        //             }));
-                    
-        //         } else { // debug square rendering
-        //             if(this.levelArray[x][y] === 1) {
-        //                 const material = new THREE.MeshBasicMaterial( {color: 0xFa00a3} );
-        //                 const testCube = new THREE.Mesh(
-        //                     new THREE.CubeGeometry(tileSize.x,
-        //                                            tileSize.y,
-        //                                            10),
-        //                                            material);
-        //                 testCube.position.copy(
-        //                     new THREE.Vector3(
-        //                         (tileSize.x*x) + (tileSize.x/2),
-        //                         (tileSize.x*y) + (tileSize.x/2),
-        //                         2));
-        //                 this.add(testCube);
-        //             }
-        //         }
+        //         uv1.toArray(uv.array as Array<number>, offset + 3 * 2);
+        //         uv2.toArray(uv.array as Array<number>, offset + 4 * 2);
+        //         uv3.toArray(uv.array as Array<number>, offset + 5 * 2);
         //     }
-        // }
 
-        // Promise.all(allPromise).then(() => {
-        //     console.log('donezo');
+        //     let colors = new THREE.BufferAttribute(
+        //         new Float32Array(posCount * 2 * 3 * 3), 3
+        //     );
 
-        //     //console.log(JSON.stringify(meshMap));
+        //     const r = new THREE.Vector3(1, 0, 0);
+        //     const g = new THREE.Vector3(0, 1, 0);
+        //     const b = new THREE.Vector3(0, 0, 1);
+        //     const p = new THREE.Vector3(1, 0, 1);
 
-        //     for(const key in meshMap) {
-        //         if(meshMap[key] === undefined) continue;
+        //     r.toArray(colors.array as Array<number>, 0 * 3);
+        //     g.toArray(colors.array as Array<number>, 1 * 3);
+        //     b.toArray(colors.array as Array<number>, 2 * 3);
+        //     p.toArray(colors.array as Array<number>, 3 * 3);
 
-        //         const mgeo = new THREE.BufferGeometry();
-        //         const posCount = meshMap[key].pos.length;
-                
-        //         console.log(`rendering ${key} (${posCount})`);
+        //     g.toArray(colors.array as Array<number>, 4 * 3);
+        //     b.toArray(colors.array as Array<number>, 5 * 3);
 
-        //         let verts = new THREE.BufferAttribute(
-        //             new Float32Array(posCount * meshMap[key].geo.vertices.length * 3), 3
-        //         );
+        //     console.log(JSON.stringify(verts.array));
+        //     mgeo.addAttribute('position', verts);
+        //     mgeo.addAttribute('uv', uv);
+        //     //mgeo.addAttribute('color', colors);
 
-        //         for(let i = 0; i < posCount; i++) {
-
-        //             const pos = meshMap[key].pos[i];
-        //             const offset = i * meshMap[key].geo.vertices.length * 3;
-        //             for(let vi = 0; vi < meshMap[key].geo.vertices.length; ++vi) {
-        //                 let vert = meshMap[key].geo.vertices[vi].clone();
-        //                 vert = vert.add(pos); 
-        //                 const vertOffset = offset + vi * 3;
-        //                 //console.log(`setting vert ${vertOffset}/${verts.array.length}`);
-        //                 vert.toArray(verts.array as Array<number>, vertOffset);
-        //             }
-        //         }
-
-        //         //console.log(JSON.stringify(verts));
-        //         mgeo.addAttribute('position', verts)
-
-        //         const mesh = new THREE.Mesh( mgeo, meshMap[key].mat );
-        //         this.add(mesh);
-        //     }
+        //     const mesh = new THREE.Mesh( mgeo, material );
+        //     this.add(mesh);
         // });
+
+        const meshMap: {[key: string]: {geo: THREE.Geometry, mat: THREE.Material, pos: THREE.Vector3[]}} = {};
+        
+        const allPromise = [];
+        for(let x = 0; x < this.levelArray.length; ++x) {
+            for(let y = 0; y < this.levelArray[x].length; ++y) {
+                if(this.tileSet) {
+                    const tileType = this.getTileType(x, y);
+                    const img = tileType + ".png";
+                    const zorder = (tileType & 1) * (tileSize.y / 2);
+
+                    allPromise.push(new Promise((res, rej) => {
+                        textureLoader.load(`/img/tilesets/${this.tileSet}/${img}`, (texture) => {
+                            const imgName = `${this.tileSet}-${img}`;
+
+                            texture.magFilter = THREE.NearestFilter;
+                            const material = new THREE.MeshBasicMaterial({
+                                map: texture,
+                                alphaTest: 0.1,
+                            });
+
+                            var vert = document.getElementById( 'vertMerged' ).textContent;
+                            var frag = document.getElementById( 'fragMerged' ).textContent;
+                            // var material = new THREE.RawShaderMaterial( {
+                            //     vertexShader: vert,
+                            //     fragmentShader: frag
+                            // } );
+
+                            const cubeGeo = new THREE.PlaneGeometry(
+                                tileSize.x,
+                                tileSize.y);
+
+                            const pos = new THREE.Vector3(
+                                (tileSize.x*x) + (tileSize.x/2),
+                                (tileSize.x*y) + (tileSize.y/2),
+                                zorder - (tileSize.x*y) + (tileSize.y/2));
+
+                            //this.add(testCube);
+                            if(meshMap[imgName] === undefined) {
+                                console.log(`added mesh map entry for ${imgName}`);
+                                meshMap[imgName] = {
+                                    geo: cubeGeo,
+                                    mat: material,
+                                    pos: [pos]
+                                }
+                            } else {
+                                meshMap[imgName].pos.push(pos);
+                            }
+                            res();
+                        });
+                    }));
+                    
+                } else { // debug square rendering
+                    if(this.levelArray[x][y] === 1) {
+                        const material = new THREE.MeshBasicMaterial( {color: 0xFa00a3} );
+                        const testCube = new THREE.Mesh(
+                            new THREE.CubeGeometry(tileSize.x,
+                                                   tileSize.y,
+                                                   10),
+                                                   material);
+                        testCube.position.copy(
+                            new THREE.Vector3(
+                                (tileSize.x*x) + (tileSize.x/2),
+                                (tileSize.x*y) + (tileSize.x/2),
+                                2));
+                        this.add(testCube);
+                    }
+                }
+            }
+        }
+
+        Promise.all(allPromise).then(() => {
+            console.log('donezo');
+
+            //console.log(JSON.stringify(meshMap));
+
+            for(const key in meshMap) {
+                if(meshMap[key] === undefined) continue;
+
+                const mgeo = new THREE.BufferGeometry();
+                const posCount = meshMap[key].pos.length;
+                
+                console.log(`rendering ${key} (${posCount})`);
+
+                let verts = new THREE.BufferAttribute(
+                    new Float32Array(posCount * 6 * 3), 3
+                );
+
+                let uvs = new THREE.BufferAttribute(
+                    new Float32Array(posCount * 6 * 2), 2
+                );
+
+                for(let i = 0; i < posCount; i++) {
+
+                    const pos = meshMap[key].pos[i];
+                    const vertoffset = i * 6 * 3;
+                    const uvoffset = i * 6 * 2;
+
+                    let v0 = meshMap[key].geo.vertices[0].clone();
+                    let v1 = meshMap[key].geo.vertices[1].clone();
+                    let v2 = meshMap[key].geo.vertices[2].clone();
+                    let v3 = meshMap[key].geo.vertices[3].clone();
+
+                    v0 = v0.add(pos); 
+                    v1 = v1.add(pos); 
+                    v2 = v2.add(pos); 
+                    v3 = v3.add(pos); 
+
+                    
+                    v1.toArray(verts.array as Array<number>, vertoffset + 0 * 3);
+                    v0.toArray(verts.array as Array<number>, vertoffset + 1 * 3);
+                    v2.toArray(verts.array as Array<number>, vertoffset + 2 * 3);
+
+                    v1.toArray(verts.array as Array<number>, vertoffset + 3 * 3);
+                    v2.toArray(verts.array as Array<number>, vertoffset + 4 * 3);
+                    v3.toArray(verts.array as Array<number>, vertoffset + 5 * 3);
+
+                    let uv0 = new THREE.Vector2(0, 1); //top left
+                    let uv1 = new THREE.Vector2(1, 1);
+                    let uv2 = new THREE.Vector2(0, 0);
+                    let uv3 = new THREE.Vector2(1, 0);
+
+                    uv1.toArray(uvs.array as Array<number>, uvoffset + 0 * 2);
+                    uv0.toArray(uvs.array as Array<number>, uvoffset + 1 * 2);
+                    uv2.toArray(uvs.array as Array<number>, uvoffset + 2 * 2);
+
+                    uv1.toArray(uvs.array as Array<number>, uvoffset + 3 * 2);
+                    uv2.toArray(uvs.array as Array<number>, uvoffset + 4 * 2);
+                    uv3.toArray(uvs.array as Array<number>, uvoffset + 5 * 2);
+                }
+
+                 console.log(JSON.stringify(verts));
+                mgeo.addAttribute('position', verts)
+                mgeo.addAttribute('uv', uvs)
+
+                const mesh = new THREE.Mesh( mgeo, meshMap[key].mat );
+                this.add(mesh);
+            }
+        });
         
     }
 
