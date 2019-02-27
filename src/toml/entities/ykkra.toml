@@ -1,0 +1,44 @@
+bindDepthToY=true
+depthOffset=256
+
+[stats]
+    health=10
+    destroyOnDeath=true
+
+[sprite]
+    image='img/characters/ykkra/ykkra.png'
+
+[collider]
+    blocks=true
+    radius=15
+    collisionMask=2
+
+[targetAcquisition]
+    detectionRadius = 300
+    targetPlayers = true
+
+[followTarget]
+    speed=30
+
+[damageOnCollision]
+    damage=1
+    selfDamage=15
+    collisionMask=1
+
+[enemy]
+    fireRate = 0.8
+    magazineSize = 3
+    reloadTime = 1
+    spread = 15
+    bulletType = 'enemyBullet'
+    bulletPattern = 'ThreeBurstShot'
+    muzzlePosition=[0,0]
+    weaponOffset=[0,0]
+    meleeOffset=[0,0]
+    rotateToAimVector=false
+
+[deathSpawn]
+    spawnSpreadRadius = 10
+    [deathSpawn.objects.soul]
+        file='soul.toml'
+        chance=0.5

@@ -8,6 +8,7 @@ depthOffset=64
 [spritelight]
     radius=30
     color=[0.6, 0.6, 1.2]
+    offset=[0, -10, 0]
 
 [levelGenIact]
     destLevel='testcavelevel'

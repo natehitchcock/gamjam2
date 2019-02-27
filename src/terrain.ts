@@ -47,7 +47,9 @@ export class Terrain extends THREE.Object3D {
     }
 
     SpawnLevel() {
+        const spriteMap: {[key: string]: THREE.Mesh} = {};
         const textureLoader = new THREE.TextureLoader();
+
         for(let x = 0; x < this.levelArray.length; ++x) {
             for(let y = 0; y < this.levelArray[x].length; ++y) {
                 if(this.tileSet) {
@@ -56,16 +58,20 @@ export class Terrain extends THREE.Object3D {
                     const zorder = (tileType & 1) * (tileSize.y / 2);
 
                     textureLoader.load(`/img/tilesets/${this.tileSet}/${img}`, (texture) => {
+                            const imgName = `${this.tileSet}-${img}`;
                             texture.magFilter = THREE.NearestFilter;
                             const material = new THREE.MeshBasicMaterial({
                                 map: texture,
                                 alphaTest: 0.1,
                             });
+
+                            const geo = new THREE.CubeGeometry(
+                                tileSize.x,
+                                tileSize.y,
+                                10);
+
                             const testCube = new THREE.Mesh(
-                                new THREE.CubeGeometry(
-                                    tileSize.x,
-                                    tileSize.y,
-                                    10),
+                                geo,
                                 material);
 
                             testCube.position.copy(
@@ -75,6 +81,14 @@ export class Terrain extends THREE.Object3D {
                                     zorder - (tileSize.x*y) + (tileSize.y/2)));
 
                             this.add(testCube);
+                            // if(spriteMap[imgName] === undefined) {
+                            //     this.add(testCube);
+                            //     spriteMap[imgName] = testCube;
+                            // } else {
+                            //     spriteMap[imgName] = THREE.GeometryUtils.merge(
+                            //         spriteMap[imgName].geometry,
+                            //         testCube.geometry);
+                            // }
                         });
                 } else { // debug square rendering
                     if(this.levelArray[x][y] === 1) {

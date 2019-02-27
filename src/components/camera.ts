@@ -31,6 +31,7 @@ export default class Camera implements IComponent {
         );
 
         this.camera.position.z = data.zOffset;
+        this.camera.frustumCulled = true;
         owner.add(this.camera);
     }
 

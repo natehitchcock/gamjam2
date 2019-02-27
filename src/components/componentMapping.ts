@@ -26,6 +26,7 @@ import DamageOnCollision from './damageOnCollision';
 import ChangeStats from './changeStats';
 import MoveEntityOnInit from './moveEntityOnInit';
 import EnemyLogic from './enemyLogic';
+import FollowTarget from './movement/followTarget';
 
 import Entity from '../entity';
 
@@ -58,4 +59,5 @@ export default {
     changeStats: (data: any, owner: Entity) => new ChangeStats(data, owner),
     moveEntityOnInit: (data: any, owner: Entity) => new MoveEntityOnInit(data, owner),
     enemy: (data: any, owner: Entity) => new EnemyLogic(data, owner),
+    followTarget: (data: any, owner: Entity) => new FollowTarget(data, owner),
 };

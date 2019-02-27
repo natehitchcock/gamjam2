@@ -67,9 +67,11 @@ const render = () => {
     shaderPass.uniforms['cameraPos'].value = new THREE.Vector2(cam.parent.position.x, cam.parent.position.y);
     shaderPass.uniforms['ambientLight'].value = new THREE.Vector3(0.0, 0.0, 0.0 );
     shaderPass.uniforms['lightCount'].value = 0;
+    shaderPass.uniforms['time'].value = clock.getElapsedTime();
     shaderPass.uniforms['lightRadius'].value = Array<number>();
     shaderPass.uniforms['lightPos'].value = Array<THREE.Vector3>();
     shaderPass.uniforms['lightCol'].value = Array<THREE.Vector3>();
+    shaderPass.uniforms['lightStyle'].value = Array<number>();
     getAllSpritelights().forEach(light => {
         shaderPass.uniforms['lightCount'].value++;
         const col = light.data.color;
@@ -77,18 +79,25 @@ const render = () => {
 
         const lightRelPos = light.owner.position.clone();
         lightRelPos.sub(cam.parent.position);
+        if(light.data.offset !== undefined) {
+            lightRelPos.add(new THREE.Vector3(light.data.offset[0], light.data.offset[1], 0));
+        }
+
         lightRelPos.x /= 512;
         lightRelPos.y /= 512 * (window.innerHeight/window.innerWidth);
         lightRelPos.x += 0.5;
         lightRelPos.y += 0.5;
         shaderPass.uniforms['lightPos'].value.push(lightRelPos);
         shaderPass.uniforms['lightRadius'].value.push(light.data.radius);
+
+        shaderPass.uniforms['lightStyle'].value.push(1);
     });
 
     for(let i = shaderPass.uniforms['lightCount'].value; i < maxlc; ++i) {
         shaderPass.uniforms['lightCol'].value.push(new THREE.Vector3(0, 0, 0));
         shaderPass.uniforms['lightPos'].value.push(new THREE.Vector3(0, 0, 0));
         shaderPass.uniforms['lightRadius'].value.push(0);
+        shaderPass.uniforms['lightStyle'].value.push(0);
     }
 
     renderPass.camera = cam;
