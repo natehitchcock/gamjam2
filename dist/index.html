@@ -32,7 +32,43 @@
 				
 				gl_FragColor = fcolor;
 			}
-		</script>
+        </script>
+        
+        <script id="vertMerged" type="x-shader/x-vertex">
+            #define SHADER_NAME vertMerged
+            precision highp float;
+            uniform mat4 modelViewMatrix;
+            uniform mat4 projectionMatrix;
+            attribute vec3 position;
+            attribute vec3 color;
+            varying vec3 vPosition;
+
+            varying vec3 vColor;
+            void main()	{
+                vec3 positionEye = ( modelViewMatrix * vec4( position, 1.0 ) ).xyz;
+                
+                vColor = vec3(1.0, 0.5, 0.5);
+                vPosition = positionEye;
+            
+                gl_Position = projectionMatrix * vec4( positionEye, 1.0 );
+            }
+        </script>
+    
+        <script id="fragMerged" type="x-shader/x-fragment">
+            #define SHADER_NAME fragMerged
+            #extension GL_OES_standard_derivatives : enable
+            precision highp float;
+            varying vec3 vColor;
+            varying vec3 vPosition;
+            
+            void main()	{
+                vec3 fdx = dFdx( vPosition );
+                vec3 fdy = dFdy( vPosition );
+                vec3 normal = normalize( cross( fdx, fdy ) );
+                float diffuse = dot( normal, vec3( 0.0, 0.0, 1.0 ) );
+                gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );
+            }
+        </script>
     <script type="text/javascript" src="./bundle.js"></script>
 </body>
 </html>
