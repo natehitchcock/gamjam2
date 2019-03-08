@@ -90,7 +90,7 @@ const render = () => {
         shaderPass.uniforms['lightPos'].value.push(lightRelPos);
         shaderPass.uniforms['lightRadius'].value.push(light.data.radius);
 
-        shaderPass.uniforms['lightStyle'].value.push(1);
+        shaderPass.uniforms['lightStyle'].value.push(light.data.style || 0);
     });
 
     for(let i = shaderPass.uniforms['lightCount'].value; i < maxlc; ++i) {

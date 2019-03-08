@@ -1,0 +1,17 @@
+[sprite]
+    image='img/items/smoothSphere.png'
+    zOrder=3
+    scale=[16,16]
+
+[item]
+    type='artifact'
+    stackable=false
+    activatable=true
+    description='''A smooth sphere with oddly regular surface. It is warm to the touch, but made of a metallic material. Holding it, your hairs stand on end, but not from fear...'''
+
+[createElectricity]
+    onEvent='activate'
+    damage=1
+    maxJumps=3
+    maxBranches=3
+    maxDistancePerJump=100

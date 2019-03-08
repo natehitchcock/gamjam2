@@ -1,0 +1,15 @@
+[sprite]
+    image='img/items/theGlyphThatEbbsAndFlows.png'
+    zOrder=3
+    scale=[16,16]
+
+[item]
+    type='artifact'
+    stackable=false
+    activatable=true
+    description='''A piece of parchment with a strange symbol on it... It seems familiar...'''
+
+[phaseOutEffect]
+    onEvent='activate'
+    duration=25
+    cooldown=300
