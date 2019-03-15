@@ -1,3 +1,5 @@
+label='mirrorItem'
+
 [sprite]
     image='img/items/mirrorOfTheDreamingEye.png'
     zOrder=3
@@ -11,4 +13,4 @@
 
 [reverseBulletsEffect]
     onEvent='activate'
-    effectiveRadius=200
+    effectiveRadius=100

@@ -103,3 +103,11 @@ usePixelShader=true
     [entities.position]
         x=200
         y=280
+
+[[entities]]
+    label=""
+    tomlFile="items/mirrorOfTheDreamingEye.toml"
+
+    [entities.position]
+        x=300
+        y=280

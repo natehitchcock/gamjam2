@@ -86,6 +86,8 @@ export default class WeaponLogic implements IComponent {
             if(this.owner.parent instanceof Entity) sender = this.owner.parent;
             else sender = this.owner;
 
+            firedBullet.team = sender.team;
+
             firedBullet.sharedData.sender = sender;
 
             let aimAngle = 0;
@@ -131,6 +133,7 @@ export default class WeaponLogic implements IComponent {
         else sender = this.owner;
 
         firedBullet.sharedData.sender = sender;
+        firedBullet.team = sender.team;
 
         let aimAngle = 0;
         if(this.data.rotateToAimVector) {

@@ -1,4 +1,3 @@
-import * as winston from 'winston';
 import * as THREE from 'three';
 import Entity from '../../entity';
 import { IComponent } from '../component';
@@ -19,6 +18,7 @@ export class Effect implements IComponent {
         this.owner = owner;
 
         if (this.data.onEvent) {
+            console.log('hooking up to ' + this.data.onEvent);
             this.effectEventId = this.owner.on(
             this.data.onEvent,
             this.activate,
@@ -28,7 +28,7 @@ export class Effect implements IComponent {
     }
 
     activate() {
-        winston.log('trace', 'activated');
+        console.log('activated');
         return;
     }
 

@@ -98,6 +98,11 @@ export class Level extends THREE.Object3D {
         return found;
     }
 
+    getEntitiesByLabel(label: string) {
+        const found = this.entities.filter(ent => ent && ent.label === label);
+        return found;
+    }
+
     addEntity(ent: Entity) {
         this.addList.push(ent);
     }

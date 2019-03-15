@@ -1,5 +1,6 @@
 bindDepthToY=true
 depthOffset=64
+team = 2
 
 [stats]
     health=5
