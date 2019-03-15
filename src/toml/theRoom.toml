@@ -103,3 +103,11 @@ usePixelShader=true
     [entities.position]
         x=200
         y=280
+
+[[entities]]
+    label="itemTest"
+    tomlFile="items/boxOfShiningBlackness.toml"
+
+    [entities.position]
+        x=200
+        y=200

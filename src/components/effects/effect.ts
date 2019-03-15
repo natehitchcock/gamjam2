@@ -1,4 +1,3 @@
-import * as winston from 'winston';
 import * as THREE from 'three';
 import Entity from '../../entity';
 import { IComponent } from '../component';
@@ -28,7 +27,7 @@ export class Effect implements IComponent {
     }
 
     activate() {
-        winston.log('trace', 'activated');
+        console.log('activated');
         return;
     }
 

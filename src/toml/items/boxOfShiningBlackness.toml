@@ -1,5 +1,5 @@
 [sprite]
-    image='img/items/boxOfShiningBlackness.png'
+    image='img/items/BoxOfShiningBlackness.png'
     zOrder=3
     scale=[16,16]
 
@@ -9,6 +9,6 @@
     activatable=true
     description='''A seemingly empty box. The markings around the perimeter are strange and erratic, but there are patterns and cadence present that betray written language'''
 
-[spawnEntity]
+[spawnEntityEffect]
     onEvent='activate'
-    entity='entites/shiningBlackness'
+    entity='entites/soul.toml'

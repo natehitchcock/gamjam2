@@ -27,6 +27,7 @@ import ChangeStats from './changeStats';
 import MoveEntityOnInit from './moveEntityOnInit';
 import EnemyLogic from './enemyLogic';
 import FollowTarget from './movement/followTarget';
+import SpawnEntityEffect from './effects/spawnEntityEffect';
 
 import Entity from '../entity';
 
@@ -60,4 +61,5 @@ export default {
     moveEntityOnInit: (data: any, owner: Entity) => new MoveEntityOnInit(data, owner),
     enemy: (data: any, owner: Entity) => new EnemyLogic(data, owner),
     followTarget: (data: any, owner: Entity) => new FollowTarget(data, owner),
+    spawnEntityEffect: (data: any, owner: Entity) => new SpawnEntityEffect(data, owner),
 };
