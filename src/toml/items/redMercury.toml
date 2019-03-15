@@ -1,0 +1,23 @@
+[sprite]
+    image='img/items/redMercury.png'
+    zOrder=3
+    scale=[16,16]
+
+[item]
+    type='artifact'
+    stackable=false
+    activatable=false
+    description='''A mercurial red liquid.'''
+
+[applyAurasOnPickup]
+    [[aura]]
+        damageStyle='trail'
+        damage=0.3
+        damageSelf=false
+        frequency=0.3
+        chance=1
+        duration=1
+
+[addStatOnPickup]
+    movementSpeed=5
+    reloadSpeed=0.1

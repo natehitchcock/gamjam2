@@ -1,0 +1,25 @@
+[sprite]
+    image='img/items/fragileLantern.png'
+    zOrder=3
+    scale=[16,16]
+
+[item]
+    type='artifact'
+    stackable=false
+    activatable=false
+    description='''An old oil lantern. A stange and vicious glyph has been carved on the bottom'''
+
+[applyAurasOnPickup]
+    [[aura]]
+        damageStyle='fire'
+        damage=0.3
+        damageSelf=false
+        frequency=1
+        chance=0.3
+        radius=100
+
+[addStatOnPickup]
+    additionalLightRadius=100
+
+[destroyOnDamage]
+    threshold=5

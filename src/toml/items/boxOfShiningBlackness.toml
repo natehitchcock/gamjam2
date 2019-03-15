@@ -1,0 +1,14 @@
+[sprite]
+    image='img/items/boxOfShiningBlackness.png'
+    zOrder=3
+    scale=[16,16]
+
+[item]
+    type='artifact'
+    stackable=false
+    activatable=true
+    description='''A seemingly empty box. The markings around the perimeter are strange and erratic, but there are patterns and cadence present that betray written language'''
+
+[spawnEntity]
+    onEvent='activate'
+    entity='entites/shiningBlackness'

@@ -29,6 +29,7 @@ depthOffset=64
 [spritelight]
     radius=50
     color=[1.1, 0.9, 0.9]
+    style=0
 
 [stats]
     health=1

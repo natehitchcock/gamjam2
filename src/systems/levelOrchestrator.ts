@@ -80,13 +80,16 @@ export default class LevelOrchestrator {
 
         // Spawn Chests
 
-        const chest = attemptSpawn(level, 'chest.toml', 200, 60, 150);
+        const chestCount = Math.random() * 4;
+        for(let i = 0; i < chestCount; ++i) {
+            const chest = attemptSpawn(level, 'chest.toml', 200, 60, 150);
 
-        if(chest !== undefined) {
-            spawnedList.push({
-                position: chest.position,
-                isolationRadius: 200,
-            });
+            if(chest !== undefined) {
+                spawnedList.push({
+                    position: chest.position,
+                    isolationRadius: 200,
+                });
+            }
         }
 
         // Spawn Vaults

@@ -61,6 +61,7 @@ export default class TargetAcquisition implements IComponent {
     update(dt) {
         if(this.target === undefined) {
             this.target = this.findClosestTarget();
+            this.owner.sharedData.target = this.target;
         } else {
             const dv = this.owner.position.distanceTo(this.target.position);
 

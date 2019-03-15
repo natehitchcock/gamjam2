@@ -15,4 +15,13 @@
     pointWorth = 1
     age = 1
     insight = 75
+
+[[enemies]]
+    tomlFile = 'entities/ykkra.toml'
+    chance = 0.5
+    collisionRadius = 60
+    isolationRadius = 200
+    pointWorth = 5
+    age = 4
+    insight = 60
             

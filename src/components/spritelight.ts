@@ -4,10 +4,17 @@ import {IComponent} from './component';
 import {levelManager} from '../level';
 import {keyboard} from '../lib/input';
 
+enum SpriteLightStyle {
+    Flat,
+    Noisy,
+    Throbbing,
+}
+
 interface ISpritelightData {
     radius: number;
     color: number[];
     offset?: number[];
+    style?: number;
 }
 
 const Spritelights: Spritelight[] = [];

@@ -1,0 +1,19 @@
+[sprite]
+    image='img/items/sharpGlassRod.png'
+    zOrder=3
+    scale=[16,16]
+
+[item]
+    type='artifact'
+    stackable=false
+    activatable=false
+    description='''A rod that appears to be made of a deep green-blue glass. Though no edges are apparent, it cuts whatever it touches.'''
+
+[applyAurasOnPickup]
+    [[aura]]
+        damageStyle='damageOnContact'
+        damage=3
+        damageSelf=false
+        frequency=0.3
+        chance=1
+        radius=60
