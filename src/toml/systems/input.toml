@@ -97,6 +97,13 @@
     gamepad=0
     amount=1
 
+# dodge action
 [[actions.dodge]]
     key='shift'
     amount=1
+
+# activate item action
+[[actions.activateItem]]
+    key='e'
+    amount=1
+    action=0

@@ -16,6 +16,7 @@ export default class Entity extends THREE.Object3D {
     persistent: boolean;
     bindDepthToY: boolean;
     depthOffset: number;
+    team: number;
 
     components: IComponent[];
     sharedData: {[key: string]: any};
@@ -27,10 +28,11 @@ export default class Entity extends THREE.Object3D {
         this.data = data;
         this.eventMap = {};
         this.sharedData = {};
-        this.label = label || "";
+        this.label = label || data.label || "";
         this.persistent = data ? data.persistent || false : false;
         this.bindDepthToY = data ? data.bindDepthToY || false : false;
         this.depthOffset = data ? data.depthOffset || 0 : 0;
+        this.team = data ? data.team || 0 : 0;
 
         this.components = [];
         for(const prop in data) {

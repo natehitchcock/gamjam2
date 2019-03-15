@@ -89,6 +89,7 @@ export default class EnemyLogic implements IComponent {
                 const sender: Entity = this.owner;
 
                 firedBullet.sharedData.sender = sender;
+                firedBullet.team = sender.team;
 
                 let aimAngle = 0;
                 if(this.data.rotateToAimVector) {
@@ -134,6 +135,7 @@ export default class EnemyLogic implements IComponent {
         else sender = this.owner;
 
         firedBullet.sharedData.sender = sender;
+        firedBullet.team = sender.team;
 
         let aimAngle = 0;
         if(this.data.rotateToAimVector) {

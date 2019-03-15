@@ -1,3 +1,4 @@
+team = 1
 persistent=true
 bindDepthToY=true
 depthOffset=64

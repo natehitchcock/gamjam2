@@ -26,6 +26,7 @@ import DamageOnCollision from './damageOnCollision';
 import ChangeStats from './changeStats';
 import MoveEntityOnInit from './moveEntityOnInit';
 import EnemyLogic from './enemyLogic';
+import {ReverseBulletsEffect} from './effects/reverseBulletsEffect';
 import FollowTarget from './movement/followTarget';
 import SpawnEntityEffect from './effects/spawnEntityEffect';
 
@@ -60,6 +61,7 @@ export default {
     changeStats: (data: any, owner: Entity) => new ChangeStats(data, owner),
     moveEntityOnInit: (data: any, owner: Entity) => new MoveEntityOnInit(data, owner),
     enemy: (data: any, owner: Entity) => new EnemyLogic(data, owner),
+    reverseBulletsEffect: (data: any, owner: Entity) => new ReverseBulletsEffect(data, owner),
     followTarget: (data: any, owner: Entity) => new FollowTarget(data, owner),
     spawnEntityEffect: (data: any, owner: Entity) => new SpawnEntityEffect(data, owner),
 };

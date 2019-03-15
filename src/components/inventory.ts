@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import Entity from '../entity';
+import * as InputManager from '../lib/input';
 import {IComponent} from './component';
 import {levelManager} from '../level';
 
@@ -19,10 +20,14 @@ export default class Inventory implements IComponent {
     owner: Entity;
     itemRefs: Entity[];
 
+    private activateItemFID: number;
+
     constructor(data: IInventoryData, owner: Entity) {
         this.data = data;
         this.owner = owner;
         this.itemRefs = [];
+        
+        this.activateItemFID = InputManager.on('activateItem', this.activateItem);
     }
 
     initialize() {
@@ -54,12 +59,24 @@ export default class Inventory implements IComponent {
         this.itemRefs.push(itemRef);
     }
 
+    activateItem = (value: number) => {
+        if(value === 0) return;
+        console.log('activating items');
+        this.itemRefs.forEach(item => {
+            console.log('sending activate to ' + item.label)
+            item.sendEvent('activate');
+        })
+    }
+
     uninitialize() {
         return;
       }
 
     destroy() {
-        // this.itemRefs.forEach(entity => entity.destroy());
+        if(this.activateItemFID)
+        {
+            InputManager.off('activateItem', this.activateItemFID);
+        }
     }
 
     update(dt: number) {

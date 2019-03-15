@@ -18,6 +18,7 @@ export class Effect implements IComponent {
         this.owner = owner;
 
         if (this.data.onEvent) {
+            console.log('hooking up to ' + this.data.onEvent);
             this.effectEventId = this.owner.on(
             this.data.onEvent,
             this.activate,
