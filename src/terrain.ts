@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { Vector3, Vector2 } from 'three';
-//import * as fs from 'fs';
 
 interface ITerrainGenParams {
     width: number;
@@ -48,159 +47,11 @@ export class Terrain extends THREE.Object3D {
     }
 
     SpawnLevel() {
-        const spriteMap: {[key: string]: THREE.Mesh} = {};
+        const spriteMap: {[key: string]: THREE.Texture} = {};
         const textureLoader = new THREE.TextureLoader();
-        
-        const vert = document.getElementById( 'vertMerged' ).textContent;
-        const frag = document.getElementById( 'fragMerged' ).textContent;
-        // var material = new THREE.RawShaderMaterial( {
-        //     vertexShader: vert,
-        //     fragmentShader: frag
-        // } );
 
-        // textureLoader.load(`/img/tilesets/${this.tileSet}/0.png`, (texture) => {
-    
-        //     texture.magFilter = THREE.NearestFilter;
-            
-        //     const material = new THREE.MeshBasicMaterial({
-        //         map: texture,
-        //         alphaTest: 0.1,
-        //     });
-
-        //     material.side = THREE.FrontSide;
-
-        //     const cubeGeo = new THREE.PlaneGeometry(
-        //         tileSize.x,
-        //         tileSize.y);
-
-<<<<<<< HEAD
-        //     const mgeo = new THREE.BufferGeometry();
-        //     const posCount = 1;
-            
-        //     console.log(`rendering ${1} (${posCount})`);
-
-        //     let verts = new THREE.BufferAttribute(
-        //         new Float32Array(6 * 3), 3
-        //     );
-
-        //     let uv = new THREE.BufferAttribute(
-        //         new Float32Array(6 * 2), 2
-        //     );
-=======
-            const mgeo = new THREE.BufferGeometry();
-            const posCount = 1;
-
-            console.log(`rendering ${1} (${posCount})`);
-
-            const verts = new THREE.BufferAttribute(
-                new Float32Array(6 * 3), 3,
-            );
-
-            const uv = new THREE.BufferAttribute(
-                new Float32Array(6 * 2), 2,
-            );
->>>>>>> 53cca1eb61d17805eaeff945cf1efec3a5cf3b5d
-
-        //     for(let i = 0; i < posCount; i++) {
-
-        //         const pos = new THREE.Vector3(0, 0, 0);
-        //         const offset = i * cubeGeo.vertices.length * 3;
-
-        //         console.log('Verts are:');
-        //         console.log(JSON.stringify(cubeGeo.vertices));
-
-<<<<<<< HEAD
-        //         let v0 = cubeGeo.vertices[0].clone();
-        //         let v1 = cubeGeo.vertices[1].clone();
-        //         let v2 = cubeGeo.vertices[2].clone();
-        //         let v3 = cubeGeo.vertices[3].clone();
-
-        //         v0 = v0.add(pos); 
-        //         v1 = v1.add(pos); 
-        //         v2 = v2.add(pos); 
-        //         v3 = v3.add(pos); 
-
-                
-        //         v1.toArray(verts.array as Array<number>, offset + 0 * 3);
-        //         v0.toArray(verts.array as Array<number>, offset + 1 * 3);
-        //         v2.toArray(verts.array as Array<number>, offset + 2 * 3);
-
-        //         v1.toArray(verts.array as Array<number>, offset + 3 * 3);
-        //         v2.toArray(verts.array as Array<number>, offset + 4 * 3);
-        //         v3.toArray(verts.array as Array<number>, offset + 5 * 3);
-
-        //         let uv0 = new THREE.Vector2(0, 1); //top left
-        //         let uv1 = new THREE.Vector2(1, 1);
-        //         let uv2 = new THREE.Vector2(0, 0);
-        //         let uv3 = new THREE.Vector2(1, 0);
-
-        //         uv1.toArray(uv.array as Array<number>, offset + 0 * 2);
-        //         uv0.toArray(uv.array as Array<number>, offset + 1 * 2);
-        //         uv2.toArray(uv.array as Array<number>, offset + 2 * 2);
-
-        //         uv1.toArray(uv.array as Array<number>, offset + 3 * 2);
-        //         uv2.toArray(uv.array as Array<number>, offset + 4 * 2);
-        //         uv3.toArray(uv.array as Array<number>, offset + 5 * 2);
-        //     }
-=======
-                v0 = v0.add(pos);
-                v1 = v1.add(pos);
-                v2 = v2.add(pos);
-                v3 = v3.add(pos);
-
-
-                v1.toArray(verts.array as Array<number>, offset + 0 * 3);
-                v0.toArray(verts.array as Array<number>, offset + 1 * 3);
-                v2.toArray(verts.array as Array<number>, offset + 2 * 3);
-
-                v1.toArray(verts.array as Array<number>, offset + 3 * 3);
-                v2.toArray(verts.array as Array<number>, offset + 4 * 3);
-                v3.toArray(verts.array as Array<number>, offset + 5 * 3);
-
-                let uv0 = new THREE.Vector2(1, 1); //top left
-                let uv1 = new THREE.Vector2(0, 1);
-                let uv2 = new THREE.Vector2(0, 0);
-                let uv3 = new THREE.Vector2(1, 0);
-
-                uv1.toArray(uv.array as Array<number>, offset + 0 * 2);
-                uv0.toArray(uv.array as Array<number>, offset + 1 * 2);
-                uv2.toArray(uv.array as Array<number>, offset + 2 * 2);
-
-                uv1.toArray(uv.array as Array<number>, offset + 3 * 2);
-                uv2.toArray(uv.array as Array<number>, offset + 4 * 2);
-                uv3.toArray(uv.array as Array<number>, offset + 5 * 2);
-            }
->>>>>>> 53cca1eb61d17805eaeff945cf1efec3a5cf3b5d
-
-        //     let colors = new THREE.BufferAttribute(
-        //         new Float32Array(posCount * 2 * 3 * 3), 3
-        //     );
-
-        //     const r = new THREE.Vector3(1, 0, 0);
-        //     const g = new THREE.Vector3(0, 1, 0);
-        //     const b = new THREE.Vector3(0, 0, 1);
-        //     const p = new THREE.Vector3(1, 0, 1);
-
-        //     r.toArray(colors.array as Array<number>, 0 * 3);
-        //     g.toArray(colors.array as Array<number>, 1 * 3);
-        //     b.toArray(colors.array as Array<number>, 2 * 3);
-        //     p.toArray(colors.array as Array<number>, 3 * 3);
-
-        //     g.toArray(colors.array as Array<number>, 4 * 3);
-        //     b.toArray(colors.array as Array<number>, 5 * 3);
-
-        //     console.log(JSON.stringify(verts.array));
-        //     mgeo.addAttribute('position', verts);
-        //     mgeo.addAttribute('uv', uv);
-        //     //mgeo.addAttribute('color', colors);
-
-        //     const mesh = new THREE.Mesh( mgeo, material );
-        //     this.add(mesh);
-        // });
-
-<<<<<<< HEAD
         const meshMap: {[key: string]: {geo: THREE.Geometry, mat: THREE.Material, pos: THREE.Vector3[]}} = {};
-        
+
         const allPromise = [];
         for(let x = 0; x < this.levelArray.length; ++x) {
             for(let y = 0; y < this.levelArray[x].length; ++y) {
@@ -210,21 +61,15 @@ export class Terrain extends THREE.Object3D {
                     const zorder = (tileType & 1) * (tileSize.y / 2);
 
                     allPromise.push(new Promise((res, rej) => {
-                        textureLoader.load(`/img/tilesets/${this.tileSet}/${img}`, (texture) => {
+                        const handleTextureLoaded = (texture) => {
                             const imgName = `${this.tileSet}-${img}`;
 
                             texture.magFilter = THREE.NearestFilter;
                             const material = new THREE.MeshBasicMaterial({
                                 map: texture,
                                 alphaTest: 0.1,
+                                side: THREE.DoubleSide,
                             });
-
-                            var vert = document.getElementById( 'vertMerged' ).textContent;
-                            var frag = document.getElementById( 'fragMerged' ).textContent;
-                            // var material = new THREE.RawShaderMaterial( {
-                            //     vertexShader: vert,
-                            //     fragmentShader: frag
-                            // } );
 
                             const cubeGeo = new THREE.PlaneGeometry(
                                 tileSize.x,
@@ -235,74 +80,29 @@ export class Terrain extends THREE.Object3D {
                                 (tileSize.x*y) + (tileSize.y/2),
                                 zorder - (tileSize.x*y) + (tileSize.y/2));
 
-                            //this.add(testCube);
                             if(meshMap[imgName] === undefined) {
                                 console.log(`added mesh map entry for ${imgName}`);
                                 meshMap[imgName] = {
                                     geo: cubeGeo,
                                     mat: material,
-                                    pos: [pos]
-                                }
+                                    pos: [pos],
+                                };
                             } else {
                                 meshMap[imgName].pos.push(pos);
                             }
                             res();
-                        });
+                        };
+
+                        const imagePath = `/img/tilesets/${this.tileSet}/${img}`;
+                        if(spriteMap[imagePath] !== undefined) {
+                            handleTextureLoaded(spriteMap[imagePath]);
+                        } else {
+                            textureLoader.load(imagePath, (texture) => {
+                                spriteMap[imagePath] = texture;
+                                handleTextureLoaded(texture);
+                            });
+                        }
                     }));
-=======
-        // const meshMap: {[key: string]: {geo: THREE.Geometry, mat: THREE.Material, pos: THREE.Vector3[]}} = {};
-
-        // const allPromise = [];
-        // for(let x = 0; x < this.levelArray.length; ++x) {
-        //     for(let y = 0; y < this.levelArray[x].length; ++y) {
-        //         if(this.tileSet) {
-        //             const tileType = this.getTileType(x, y);
-        //             const img = tileType + ".png";
-        //             const zorder = (tileType & 1) * (tileSize.y / 2);
-
-        //             allPromise.push(new Promise((res, rej) => {
-        //                 textureLoader.load(`/img/tilesets/${this.tileSet}/${img}`, (texture) => {
-        //                     const imgName = `${this.tileSet}-${img}`;
-
-        //                     texture.magFilter = THREE.NearestFilter;
-        //                     // const material = new THREE.MeshBasicMaterial({
-        //                     //     map: texture,
-        //                     //     alphaTest: 0.1,
-        //                     // });
-
-        //                     var vert = document.getElementById( 'vertMerged' ).textContent;
-        //                     var frag = document.getElementById( 'fragMerged' ).textContent;
-        //                     var material = new THREE.RawShaderMaterial( {
-        //                         vertexShader: vert,
-        //                         fragmentShader: frag
-        //                     } );
-
-        //                     const cubeGeo = new THREE.CubeGeometry(
-        //                         tileSize.x,
-        //                         tileSize.y,
-        //                         10);
-
-        //                     const pos = new THREE.Vector3(
-        //                         (tileSize.x*x) + (tileSize.x/2),
-        //                         (tileSize.x*y) + (tileSize.y/2),
-        //                         zorder - (tileSize.x*y) + (tileSize.y/2));
-
-        //                     //this.add(testCube);
-        //                     if(meshMap[imgName] === undefined) {
-        //                         console.log(`added mesh map entry for ${imgName}`);
-        //                         meshMap[imgName] = {
-        //                             geo: cubeGeo,
-        //                             mat: material,
-        //                             pos: [pos]
-        //                         }
-        //                     } else {
-        //                         meshMap[imgName].pos.push(pos);
-        //                     }
-        //                     res();
-        //                 });
-        //             }));
->>>>>>> 53cca1eb61d17805eaeff945cf1efec3a5cf3b5d
-                    
                 } else { // debug square rendering
                     if(this.levelArray[x][y] === 1) {
                         const material = new THREE.MeshBasicMaterial( {color: 0xFa00a3} );
@@ -325,22 +125,20 @@ export class Terrain extends THREE.Object3D {
         Promise.all(allPromise).then(() => {
             console.log('donezo');
 
-            //console.log(JSON.stringify(meshMap));
-
             for(const key in meshMap) {
                 if(meshMap[key] === undefined) continue;
 
                 const mgeo = new THREE.BufferGeometry();
                 const posCount = meshMap[key].pos.length;
-                
+
                 console.log(`rendering ${key} (${posCount})`);
 
-                let verts = new THREE.BufferAttribute(
-                    new Float32Array(posCount * 6 * 3), 3
+                const verts = new THREE.BufferAttribute(
+                    new Float32Array(posCount * 6 * 3), 3,
                 );
 
-                let uvs = new THREE.BufferAttribute(
-                    new Float32Array(posCount * 6 * 2), 2
+                const uvs = new THREE.BufferAttribute(
+                    new Float32Array(posCount * 6 * 2), 2,
                 );
 
                 for(let i = 0; i < posCount; i++) {
@@ -354,12 +152,11 @@ export class Terrain extends THREE.Object3D {
                     let v2 = meshMap[key].geo.vertices[2].clone();
                     let v3 = meshMap[key].geo.vertices[3].clone();
 
-                    v0 = v0.add(pos); 
-                    v1 = v1.add(pos); 
-                    v2 = v2.add(pos); 
-                    v3 = v3.add(pos); 
+                    v0 = v0.add(pos);
+                    v1 = v1.add(pos);
+                    v2 = v2.add(pos);
+                    v3 = v3.add(pos);
 
-                    
                     v1.toArray(verts.array as Array<number>, vertoffset + 0 * 3);
                     v0.toArray(verts.array as Array<number>, vertoffset + 1 * 3);
                     v2.toArray(verts.array as Array<number>, vertoffset + 2 * 3);
@@ -368,10 +165,10 @@ export class Terrain extends THREE.Object3D {
                     v2.toArray(verts.array as Array<number>, vertoffset + 4 * 3);
                     v3.toArray(verts.array as Array<number>, vertoffset + 5 * 3);
 
-                    let uv0 = new THREE.Vector2(0, 1); //top left
-                    let uv1 = new THREE.Vector2(1, 1);
-                    let uv2 = new THREE.Vector2(0, 0);
-                    let uv3 = new THREE.Vector2(1, 0);
+                    const uv0 = new THREE.Vector2(0, 1); // top left
+                    const uv1 = new THREE.Vector2(1, 1);
+                    const uv2 = new THREE.Vector2(0, 0);
+                    const uv3 = new THREE.Vector2(1, 0);
 
                     uv1.toArray(uvs.array as Array<number>, uvoffset + 0 * 2);
                     uv0.toArray(uvs.array as Array<number>, uvoffset + 1 * 2);
@@ -382,15 +179,14 @@ export class Terrain extends THREE.Object3D {
                     uv3.toArray(uvs.array as Array<number>, uvoffset + 5 * 2);
                 }
 
-                 console.log(JSON.stringify(verts));
-                mgeo.addAttribute('position', verts)
-                mgeo.addAttribute('uv', uvs)
+                //console.log(JSON.stringify(verts));
+                mgeo.addAttribute('position', verts);
+                mgeo.addAttribute('uv', uvs);
 
                 const mesh = new THREE.Mesh( mgeo, meshMap[key].mat );
                 this.add(mesh);
             }
         });
-        
     }
 
     SphereCollisionTest(center: THREE.Vector3, radius: number) {
@@ -517,7 +313,6 @@ export class Terrain extends THREE.Object3D {
                         if(wasXCollision) {
                             if(collisionY <= y + 1
                             && collisionY >= y) {
-                                //console.log(message);
                                 finalTVal = tVal;
                                 finalNormal = normal;
                                 collisionHappened = true;
@@ -525,7 +320,6 @@ export class Terrain extends THREE.Object3D {
                         } else {
                             if(collisionX <= x + 1
                             && collisionX >= x) {
-                                //console.log(message);
                                 finalTVal = tVal;
                                 finalNormal = normal;
                                 collisionHappened = true;
@@ -548,7 +342,7 @@ export class TerrainFactory {
 
     static LoadFromFile(params: ILoadFromFileParams): Terrain {
         const textureLoader = new THREE.TextureLoader();
-        //const fileData = fs.readFileSync(params.filename);
+        // const fileData = fs.readFileSync(params.filename);
 
         // parse the bmp bleeeeh
 

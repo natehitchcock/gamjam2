@@ -30,9 +30,12 @@ export default class BulletLogic implements IComponent {
         this.lifetime = 0;
 
         function resolveBulletCollision(other: any) {
-            if(other.team !== this.owner.sharedData.team 
-                || this.owner.sharedData.team === 0) {
-                const ent = (other as Entity);
+            const ent = (other as Entity);
+
+            if(ent === undefined
+            || ent.team === undefined
+            || ent.team !== this.owner.team
+            || this.owner.team === 0) {
                 if( ent.components && ent.components.find(comp => comp.type === 'bullet' || comp.type === 'soul')) {
                     return;
                 }
